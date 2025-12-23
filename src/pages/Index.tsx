@@ -13,33 +13,28 @@ import ImageCarousel from '@/components/ImageCarousel';
 
 const modelImages: Record<string, string[]> = {
   'TS3000MP-H': [
-    'https://downloader.disk.yandex.ru/preview/685c9e945a06a1cd647b459d73e0be6e0a88b603aa6f6bb1449af77b6130b3c9/inf/mZj8D9vu0O01DNEgFr8nahD04do0DxKfsKMzwVFAGVBIjQFvUnso7jRi54muYdoyzlqH13A1ravdgG82tjYVsA%3D%3D?uid=0&filename=TS-3000MR-H.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2',
-    'https://downloader.disk.yandex.ru/preview/9c0e49ecc1c3e8b5e4a29b8e8e6e1c6e4a6b2b5e/inf/mZj8D9vu0O01DNEgFr8nahD04do0DxKfsKMzwVFAGVA8H6t8bK7J2E8Z8_zXr6WYnqK_8UhJ7g8h4c5C1p8e2w%3D%3D?uid=0&filename=TS-3000MR-H-1.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2',
-    'https://downloader.disk.yandex.ru/preview/bd7c4e8c5f5c3f9b1c4c8e9d1b8e5e4c/inf/mZj8D9vu0O01DNEgFr8nahD04do0DxKfsKMzwVFAGVDt5h7K3Z8e7g5j8c8K3p8eYd5h8c7g8e7f8d7f8e7d8f8%3D%3D?uid=0&filename=TS-3000MR-H-2.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2'
+    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/292f774a-f701-4a71-ac11-03c2f732e2e0.jpg'
   ],
   'TS3000SP-H': [
-    'https://downloader.disk.yandex.ru/preview/b410582d86fb0006380099ea352e7b9f0ecda17466a59eb80bf72a6826db13cc/inf/zRE_O2zmEr4PC9YXIY8Ybhe84Jrra1_4AzmsLhlrsISZpzz9GV8ECrzMWwiy1ffXnXCrAjoHa5YeaKWGll_kXA%3D%3D?uid=0&filename=TS-3000SPS-H.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2',
-    'https://downloader.disk.yandex.ru/preview/33722b552278b540e6c0be692da24982cf7b47a4b9438bd0bb71545245b09b69/inf/zRE_O2zmEr4PC9YXIY8YbpK9L8yDIbMOAz8-aUI5ecISIrVAbe_GIxsPKM_s8r0aPwJTpf0DLF7Vo23_m3FWgw%3D%3D?uid=0&filename=TS-3000SPS-H-2.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2'
+    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/42dc5c9f-020c-478e-ae0d-ed607dc8ccf3.jpg'
   ],
   'TS3000MP-TP': [
-    'https://downloader.disk.yandex.ru/preview/685c9e945a06a1cd647b459d73e0be6e0a88b603aa6f6bb1449af77b6130b3c9/inf/mZj8D9vu0O01DNEgFr8nahD04do0DxKfsKMzwVFAGVBIjQFvUnso7jRi54muYdoyzlqH13A1ravdgG82tjYVsA%3D%3D?uid=0&filename=TS3000MR-TP.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2'
+    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/292f774a-f701-4a71-ac11-03c2f732e2e0.jpg'
   ],
   'TS3000SP-TP': [
-    'https://downloader.disk.yandex.ru/preview/a1f3e8d2c5b6f9e8a1b2c3d4e5f6a7b8/inf/zRE_O2zmEr4PC9YXIY8YbgNqGemtNeWHv8dZu-14vUuqNBmufGv7lBbCv63CPOK70dwDE3Rd-b5Be4oUMvL8Jw%3D%3D?uid=0&filename=TS-3000SPS-TP.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2',
-    'https://downloader.disk.yandex.ru/preview/b2c3d4e5f6a7b8c9d0e1f2a3b4c5d6e7/inf/zRE_O2zmEr4PC9YXIY8YbgNqGemtNeWHv8dZu-14vUvYZ3k8H7j8K9l8M2n8P4q8R6s8T9v8W1x8Y3z8A5b8C7%3D%3D?uid=0&filename=TS-3000SPS-TP-1.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2'
+    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/2300a308-dacc-43f1-8e62-fec315c2ef5b.jpg'
   ],
   'TS3000MP-MT': [
-    'https://downloader.disk.yandex.ru/preview/3da57e4c02f546425a0c2f14f5b197720aebf29318f8337fa3a3e0757d0062c4/inf/h4w6d_3e8H7g8K9j8L2m8N4p8Q6r8S9t8U1v8W3x8Y5z8A7b8C9d8E1f8G3h8I5j8K7l8M9n8O1p8Q3r8S5t8U%3D%3D?uid=0&filename=TS3000MR-MT.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2'
+    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/2300a308-dacc-43f1-8e62-fec315c2ef5b.jpg'
   ],
   'TS3000SP-MT': [
-    'https://downloader.disk.yandex.ru/preview/f7e8d9c0a1b2c3d4e5f6a7b8c9d0e1f2/inf/zRE_O2zmEr4PC9YXIY8YbsBtseFWTLAUPQGjbjk_0dsCQIuVtWyV1JqzhJh6aJqlO-ZsRvsxZOql6gDoURi4Vw%3D%3D?uid=0&filename=TS3000SPS-MT.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2',
-    'https://downloader.disk.yandex.ru/preview/a2b3c4d5e6f7a8b9c0d1e2f3a4b5c6d7/inf/zRE_O2zmEr4PC9YXIY8YbsBtseFWTLAUPQGjbjk_0dtH8j9K1l2M3n4P5q6R7s8T9u0V1w2X3y4Z5a6B7c8D9%3D%3D?uid=0&filename=TS3000SPS-MT-1.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2'
+    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/42dc5c9f-020c-478e-ae0d-ed607dc8ccf3.jpg'
   ],
   'TS3000MP-MT-TP': [
-    'https://downloader.disk.yandex.ru/preview/63425f8d482d8655399892e12b5767bf9ea27dbbf3f2a129c360f80dcab965ea/inf/zRE_O2zmEr4PC9YXIY8YbgNqGemtNeWHv8dZu-14vUuqNBmufGv7lBbCv63CPOK70dwDE3Rd-b5Be4oUMvL8Jw%3D%3D?uid=0&filename=TS3000MR-MT-TP.png&disposition=inline&hash=&limit=0&content_type=image%2Fpng&owner_uid=0&tknv=v2'
+    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/2300a308-dacc-43f1-8e62-fec315c2ef5b.jpg'
   ],
   'TS3000SP-MT-TP': [
-    'https://downloader.disk.yandex.ru/preview/31d9f115524dcf608d32692fd397714f373034/inf/zRE_O2zmEr4PC9YXIY8Ybs2qu-fa0qbI0Jhxf6y0_Bpg-LT2NuKQdHdEGuUEGwAalhGaVC1HzZlcfCTN63BdAg%3D%3D?uid=0&filename=1.jpg&disposition=inline&hash=&limit=0&content_type=image%2Fjpeg&owner_uid=0&tknv=v2'
+    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/42dc5c9f-020c-478e-ae0d-ed607dc8ccf3.jpg'
   ]
 };
 
