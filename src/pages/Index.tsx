@@ -1,137 +1,455 @@
 import { useState } from "react";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent } from "@/components/ui/card";
+import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Textarea } from "@/components/ui/textarea";
+import { Checkbox } from "@/components/ui/checkbox";
+import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
+import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
+import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
 import Icon from "@/components/ui/icon";
-import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
+import ImageCarousel from "@/components/ImageCarousel";
+import Header from "@/components/sections/Header";
 
-const images = [
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H.jpg", alt: "Паллетообмотчик TS-3000SPS-H - общий вид" },
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H-2.jpg", alt: "Паллетообмотчик - вид сбоку" },
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H-3.jpg", alt: "Паллетообмотчик - вид спереди" },
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H-4.jpg", alt: "Упакованный паллет на платформе" },
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H-5.jpg", alt: "Панель управления машиной" },
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H-6.jpg", alt: "Кнопка безопасности" },
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H-7.jpg", alt: "Система подачи пленки" },
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H-8.jpg", alt: "Ролики для пленки" },
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H-9.jpg", alt: "Паллет на платформе крупным планом" },
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H-10.jpg", alt: "Процесс обмотки паллета" },
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H-11.jpg", alt: "Детали платформы" },
-  { url: "https://cdn.poehali.dev/files/TS-3000SPS-H-12.jpg", alt: "Шильдик оборудования" },
-];
+// Model data structure
+interface Model {
+  id: string;
+  name: string;
+  price: string;
+  description: string;
+  features: string[];
+  specs: {
+    voltage: string;
+    power: string;
+    turntableSize: string;
+    maxLoad: string;
+    maxHeight: string;
+    wrappingSpeed: string;
+    turntableSpeed: string;
+    weight: string;
+  };
+  images: string[];
+}
 
-const specs = [
-  { label: "Модель", value: "TS3000SPS-H" },
-  { label: "Напряжение питания", value: "220V" },
-  { label: "Мощность", value: "1.5 кВт" },
-  { label: "Вес оборудования", value: "500 кг" },
-  { label: "Дата производства", value: "2025.10" },
-  { label: "Заводской номер", value: "20251025151" },
-];
-
-const features = [
+// All 8 models
+const models: Model[] = [
   {
-    icon: "Settings",
-    title: "Автоматическая работа",
-    description: "Полностью автоматизированный процесс обмотки паллет с программным управлением"
+    id: "ts3000mr-h",
+    name: "TS3000MR-H",
+    price: "300 000",
+    description: "Базовая модель с ручным креплением пленки. Идеальна для небольших складов и производств.",
+    features: [
+      "Ручное крепление пленки",
+      "Простота в эксплуатации",
+      "Надежная конструкция",
+      "Экономичное решение"
+    ],
+    specs: {
+      voltage: "220V / 380V",
+      power: "1.5 кВт",
+      turntableSize: "1500x1500 мм",
+      maxLoad: "2000 кг",
+      maxHeight: "2000 мм",
+      wrappingSpeed: "0-12 об/мин",
+      turntableSpeed: "4-12 об/мин",
+      weight: "480 кг"
+    },
+    images: ["https://cdn.poehali.dev/files/TS-3000MR-H.jpg"]
+  },
+  {
+    id: "ts3000sps-h",
+    name: "TS3000SPS-H",
+    price: "350 000",
+    description: "Модель с автоматической подачей и обрезкой пленки. Повышенная производительность.",
+    features: [
+      "Автоматическая подача пленки",
+      "Автоматическая обрезка",
+      "Повышенная скорость работы",
+      "Минимальное участие оператора"
+    ],
+    specs: {
+      voltage: "220V / 380V",
+      power: "1.5 кВт",
+      turntableSize: "1500x1500 мм",
+      maxLoad: "2000 кг",
+      maxHeight: "2000 мм",
+      wrappingSpeed: "0-12 об/мин",
+      turntableSpeed: "4-12 об/мин",
+      weight: "500 кг"
+    },
+    images: [
+      "https://cdn.poehali.dev/files/TS-3000SPS-H.jpg",
+      "https://cdn.poehali.dev/files/TS-3000SPS-H-2.jpg",
+      "https://cdn.poehali.dev/files/TS-3000SPS-H-3.jpg",
+      "https://cdn.poehali.dev/files/TS-3000SPS-H-4.jpg"
+    ]
+  },
+  {
+    id: "ts3000mr-tp",
+    name: "TS3000MR-TP",
+    price: "380 000",
+    description: "Модель с верхним прижимом груза для дополнительной фиксации нестабильных паллет.",
+    features: [
+      "Верхний прижим груза",
+      "Стабилизация паллеты",
+      "Ручное крепление пленки",
+      "Подходит для сложных грузов"
+    ],
+    specs: {
+      voltage: "220V / 380V",
+      power: "1.8 кВт",
+      turntableSize: "1500x1500 мм",
+      maxLoad: "2000 кг",
+      maxHeight: "2200 мм",
+      wrappingSpeed: "0-12 об/мин",
+      turntableSpeed: "4-12 об/мин",
+      weight: "520 кг"
+    },
+    images: ["https://cdn.poehali.dev/files/TS-3000MR-TP.jpg"]
+  },
+  {
+    id: "ts3000sps-tp",
+    name: "TS3000SPS-TP",
+    price: "430 000",
+    description: "Автоматическая модель с верхним прижимом. Максимальная надежность упаковки.",
+    features: [
+      "Автоматическая подача и обрезка",
+      "Верхний прижим груза",
+      "Полная автоматизация",
+      "Максимальная надежность"
+    ],
+    specs: {
+      voltage: "220V / 380V",
+      power: "1.8 кВт",
+      turntableSize: "1500x1500 мм",
+      maxLoad: "2000 кг",
+      maxHeight: "2200 мм",
+      wrappingSpeed: "0-12 об/мин",
+      turntableSpeed: "4-12 об/мин",
+      weight: "540 кг"
+    },
+    images: ["https://cdn.poehali.dev/files/TS-3000SPS-TP.jpg"]
+  },
+  {
+    id: "ts3000mr-mt",
+    name: "TS3000MR-MT",
+    price: "420 000",
+    description: "Модель с увеличенной мачтой для упаковки высоких паллет до 3000 мм.",
+    features: [
+      "Высота обмотки до 3000 мм",
+      "Усиленная конструкция",
+      "Ручное крепление пленки",
+      "Для высоких грузов"
+    ],
+    specs: {
+      voltage: "220V / 380V",
+      power: "1.8 кВт",
+      turntableSize: "1500x1500 мм",
+      maxLoad: "2000 кг",
+      maxHeight: "3000 мм",
+      wrappingSpeed: "0-12 об/мин",
+      turntableSpeed: "4-12 об/мин",
+      weight: "580 кг"
+    },
+    images: ["https://cdn.poehali.dev/files/TS-3000MR-MT.jpg"]
+  },
+  {
+    id: "ts3000sps-mt",
+    name: "TS3000SPS-MT",
+    price: "470 000",
+    description: "Автоматическая модель с увеличенной мачтой. Для высоких грузов с полной автоматизацией.",
+    features: [
+      "Автоматическая подача и обрезка",
+      "Высота обмотки до 3000 мм",
+      "Высокая производительность",
+      "Усиленная конструкция"
+    ],
+    specs: {
+      voltage: "220V / 380V",
+      power: "1.8 кВт",
+      turntableSize: "1500x1500 мм",
+      maxLoad: "2000 кг",
+      maxHeight: "3000 мм",
+      wrappingSpeed: "0-12 об/мин",
+      turntableSpeed: "4-12 об/мин",
+      weight: "600 кг"
+    },
+    images: ["https://cdn.poehali.dev/files/TS-3000SPS-MT.jpg"]
+  },
+  {
+    id: "ts3000mr-mt-tp",
+    name: "TS3000MR-MT-TP",
+    price: "500 000",
+    description: "Максимальная комплектация с увеличенной мачтой и верхним прижимом.",
+    features: [
+      "Высота обмотки до 3000 мм",
+      "Верхний прижим груза",
+      "Универсальное решение",
+      "Для сложных грузов"
+    ],
+    specs: {
+      voltage: "220V / 380V",
+      power: "2.0 кВт",
+      turntableSize: "1500x1500 мм",
+      maxLoad: "2000 кг",
+      maxHeight: "3000 мм",
+      wrappingSpeed: "0-12 об/мин",
+      turntableSpeed: "4-12 об/мин",
+      weight: "620 кг"
+    },
+    images: ["https://cdn.poehali.dev/files/TS-3000MR-MT-TP.jpg"]
+  },
+  {
+    id: "ts3000sps-mt-tp",
+    name: "TS3000SPS-MT-TP",
+    price: "550 000",
+    description: "Топовая модель с полной автоматизацией, увеличенной мачтой и верхним прижимом.",
+    features: [
+      "Полная автоматизация процесса",
+      "Высота обмотки до 3000 мм",
+      "Верхний прижим груза",
+      "Максимальная надежность и производительность"
+    ],
+    specs: {
+      voltage: "220V / 380V",
+      power: "2.0 кВт",
+      turntableSize: "1500x1500 мм",
+      maxLoad: "2000 кг",
+      maxHeight: "3000 мм",
+      wrappingSpeed: "0-12 об/мин",
+      turntableSpeed: "4-12 об/мин",
+      weight: "640 кг"
+    },
+    images: ["https://cdn.poehali.dev/files/TS-3000SPS-MT-TP.jpg"]
+  }
+];
+
+// Use cases data
+const useCases = [
+  {
+    icon: "Warehouse",
+    title: "Складские комплексы",
+    description: "Автоматизация упаковки грузов перед отправкой"
+  },
+  {
+    icon: "Factory",
+    title: "Производственные предприятия",
+    description: "Упаковка готовой продукции на паллетах"
+  },
+  {
+    icon: "Truck",
+    title: "Логистические центры",
+    description: "Подготовка грузов к транспортировке"
+  },
+  {
+    icon: "ShoppingCart",
+    title: "Торговые сети",
+    description: "Упаковка товаров для межскладских перемещений"
+  }
+];
+
+// Advantages data
+const advantages = [
+  {
+    icon: "DollarSign",
+    title: "Экономия средств",
+    description: "Снижение расхода стретч-пленки до 30% по сравнению с ручной упаковкой"
   },
   {
     icon: "Zap",
     title: "Высокая производительность",
-    description: "Быстрая упаковка до 30 паллет в час с минимальным участием оператора"
+    description: "Упаковка одного паллета занимает 60-90 секунд"
   },
   {
     icon: "Shield",
-    title: "Безопасность",
-    description: "Аварийная кнопка остановки и защитные системы для безопасной работы"
+    title: "Надежная защита груза",
+    description: "Равномерное натяжение пленки обеспечивает качественную фиксацию"
   },
   {
-    icon: "DollarSign",
-    title: "Экономия материалов",
-    description: "Оптимальное использование стретч-пленки снижает затраты на упаковку"
+    icon: "Settings",
+    title: "Простота эксплуатации",
+    description: "Интуитивное управление, не требует специальной подготовки"
+  },
+  {
+    icon: "Award",
+    title: "Качество и надежность",
+    description: "Проверенное оборудование с гарантией 12 месяцев"
+  },
+  {
+    icon: "Wrench",
+    title: "Легкое обслуживание",
+    description: "Минимальные требования к техническому обслуживанию"
+  }
+];
+
+// FAQ data
+const faqItems = [
+  {
+    question: "Какая модель подойдет для моего бизнеса?",
+    answer: "Выбор модели зависит от объемов производства, высоты паллет и требований к автоматизации. Для небольших объемов подойдут базовые модели MR-H, для средних и крупных - модели с автоматикой SPS. Если у вас высокие паллеты (выше 2м), выбирайте модели с маркировкой MT. Для нестабильных грузов рекомендуем модели с верхним прижимом (TP)."
+  },
+  {
+    question: "Какое напряжение питания требуется?",
+    answer: "Все модели работают от стандартной сети 220V или 380V (трехфазное). При заказе укажите доступное у вас напряжение, мы настроим оборудование соответствующим образом."
+  },
+  {
+    question: "Входит ли доставка в стоимость?",
+    answer: "Доставка рассчитывается отдельно в зависимости от региона. По Москве и области доставка обычно составляет 3-5 тысяч рублей. В регионы - по тарифам транспортных компаний."
+  },
+  {
+    question: "Предоставляете ли вы гарантию?",
+    answer: "Да, на все оборудование предоставляется гарантия 12 месяцев. Гарантия покрывает производственные дефекты и неисправности, возникшие при нормальной эксплуатации."
+  },
+  {
+    question: "Нужна ли специальная подготовка для работы?",
+    answer: "Нет, управление паллетообмотчиком интуитивно понятно. При доставке наш специалист проведет инструктаж и покажет все функции оборудования. Также прилагается подробная инструкция на русском языке."
+  },
+  {
+    question: "Какой расход стретч-пленки?",
+    answer: "Расход пленки зависит от размеров паллеты, количества слоев и степени натяжения. В среднем на один паллет уходит 150-300 метров пленки. Автоматические модели обеспечивают экономию пленки до 30% по сравнению с ручной обмоткой."
+  },
+  {
+    question: "Как происходит техническое обслуживание?",
+    answer: "Оборудование требует минимального обслуживания - регулярной чистки, проверки натяжения цепей и смазки движущихся частей раз в 3-6 месяцев. Мы предлагаем сервисные контракты на постгарантийное обслуживание."
+  },
+  {
+    question: "Возможна ли рассрочка или лизинг?",
+    answer: "Да, мы работаем с ведущими лизинговыми компаниями. Также возможна рассрочка платежа от производителя. Свяжитесь с нами для расчета индивидуальных условий."
   }
 ];
 
 export default function Index() {
-  const [currentImage, setCurrentImage] = useState(0);
+  const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
+  const [dialogOpen, setDialogOpen] = useState(false);
+  const [selectedModel, setSelectedModel] = useState("");
+  const [selectedModelForQuiz, setSelectedModelForQuiz] = useState("");
+  const [quizStep, setQuizStep] = useState(0);
+  const [quizAnswers, setQuizAnswers] = useState({
+    volume: "",
+    height: "",
+    automation: ""
+  });
+
+  const scrollToSection = (id: string) => {
+    const element = document.getElementById(id);
+    if (element) {
+      const offset = 80;
+      const elementPosition = element.getBoundingClientRect().top;
+      const offsetPosition = elementPosition + window.pageYOffset - offset;
+      window.scrollTo({ top: offsetPosition, behavior: "smooth" });
+    }
+    setMobileMenuOpen(false);
+  };
+
+  const handleFormSubmit = (e: React.FormEvent) => {
+    e.preventDefault();
+    alert("Спасибо! Мы свяжемся с вами в ближайшее время.");
+    setDialogOpen(false);
+  };
+
+  const openModelDialog = (modelName: string) => {
+    setSelectedModel(modelName);
+    setDialogOpen(true);
+  };
+
+  const getRecommendedModel = () => {
+    const { volume, height, automation } = quizAnswers;
+    
+    if (!volume || !height || !automation) {
+      return models[0];
+    }
+
+    let recommendedModels = models;
+
+    // Filter by height
+    if (height === "low") {
+      recommendedModels = recommendedModels.filter(m => !m.id.includes("-mt"));
+    } else {
+      recommendedModels = recommendedModels.filter(m => m.id.includes("-mt"));
+    }
+
+    // Filter by automation
+    if (automation === "auto") {
+      recommendedModels = recommendedModels.filter(m => m.id.includes("sps"));
+    } else {
+      recommendedModels = recommendedModels.filter(m => m.id.includes("mr"));
+    }
+
+    // Recommend TP for high volume
+    if (volume === "high" && recommendedModels.some(m => m.id.includes("-tp"))) {
+      recommendedModels = recommendedModels.filter(m => m.id.includes("-tp"));
+    }
+
+    return recommendedModels[0] || models[0];
+  };
+
+  const handleQuizComplete = () => {
+    const recommended = getRecommendedModel();
+    setSelectedModelForQuiz(recommended.name);
+    setQuizStep(4);
+  };
+
+  const resetQuiz = () => {
+    setQuizStep(0);
+    setQuizAnswers({ volume: "", height: "", automation: "" });
+    setSelectedModelForQuiz("");
+  };
 
   return (
-    <div className="min-h-screen bg-gradient-to-b from-slate-50 to-white">
-      <nav className="bg-white border-b sticky top-0 z-50 backdrop-blur-sm bg-white/90">
-        <div className="container mx-auto px-4 py-4 flex items-center justify-between">
-          <div className="flex items-center gap-2">
-            <Icon name="Package" size={32} className="text-primary" />
-            <span className="text-2xl font-bold text-foreground">SMOOTHXEL</span>
-          </div>
-          <Button className="hidden md:inline-flex">
-            Получить консультацию
-          </Button>
-        </div>
-      </nav>
+    <div className="min-h-screen bg-white">
+      <Header
+        mobileMenuOpen={mobileMenuOpen}
+        setMobileMenuOpen={setMobileMenuOpen}
+        dialogOpen={dialogOpen}
+        setDialogOpen={setDialogOpen}
+        selectedModel={selectedModel}
+        scrollToSection={scrollToSection}
+        handleFormSubmit={handleFormSubmit}
+      />
 
-      <section className="container mx-auto px-4 py-16 md:py-24">
-        <div className="grid lg:grid-cols-2 gap-12 items-center">
-          <div className="space-y-6 animate-fade-in">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold leading-tight">
-              Паллетообмотчик <span className="text-primary">TS-3000SPS-H</span>
+      {/* Hero Section */}
+      <section className="pt-24 pb-16 bg-gradient-to-b from-blue-50 to-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-4xl mx-auto text-center space-y-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+              Паллетообмотчики <span className="text-primary">ТЕХНОСИБ</span>
             </h1>
-            <p className="text-lg text-muted-foreground">
-              Профессиональное оборудование для автоматической упаковки паллет в стретч-пленку. 
-              Надежность, производительность и безопасность для вашего склада.
+            <p className="text-xl md:text-2xl text-gray-700">
+              Надежное оборудование по доступной цене
             </p>
-            <div className="flex flex-wrap gap-4">
-              <Button size="lg" className="text-lg px-8">
-                <Icon name="Phone" size={20} className="mr-2" />
-                Заказать звонок
+            <p className="text-3xl md:text-4xl font-bold text-secondary">
+              От 300 тыс.руб
+            </p>
+            <div className="flex flex-wrap gap-4 justify-center pt-4">
+              <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-lg px-8" onClick={() => scrollToSection('models')}>
+                <Icon name="Package" size={20} className="mr-2" />
+                Выбрать модель
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8">
-                <Icon name="FileText" size={20} className="mr-2" />
-                Скачать каталог
+              <Button size="lg" variant="outline" className="text-lg px-8" onClick={() => setDialogOpen(true)}>
+                <Icon name="Phone" size={20} className="mr-2" />
+                Получить КП
               </Button>
             </div>
           </div>
-
-          <Card className="overflow-hidden shadow-xl">
-            <CardContent className="p-0">
-              <div className="relative aspect-square bg-slate-100">
-                <img
-                  src={images[currentImage].url}
-                  alt={images[currentImage].alt}
-                  className="w-full h-full object-contain"
-                />
-                <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex gap-2">
-                  {images.map((_, idx) => (
-                    <button
-                      key={idx}
-                      onClick={() => setCurrentImage(idx)}
-                      className={`w-2 h-2 rounded-full transition-all ${
-                        idx === currentImage 
-                          ? "bg-primary w-8" 
-                          : "bg-white/50 hover:bg-white/80"
-                      }`}
-                      aria-label={`Показать изображение ${idx + 1}`}
-                    />
-                  ))}
-                </div>
-              </div>
-            </CardContent>
-          </Card>
         </div>
       </section>
 
-      <section className="bg-slate-100 py-16">
+      {/* Use Cases Section */}
+      <section id="use-cases" className="py-16 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Преимущества оборудования
+            Где применяются паллетообмотчики
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {features.map((feature, idx) => (
+            {useCases.map((useCase, idx) => (
               <Card key={idx} className="text-center hover:shadow-lg transition-shadow">
                 <CardContent className="p-6 space-y-4">
                   <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                    <Icon name={feature.icon as any} size={32} className="text-primary" />
+                    <Icon name={useCase.icon as any} size={32} className="text-primary" />
                   </div>
-                  <h3 className="text-xl font-semibold">{feature.title}</h3>
-                  <p className="text-muted-foreground">{feature.description}</p>
+                  <h3 className="text-lg font-semibold">{useCase.title}</h3>
+                  <p className="text-sm text-muted-foreground">{useCase.description}</p>
                 </CardContent>
               </Card>
             ))}
@@ -139,121 +457,438 @@ export default function Index() {
         </div>
       </section>
 
-      <section className="container mx-auto px-4 py-16">
-        <Tabs defaultValue="specs" className="max-w-4xl mx-auto">
-          <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="specs">Характеристики</TabsTrigger>
-            <TabsTrigger value="gallery">Галерея</TabsTrigger>
-          </TabsList>
-          
-          <TabsContent value="specs" className="mt-8">
-            <Card>
-              <CardContent className="p-6">
-                <h3 className="text-2xl font-bold mb-6 flex items-center gap-2">
-                  <Icon name="FileText" size={24} className="text-primary" />
-                  Технические характеристики
-                </h3>
-                <div className="space-y-4">
-                  {specs.map((spec, idx) => (
-                    <div 
-                      key={idx} 
-                      className="flex justify-between items-center py-3 border-b last:border-0"
-                    >
-                      <span className="text-muted-foreground font-medium">{spec.label}</span>
-                      <span className="font-semibold text-lg">{spec.value}</span>
-                    </div>
-                  ))}
-                </div>
-              </CardContent>
-            </Card>
-          </TabsContent>
-          
-          <TabsContent value="gallery" className="mt-8">
-            <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-4">
-              {images.map((image, idx) => (
-                <button
-                  key={idx}
-                  onClick={() => setCurrentImage(idx)}
-                  className="relative aspect-square rounded-lg overflow-hidden hover:ring-2 ring-primary transition-all group"
-                >
-                  <img
-                    src={image.url}
-                    alt={image.alt}
-                    className="w-full h-full object-cover group-hover:scale-105 transition-transform"
-                  />
-                  <div className="absolute inset-0 bg-black/0 group-hover:bg-black/20 transition-colors" />
-                </button>
-              ))}
-            </div>
-          </TabsContent>
-        </Tabs>
+      {/* Advantages Section */}
+      <section id="advantages" className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Преимущества оборудования ТЕХНОСИБ
+          </h2>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {advantages.map((advantage, idx) => (
+              <Card key={idx} className="hover:shadow-lg transition-shadow">
+                <CardContent className="p-6 space-y-4">
+                  <div className="w-12 h-12 bg-primary/10 rounded-lg flex items-center justify-center">
+                    <Icon name={advantage.icon as any} size={24} className="text-primary" />
+                  </div>
+                  <h3 className="text-xl font-semibold">{advantage.title}</h3>
+                  <p className="text-muted-foreground">{advantage.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
       </section>
 
-      <section className="bg-primary text-primary-foreground py-16">
-        <div className="container mx-auto px-4 text-center space-y-6">
-          <h2 className="text-3xl md:text-4xl font-bold">
-            Готовы повысить эффективность вашего склада?
+      {/* Models Section */}
+      <section id="models" className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            Модели паллетообмотчиков
           </h2>
-          <p className="text-lg max-w-2xl mx-auto opacity-90">
-            Свяжитесь с нами для получения коммерческого предложения и консультации по выбору оборудования
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            Выберите оптимальную модель для вашего бизнеса. Все модели производятся на современном оборудовании с контролем качества на каждом этапе.
           </p>
-          <div className="flex flex-wrap gap-4 justify-center">
-            <Button size="lg" variant="secondary" className="text-lg px-8">
-              <Icon name="Mail" size={20} className="mr-2" />
-              Отправить запрос
-            </Button>
-            <Button size="lg" variant="outline" className="text-lg px-8 border-white text-white hover:bg-white hover:text-primary">
-              <Icon name="MessageSquare" size={20} className="mr-2" />
-              Написать в WhatsApp
+          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+            {models.map((model) => (
+              <Card key={model.id} className="hover:shadow-xl transition-shadow flex flex-col">
+                <ImageCarousel images={model.images} alt={model.name} />
+                <CardHeader>
+                  <CardTitle className="text-xl">{model.name}</CardTitle>
+                  <CardDescription className="text-2xl font-bold text-secondary">
+                    {model.price} руб
+                  </CardDescription>
+                </CardHeader>
+                <CardContent className="flex-1 flex flex-col">
+                  <p className="text-sm text-muted-foreground mb-4">{model.description}</p>
+                  <ul className="space-y-2 mb-6 flex-1">
+                    {model.features.map((feature, idx) => (
+                      <li key={idx} className="flex items-start gap-2 text-sm">
+                        <Icon name="Check" size={16} className="text-primary mt-0.5 flex-shrink-0" />
+                        <span>{feature}</span>
+                      </li>
+                    ))}
+                  </ul>
+                  <Button 
+                    className="w-full bg-secondary hover:bg-secondary/90" 
+                    onClick={() => openModelDialog(model.name)}
+                  >
+                    Получить КП
+                  </Button>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
+      {/* Specs Comparison Table */}
+      <section id="specs" className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Сравнительная таблица характеристик
+          </h2>
+          <div className="overflow-x-auto">
+            <table className="w-full bg-white rounded-lg shadow-lg">
+              <thead className="bg-primary text-white">
+                <tr>
+                  <th className="px-4 py-3 text-left font-semibold">Характеристика</th>
+                  {models.map((model) => (
+                    <th key={model.id} className="px-4 py-3 text-center font-semibold min-w-[140px]">
+                      {model.name}
+                    </th>
+                  ))}
+                </tr>
+              </thead>
+              <tbody>
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium">Цена</td>
+                  {models.map((model) => (
+                    <td key={model.id} className="px-4 py-3 text-center text-secondary font-bold">
+                      {model.price}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium">Напряжение</td>
+                  {models.map((model) => (
+                    <td key={model.id} className="px-4 py-3 text-center">
+                      {model.specs.voltage}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium">Мощность</td>
+                  {models.map((model) => (
+                    <td key={model.id} className="px-4 py-3 text-center">
+                      {model.specs.power}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium">Размер поворотного стола</td>
+                  {models.map((model) => (
+                    <td key={model.id} className="px-4 py-3 text-center">
+                      {model.specs.turntableSize}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium">Макс. нагрузка</td>
+                  {models.map((model) => (
+                    <td key={model.id} className="px-4 py-3 text-center">
+                      {model.specs.maxLoad}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium">Макс. высота обмотки</td>
+                  {models.map((model) => (
+                    <td key={model.id} className="px-4 py-3 text-center font-semibold">
+                      {model.specs.maxHeight}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium">Скорость обмотки</td>
+                  {models.map((model) => (
+                    <td key={model.id} className="px-4 py-3 text-center">
+                      {model.specs.wrappingSpeed}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="border-b hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium">Скорость вращения стола</td>
+                  {models.map((model) => (
+                    <td key={model.id} className="px-4 py-3 text-center">
+                      {model.specs.turntableSpeed}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium">Вес оборудования</td>
+                  {models.map((model) => (
+                    <td key={model.id} className="px-4 py-3 text-center">
+                      {model.specs.weight}
+                    </td>
+                  ))}
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Selection Quiz Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl text-center">Подбор оборудования</CardTitle>
+                <CardDescription className="text-center">
+                  Ответьте на несколько вопросов, и мы порекомендуем оптимальную модель
+                </CardDescription>
+              </CardHeader>
+              <CardContent>
+                {quizStep === 0 && (
+                  <div className="space-y-6">
+                    <div>
+                      <Label className="text-lg mb-4 block">Какой объем упаковки планируете?</Label>
+                      <RadioGroup value={quizAnswers.volume} onValueChange={(value) => setQuizAnswers({ ...quizAnswers, volume: value })}>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="low" id="low" />
+                          <Label htmlFor="low" className="flex-1 cursor-pointer">До 20 паллет в день</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="medium" id="medium" />
+                          <Label htmlFor="medium" className="flex-1 cursor-pointer">20-50 паллет в день</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="high" id="high" />
+                          <Label htmlFor="high" className="flex-1 cursor-pointer">Более 50 паллет в день</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                    <Button 
+                      className="w-full bg-secondary hover:bg-secondary/90" 
+                      onClick={() => setQuizStep(1)}
+                      disabled={!quizAnswers.volume}
+                    >
+                      Далее
+                    </Button>
+                  </div>
+                )}
+
+                {quizStep === 1 && (
+                  <div className="space-y-6">
+                    <div>
+                      <Label className="text-lg mb-4 block">Какая высота ваших паллет?</Label>
+                      <RadioGroup value={quizAnswers.height} onValueChange={(value) => setQuizAnswers({ ...quizAnswers, height: value })}>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="low" id="height-low" />
+                          <Label htmlFor="height-low" className="flex-1 cursor-pointer">До 2 метров</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="high" id="height-high" />
+                          <Label htmlFor="height-high" className="flex-1 cursor-pointer">До 3 метров</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                    <div className="flex gap-3">
+                      <Button variant="outline" className="flex-1" onClick={() => setQuizStep(0)}>
+                        Назад
+                      </Button>
+                      <Button 
+                        className="flex-1 bg-secondary hover:bg-secondary/90" 
+                        onClick={() => setQuizStep(2)}
+                        disabled={!quizAnswers.height}
+                      >
+                        Далее
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {quizStep === 2 && (
+                  <div className="space-y-6">
+                    <div>
+                      <Label className="text-lg mb-4 block">Требуется ли автоматизация?</Label>
+                      <RadioGroup value={quizAnswers.automation} onValueChange={(value) => setQuizAnswers({ ...quizAnswers, automation: value })}>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="manual" id="manual" />
+                          <Label htmlFor="manual" className="flex-1 cursor-pointer">
+                            <div>
+                              <div className="font-semibold">Ручное крепление</div>
+                              <div className="text-sm text-muted-foreground">Экономичный вариант</div>
+                            </div>
+                          </Label>
+                        </div>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="auto" id="auto" />
+                          <Label htmlFor="auto" className="flex-1 cursor-pointer">
+                            <div>
+                              <div className="font-semibold">Автоматическая подача и обрезка</div>
+                              <div className="text-sm text-muted-foreground">Повышенная производительность</div>
+                            </div>
+                          </Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                    <div className="flex gap-3">
+                      <Button variant="outline" className="flex-1" onClick={() => setQuizStep(1)}>
+                        Назад
+                      </Button>
+                      <Button 
+                        className="flex-1 bg-secondary hover:bg-secondary/90" 
+                        onClick={handleQuizComplete}
+                        disabled={!quizAnswers.automation}
+                      >
+                        Получить результат
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {quizStep === 4 && selectedModelForQuiz && (
+                  <div className="space-y-6 text-center">
+                    <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                      <Icon name="CheckCircle" size={48} className="text-primary" />
+                    </div>
+                    <div>
+                      <h3 className="text-2xl font-bold mb-2">Рекомендуем модель</h3>
+                      <p className="text-3xl font-bold text-primary mb-4">{selectedModelForQuiz}</p>
+                      <p className="text-muted-foreground mb-6">
+                        {models.find(m => m.name === selectedModelForQuiz)?.description}
+                      </p>
+                      <div className="text-2xl font-bold text-secondary mb-6">
+                        {models.find(m => m.name === selectedModelForQuiz)?.price} руб
+                      </div>
+                    </div>
+                    <div className="flex gap-3">
+                      <Button variant="outline" className="flex-1" onClick={resetQuiz}>
+                        Пройти заново
+                      </Button>
+                      <Button 
+                        className="flex-1 bg-secondary hover:bg-secondary/90" 
+                        onClick={() => openModelDialog(selectedModelForQuiz)}
+                      >
+                        Получить КП
+                      </Button>
+                    </div>
+                  </div>
+                )}
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Service Section */}
+      <section id="service" className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Сервис и поддержка
+          </h2>
+          <div className="grid md:grid-cols-3 gap-8 max-w-5xl mx-auto">
+            <Card className="text-center">
+              <CardContent className="p-6 space-y-4">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Icon name="Truck" size={32} className="text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold">Доставка и монтаж</h3>
+                <p className="text-muted-foreground">
+                  Доставляем по всей России. Монтаж и пусконаладка выполняются нашими специалистами
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="text-center">
+              <CardContent className="p-6 space-y-4">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Icon name="GraduationCap" size={32} className="text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold">Обучение персонала</h3>
+                <p className="text-muted-foreground">
+                  Проводим инструктаж и обучение ваших сотрудников работе с оборудованием
+                </p>
+              </CardContent>
+            </Card>
+            <Card className="text-center">
+              <CardContent className="p-6 space-y-4">
+                <div className="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
+                  <Icon name="Wrench" size={32} className="text-primary" />
+                </div>
+                <h3 className="text-xl font-semibold">Гарантийное обслуживание</h3>
+                <p className="text-muted-foreground">
+                  12 месяцев гарантии. Быстрое реагирование на заявки и наличие запчастей на складе
+                </p>
+              </CardContent>
+            </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* FAQ Section */}
+      <section id="faq" className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Часто задаваемые вопросы
+          </h2>
+          <div className="max-w-3xl mx-auto">
+            <Accordion type="single" collapsible className="space-y-4">
+              {faqItems.map((item, idx) => (
+                <AccordionItem key={idx} value={`item-${idx}`} className="border rounded-lg px-6">
+                  <AccordionTrigger className="text-left font-semibold hover:no-underline">
+                    {item.question}
+                  </AccordionTrigger>
+                  <AccordionContent className="text-muted-foreground">
+                    {item.answer}
+                  </AccordionContent>
+                </AccordionItem>
+              ))}
+            </Accordion>
+          </div>
+        </div>
+      </section>
+
+      {/* Final CTA / Contacts Section */}
+      <section id="contacts" className="py-16 bg-gradient-to-b from-primary to-primary/90 text-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-3xl mx-auto text-center space-y-8">
+            <h2 className="text-3xl md:text-4xl font-bold">
+              Готовы оптимизировать процесс упаковки?
+            </h2>
+            <p className="text-xl text-white/90">
+              Свяжитесь с нами для консультации и расчета стоимости оборудования
+            </p>
+            <div className="grid md:grid-cols-2 gap-6">
+              <Card className="bg-white/10 border-white/20 text-white backdrop-blur">
+                <CardContent className="p-6 space-y-3">
+                  <Icon name="Phone" size={32} className="mx-auto" />
+                  <h3 className="text-xl font-semibold">Позвоните нам</h3>
+                  <a href="tel:+7" className="text-2xl font-bold block hover:text-secondary transition-colors">
+                    +7 (___) ___-__-__
+                  </a>
+                  <p className="text-sm text-white/80">Пн-Пт: 9:00 - 18:00</p>
+                </CardContent>
+              </Card>
+              <Card className="bg-white/10 border-white/20 text-white backdrop-blur">
+                <CardContent className="p-6 space-y-3">
+                  <Icon name="Mail" size={32} className="mx-auto" />
+                  <h3 className="text-xl font-semibold">Напишите нам</h3>
+                  <a href="mailto:info@technosib.ru" className="text-xl font-semibold block hover:text-secondary transition-colors">
+                    info@technosib.ru
+                  </a>
+                  <p className="text-sm text-white/80">Ответим в течение часа</p>
+                </CardContent>
+              </Card>
+            </div>
+            <Button 
+              size="lg" 
+              className="bg-secondary hover:bg-secondary/90 text-white text-lg px-12"
+              onClick={() => setDialogOpen(true)}
+            >
+              Получить коммерческое предложение
             </Button>
           </div>
         </div>
       </section>
 
-      <footer className="bg-slate-900 text-slate-300 py-12">
+      {/* Footer */}
+      <footer className="bg-gray-900 text-white py-8">
         <div className="container mx-auto px-4">
-          <div className="grid md:grid-cols-3 gap-8">
-            <div>
-              <div className="flex items-center gap-2 mb-4">
-                <Icon name="Package" size={28} className="text-primary" />
-                <span className="text-xl font-bold text-white">SMOOTHXEL</span>
-              </div>
-              <p className="text-sm">
-                Профессиональное упаковочное оборудование для вашего бизнеса
-              </p>
+          <div className="text-center space-y-4">
+            <div className="text-2xl font-bold text-primary">ТЕХНОСИБ</div>
+            <p className="text-gray-400">Надежное упаковочное оборудование для вашего бизнеса</p>
+            <div className="flex justify-center gap-8 text-sm text-gray-400">
+              <button onClick={() => scrollToSection('models')} className="hover:text-white transition-colors">Модели</button>
+              <button onClick={() => scrollToSection('advantages')} className="hover:text-white transition-colors">Преимущества</button>
+              <button onClick={() => scrollToSection('service')} className="hover:text-white transition-colors">Сервис</button>
+              <button onClick={() => scrollToSection('faq')} className="hover:text-white transition-colors">FAQ</button>
+              <button onClick={() => scrollToSection('contacts')} className="hover:text-white transition-colors">Контакты</button>
             </div>
-            
-            <div>
-              <h4 className="text-white font-semibold mb-4">Контакты</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2">
-                  <Icon name="Phone" size={16} />
-                  <span>+7 (XXX) XXX-XX-XX</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Icon name="Mail" size={16} />
-                  <span>info@smoothxel.ru</span>
-                </div>
-              </div>
+            <div className="text-sm text-gray-500 pt-4">
+              2025 ТЕХНОСИБ. Все права защищены.
             </div>
-            
-            <div>
-              <h4 className="text-white font-semibold mb-4">Режим работы</h4>
-              <div className="space-y-2 text-sm">
-                <div className="flex items-center gap-2">
-                  <Icon name="Clock" size={16} />
-                  <span>Пн-Пт: 9:00 - 18:00</span>
-                </div>
-                <div className="flex items-center gap-2">
-                  <Icon name="Clock" size={16} />
-                  <span>Сб-Вс: выходной</span>
-                </div>
-              </div>
-            </div>
-          </div>
-          
-          <div className="border-t border-slate-700 mt-8 pt-8 text-center text-sm">
-            <p>© 2025 SMOOTHXEL. Все права защищены.</p>
           </div>
         </div>
       </footer>
