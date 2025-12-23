@@ -11,15 +11,23 @@ import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import ImageCarousel from '@/components/ImageCarousel';
 
+const CDN_BASE = 'https://cdn.poehali.dev/projects/YCAJEKPI_wLGVUAtPHIm5BUcb/bucket';
+
+const generateImageUrls = (folderName: string, count: number) => {
+  return Array.from({ length: count }, (_, i) => 
+    `${CDN_BASE}/${folderName}/${folderName}-${i + 1}.jpg`
+  );
+};
+
 const modelImages: Record<string, string[]> = {
-  'TS3000MP-H': [],
-  'TS3000SP-H': [],
-  'TS3000MP-TP': [],
-  'TS3000SP-TP': [],
-  'TS3000MP-MT': [],
-  'TS3000SP-MT': [],
-  'TS3000MP-MT-TP': [],
-  'TS3000SP-MT-TP': []
+  'TS3000MP-H': generateImageUrls('TS-3000MR-H', 20),
+  'TS3000SP-H': generateImageUrls('TS-3000SPS-H', 12),
+  'TS3000MP-TP': generateImageUrls('TS3000MR-TP', 1),
+  'TS3000SP-TP': generateImageUrls('TS-3000SPS-TP', 19),
+  'TS3000MP-MT': generateImageUrls('TS3000MR-MT', 1),
+  'TS3000SP-MT': generateImageUrls('TS3000SPS-MT', 11),
+  'TS3000MP-MT-TP': generateImageUrls('TS3000MR-MT-TP', 1),
+  'TS3000SP-MT-TP': generateImageUrls('TS3000SPS-MT-TP', 1)
 };
 
 const models = [
