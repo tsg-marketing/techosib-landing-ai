@@ -33,7 +33,7 @@ export async function makeBucketPublic(): Promise<MakeBucketPublicResponse> {
 }
 
 // Standalone execution if run directly with bun/node
-if (import.meta.url === `file://${process.argv[1]}`) {
+if (typeof process !== 'undefined' && import.meta.url === `file://${process.argv[1]}`) {
   console.log("Calling function to make bucket public...");
   
   makeBucketPublic().then(result => {
