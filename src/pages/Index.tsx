@@ -11,30 +11,32 @@ import Icon from '@/components/ui/icon';
 import { useToast } from '@/hooks/use-toast';
 import ImageCarousel from '@/components/ImageCarousel';
 
+const CDN_BASE = 'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/bucket';
+
 const modelImages: Record<string, string[]> = {
-  'TS3000MP-H': [
-    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/292f774a-f701-4a71-ac11-03c2f732e2e0.jpg'
-  ],
-  'TS3000SP-H': [
-    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/42dc5c9f-020c-478e-ae0d-ed607dc8ccf3.jpg'
-  ],
+  'TS3000MP-H': Array.from({ length: 19 }, (_, i) => 
+    i === 0 ? `${CDN_BASE}/TS-3000MR-H/TS-3000MR-H.jpg` : `${CDN_BASE}/TS-3000MR-H/TS-3000MR-H-${i}.jpg`
+  ),
+  'TS3000SP-H': Array.from({ length: 12 }, (_, i) => 
+    i === 0 ? `${CDN_BASE}/TS-3000SPS-H/TS-3000SPS-H.jpg` : `${CDN_BASE}/TS-3000SPS-H/TS-3000SPS-H-${i}.jpg`
+  ),
   'TS3000MP-TP': [
-    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/292f774a-f701-4a71-ac11-03c2f732e2e0.jpg'
+    `${CDN_BASE}/TS3000MR-TP/TS3000MR-TP.jpg`
   ],
-  'TS3000SP-TP': [
-    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/2300a308-dacc-43f1-8e62-fec315c2ef5b.jpg'
-  ],
+  'TS3000SP-TP': Array.from({ length: 19 }, (_, i) => 
+    i === 0 ? `${CDN_BASE}/TS-3000SPS-TP/TS-3000SPS-TP.jpg` : `${CDN_BASE}/TS-3000SPS-TP/TS-3000SPS-TP-${i}.jpg`
+  ),
   'TS3000MP-MT': [
-    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/2300a308-dacc-43f1-8e62-fec315c2ef5b.jpg'
+    `${CDN_BASE}/TS3000MR-MT/TS3000MR-MT.jpg`
   ],
-  'TS3000SP-MT': [
-    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/42dc5c9f-020c-478e-ae0d-ed607dc8ccf3.jpg'
-  ],
+  'TS3000SP-MT': Array.from({ length: 11 }, (_, i) => 
+    i === 0 ? `${CDN_BASE}/TS3000SPS-MT/TS3000SPS-MT.jpg` : `${CDN_BASE}/TS3000SPS-MT/TS3000SPS-MT-${i}.jpg`
+  ),
   'TS3000MP-MT-TP': [
-    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/2300a308-dacc-43f1-8e62-fec315c2ef5b.jpg'
+    `${CDN_BASE}/TS3000MR-MT-TP/TS3000MR-MT-TP.png`
   ],
   'TS3000SP-MT-TP': [
-    'https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/42dc5c9f-020c-478e-ae0d-ed607dc8ccf3.jpg'
+    `${CDN_BASE}/TS3000SPS-MT-TP/1.jpg`
   ]
 };
 
