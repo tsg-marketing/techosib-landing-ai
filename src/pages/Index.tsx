@@ -12,7 +12,7 @@ import { useToast } from '@/hooks/use-toast';
 import ImageCarousel from '@/components/ImageCarousel';
 
 const modelImages: Record<string, string[]> = {
-  'TS3000MP-H': [
+  'TS3000MR-H': [
     'https://cdn.poehali.dev/files/TS-3000MR-H.jpg',
     'https://cdn.poehali.dev/files/TS-3000MR-H-1.jpg',
     'https://cdn.poehali.dev/files/TS-3000MR-H-2.jpg',
@@ -35,18 +35,18 @@ const modelImages: Record<string, string[]> = {
     'https://cdn.poehali.dev/files/TS-3000MR-H-19.jpg',
     'https://cdn.poehali.dev/files/TS-3000MR-H-20.jpg'
   ],
-  'TS3000SP-H': [],
-  'TS3000MP-TP': [],
-  'TS3000SP-TP': [],
-  'TS3000MP-MT': [],
-  'TS3000SP-MT': [],
-  'TS3000MP-MT-TP': [],
-  'TS3000SP-MT-TP': []
+  'TS3000SPS-H': [],
+  'TS3000MR-TP': [],
+  'TS3000SPS-TP': [],
+  'TS3000MR-MT': [],
+  'TS3000SPS-MT': [],
+  'TS3000MR-MT-TP': [],
+  'TS3000SPS-MT-TP': []
 };
 
 const models = [
   {
-    name: 'TS3000MP-H',
+    name: 'TS3000MR-H',
     weight: '550 кг',
     power: '1,15 MR',
     carriage: 'Механическая',
@@ -56,7 +56,7 @@ const models = [
     programs: '10'
   },
   {
-    name: 'TS3000SP-H',
+    name: 'TS3000SPS-H',
     weight: '550 кг',
     power: '1,5 SP',
     carriage: 'Моторизир.',
@@ -66,7 +66,7 @@ const models = [
     programs: '10'
   },
   {
-    name: 'TS3000MP-TP',
+    name: 'TS3000MR-TP',
     weight: '550 кг',
     power: '1,15 MR',
     carriage: 'Механическая',
@@ -76,7 +76,7 @@ const models = [
     programs: '10'
   },
   {
-    name: 'TS3000SP-TP',
+    name: 'TS3000SPS-TP',
     weight: '550 кг',
     power: '1,89 SP',
     carriage: 'Моторизир.',
@@ -86,7 +86,7 @@ const models = [
     programs: '10'
   },
   {
-    name: 'TS3000MP-MT',
+    name: 'TS3000MR-MT',
     weight: '550 кг',
     power: '1,2 MR',
     carriage: 'Механическая',
@@ -96,7 +96,7 @@ const models = [
     programs: '10'
   },
   {
-    name: 'TS3000SP-MT',
+    name: 'TS3000SPS-MT',
     weight: '550 кг',
     power: '1,5 SP',
     carriage: 'Моторизир.',
@@ -106,7 +106,7 @@ const models = [
     programs: '10'
   },
   {
-    name: 'TS3000MP-MT-TP',
+    name: 'TS3000MR-MT-TP',
     weight: '550 кг',
     power: '1,5 MR',
     carriage: 'Механическая',
@@ -116,7 +116,7 @@ const models = [
     programs: '10'
   },
   {
-    name: 'TS3000SP-MT-TP',
+    name: 'TS3000SPS-MT-TP',
     weight: '550 кг',
     power: '2,1 SP',
     carriage: 'Моторизир.',
@@ -128,14 +128,14 @@ const models = [
 ];
 
 const fullSpecs = [
-  { name: 'TS3000MP-H', weight: 550, power: '1,15 MR', carriage: 'Механическая', prestretch: 'Нет', tension: 'Мех.регулир.', construction: 'Обычный', mechTension: '—', platform: '—', capacity: 2000, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1652×2208', power_supply: '1Ø, 50Гц' },
-  { name: 'TS3000SP-H', weight: 550, power: '1,5 SP', carriage: 'Моторизир.', prestretch: '250% фикс', tension: 'С панели', construction: 'Обычный', mechTension: '—', platform: '—', capacity: 2000, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1652×2208', power_supply: '1Ø, 50Гц' },
-  { name: 'TS3000MP-TP', weight: 550, power: '1,15 MR', carriage: 'Механическая', prestretch: 'Нет', tension: 'Мех.регулир.', construction: 'Обычный', mechTension: '600', platform: '2000', capacity: 2000, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1652×2208', power_supply: '1Ø, 50Гц' },
-  { name: 'TS3000SP-TP', weight: 550, power: '1,89 SP', carriage: 'Моторизир.', prestretch: '250% фикс', tension: 'С панели', construction: 'Обычный', mechTension: '600', platform: '2000', capacity: 2000, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1652×2208', power_supply: '1Ø, 50Гц' },
-  { name: 'TS3000MP-MT', weight: 550, power: '1,2 MR', carriage: 'Механическая', prestretch: 'Нет', tension: 'Мех.регулир.', construction: 'E-образн.', mechTension: '—', platform: '—', capacity: 800, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2555×1706×2208', power_supply: '1Ø, 50Гц' },
-  { name: 'TS3000SP-MT', weight: 550, power: '1,5 SP', carriage: 'Моторизир.', prestretch: '250% фикс', tension: 'С панели', construction: 'E-образн.', mechTension: '—', platform: '—', capacity: 800, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2555×1706×2208', power_supply: '1Ø, 50Гц' },
-  { name: 'TS3000MP-MT-TP', weight: 550, power: '1,5 MR', carriage: 'Механическая', prestretch: 'Нет', tension: 'Мех.регулир.', construction: 'E-образн.', mechTension: '600', platform: '800', capacity: 800, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1706×2208', power_supply: '1Ø, 50Гц' },
-  { name: 'TS3000SP-MT-TP', weight: 550, power: '2,1 SP', carriage: 'Моторизир.', prestretch: '250% фикс', tension: 'С панели', construction: 'E-образн.', mechTension: '600', platform: '800', capacity: 800, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1707×2208', power_supply: '1Ø, 50Гц' }
+  { name: 'TS3000MR-H', weight: 550, power: '1,15 MR', carriage: 'Механическая', prestretch: 'Нет', tension: 'Мех.регулир.', construction: 'Обычный', mechTension: '—', platform: '—', capacity: 2000, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1652×2208', power_supply: '1Ø, 50Гц' },
+  { name: 'TS3000SPS-H', weight: 550, power: '1,5 SP', carriage: 'Моторизир.', prestretch: '250% фикс', tension: 'С панели', construction: 'Обычный', mechTension: '—', platform: '—', capacity: 2000, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1652×2208', power_supply: '1Ø, 50Гц' },
+  { name: 'TS3000MR-TP', weight: 550, power: '1,15 MR', carriage: 'Механическая', prestretch: 'Нет', tension: 'Мех.регулир.', construction: 'Обычный', mechTension: '600', platform: '2000', capacity: 2000, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1652×2208', power_supply: '1Ø, 50Гц' },
+  { name: 'TS3000SPS-TP', weight: 550, power: '1,89 SP', carriage: 'Моторизир.', prestretch: '250% фикс', tension: 'С панели', construction: 'Обычный', mechTension: '600', platform: '2000', capacity: 2000, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1652×2208', power_supply: '1Ø, 50Гц' },
+  { name: 'TS3000MR-MT', weight: 550, power: '1,2 MR', carriage: 'Механическая', prestretch: 'Нет', tension: 'Мех.регулир.', construction: 'E-образн.', mechTension: '—', platform: '—', capacity: 800, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2555×1706×2208', power_supply: '1Ø, 50Гц' },
+  { name: 'TS3000SPS-MT', weight: 550, power: '1,5 SP', carriage: 'Моторизир.', prestretch: '250% фикс', tension: 'С панели', construction: 'E-образн.', mechTension: '—', platform: '—', capacity: 800, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2555×1706×2208', power_supply: '1Ø, 50Гц' },
+  { name: 'TS3000MR-MT-TP', weight: 550, power: '1,5 MR', carriage: 'Механическая', prestretch: 'Нет', tension: 'Мех.регулир.', construction: 'E-образн.', mechTension: '600', platform: '800', capacity: 800, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1706×2208', power_supply: '1Ø, 50Гц' },
+  { name: 'TS3000SPS-MT-TP', weight: 550, power: '2,1 SP', carriage: 'Моторизир.', prestretch: '250% фикс', tension: 'С панели', construction: 'E-образн.', mechTension: '600', platform: '800', capacity: 800, pallet: '1000×1200', height: 2400, programs: 10, control: 'Сенсорный', filmBreak: 'Да', stopSensor: 'Да', dimensions: '2535×1707×2208', power_supply: '1Ø, 50Гц' }
 ];
 
 export default function Index() {
