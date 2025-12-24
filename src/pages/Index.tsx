@@ -12,6 +12,7 @@ import Icon from "@/components/ui/icon";
 import ImageCarousel from "@/components/ImageCarousel";
 import Header from "@/components/sections/Header";
 import MachineCollage from "@/components/MachineCollage";
+import { usePrices } from "@/hooks/usePrices";
 
 // Model data structure
 interface Model {
@@ -388,6 +389,7 @@ const faqItems = [
 ];
 
 export default function Index() {
+  const { prices, minPrice } = usePrices();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState("");
@@ -398,6 +400,10 @@ export default function Index() {
     height: "",
     automation: ""
   });
+
+  const getPrice = (modelName: string): string => {
+    return prices[modelName] || models.find(m => m.name === modelName)?.price || "по запросу";
+  };
 
   const scrollToSection = (id: string) => {
     const element = document.getElementById(id);
@@ -493,7 +499,7 @@ export default function Index() {
               Надежное оборудование по доступной цене
             </p>
             <p className="text-4xl md:text-5xl lg:text-6xl font-bold text-secondary">
-              От 300 тыс.руб
+              От {minPrice} руб
             </p>
             <div className="flex flex-wrap gap-6 pt-6 justify-center">
               <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-xl px-10 py-6" onClick={() => scrollToSection('models')}>
@@ -569,7 +575,7 @@ export default function Index() {
                 <CardHeader>
                   <CardTitle className="text-xl">{model.name}</CardTitle>
                   <CardDescription className="text-2xl font-bold text-secondary">
-                    {model.price} руб
+                    {getPrice(model.name)} руб
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
@@ -618,7 +624,7 @@ export default function Index() {
                   <td className="px-4 py-3 font-medium">Цена</td>
                   {models.map((model) => (
                     <td key={model.id} className="px-4 py-3 text-center text-secondary font-bold">
-                      {model.price}
+                      {getPrice(model.name)} руб
                     </td>
                   ))}
                 </tr>
@@ -815,7 +821,7 @@ export default function Index() {
                         {models.find(m => m.name === selectedModelForQuiz)?.description}
                       </p>
                       <div className="text-2xl font-bold text-secondary mb-6">
-                        {models.find(m => m.name === selectedModelForQuiz)?.price} руб
+                        {getPrice(selectedModelForQuiz)} руб
                       </div>
                     </div>
                     <div className="flex gap-3">

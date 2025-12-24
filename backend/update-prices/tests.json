@@ -1,0 +1,16 @@
+{
+  "tests": [
+    {
+      "name": "Get prices from XML feed",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true,
+        "prices": "object",
+        "min_price": "string"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
