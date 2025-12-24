@@ -30,12 +30,13 @@ interface Model {
     wrappingSpeed: string;
     turntableSpeed: string;
     weight: string;
+    type: string;
   };
   images: string[];
   inStock?: boolean;
 }
 
-// All 8 models
+// All 9 models
 const models: Model[] = [
   {
     id: "ts3000mr-h",
@@ -57,7 +58,8 @@ const models: Model[] = [
       maxHeight: "2000 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
-      weight: "480 кг"
+      weight: "480 кг",
+      type: "стационарный"
     },
     images: [
       "https://cdn.poehali.dev/files/TS-3000MR-H.jpg",
@@ -103,7 +105,8 @@ const models: Model[] = [
       maxHeight: "2000 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
-      weight: "500 кг"
+      weight: "500 кг",
+      type: "стационарный"
     },
     images: [
       "https://cdn.poehali.dev/files/TS-3000SPS-H.jpg",
@@ -131,7 +134,8 @@ const models: Model[] = [
       maxHeight: "2200 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
-      weight: "520 кг"
+      weight: "520 кг",
+      type: "стационарный"
     },
     images: [
       "https://cdn.poehali.dev/files/TS3000MR-TP.jpg"
@@ -158,7 +162,8 @@ const models: Model[] = [
       maxHeight: "2200 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
-      weight: "540 кг"
+      weight: "540 кг",
+      type: "стационарный"
     },
     images: [
       "https://cdn.poehali.dev/files/TS-3000SPS-TP.jpg",
@@ -202,7 +207,8 @@ const models: Model[] = [
       maxHeight: "3000 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
-      weight: "580 кг"
+      weight: "580 кг",
+      type: "стационарный"
     },
     images: ["https://cdn.poehali.dev/files/TS3000MR-MT.jpg"]
   },
@@ -226,7 +232,8 @@ const models: Model[] = [
       maxHeight: "3000 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
-      weight: "600 кг"
+      weight: "600 кг",
+      type: "стационарный"
     },
     images: [
       "https://cdn.poehali.dev/files/TS3000SPS-MT.jpg",
@@ -262,7 +269,8 @@ const models: Model[] = [
       maxHeight: "3000 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
-      weight: "620 кг"
+      weight: "620 кг",
+      type: "стационарный"
     },
     images: [
       "https://cdn.poehali.dev/files/TS3000MR-MT-TP.png"
@@ -288,9 +296,35 @@ const models: Model[] = [
       maxHeight: "3000 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
-      weight: "640 кг"
+      weight: "640 кг",
+      type: "стационарный"
     },
     images: ["https://cdn.poehali.dev/files/1.jpg"]
+  },
+  {
+    id: "robo-ms",
+    name: "ROBO-MS",
+    inStock: true,
+    price: "По запросу",
+    description: "Мобильный паллетообмотчик для упаковки грузов в любом месте склада или производства.",
+    features: [
+      "Мобильная конструкция",
+      "Автономная работа",
+      "Высокая маневренность",
+      "Компактное хранение"
+    ],
+    specs: {
+      voltage: "220V",
+      power: "0.95 кВт",
+      turntableSize: "1650x1650 мм",
+      maxLoad: "нет",
+      maxHeight: "2400 мм",
+      wrappingSpeed: "не применимо",
+      turntableSpeed: "не применимо",
+      weight: "520 кг",
+      type: "мобильный"
+    },
+    images: ["https://cdn.poehali.dev/files/ROBO-MS.jpg"]
   }
 ];
 
@@ -669,11 +703,19 @@ export default function Index() {
                     </td>
                   ))}
                 </tr>
-                <tr className="hover:bg-gray-50">
+                <tr className="border-b hover:bg-gray-50">
                   <td className="px-4 py-3 font-medium">Вес оборудования</td>
                   {models.map((model) => (
                     <td key={model.id} className="px-4 py-3 text-center">
                       {model.specs.weight}
+                    </td>
+                  ))}
+                </tr>
+                <tr className="hover:bg-gray-50">
+                  <td className="px-4 py-3 font-medium">Тип оборудования</td>
+                  {models.map((model) => (
+                    <td key={model.id} className="px-4 py-3 text-center font-semibold">
+                      {model.specs.type}
                     </td>
                   ))}
                 </tr>
