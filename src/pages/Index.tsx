@@ -478,28 +478,30 @@ export default function Index() {
 
       {/* Hero Section */}
       <section 
-        className="relative pt-24 pb-16 bg-contain bg-center bg-no-repeat min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center"
+        className="relative pt-24 pb-8 bg-contain bg-center bg-no-repeat min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center"
         style={{ backgroundImage: 'url(https://cdn.poehali.dev/files/баннер.jpg)' }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/80 to-white/90"></div>
         <div className="container mx-auto px-4 relative z-10 w-full">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-              Паллетообмотчики <span className="text-primary uppercase tracking-wider font-bold">ТЕХНОСИБ</span>
+          <div className="max-w-5xl mx-auto text-center space-y-8">
+            <h1 className="text-5xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-gray-900 leading-tight">
+              Паллетообмотчики <span className="inline-block">
+                <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="inline-block h-12 md:h-16 lg:h-20 xl:h-24 align-middle" />
+              </span>
             </h1>
-            <p className="text-xl md:text-2xl text-gray-700">
+            <p className="text-2xl md:text-3xl lg:text-4xl text-gray-700 font-semibold">
               Надежное оборудование по доступной цене
             </p>
-            <p className="text-3xl md:text-4xl font-bold text-secondary">
+            <p className="text-4xl md:text-5xl lg:text-6xl font-bold text-secondary">
               От 300 тыс.руб
             </p>
-            <div className="flex flex-wrap gap-4 pt-4 justify-center">
-              <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-lg px-8" onClick={() => scrollToSection('models')}>
-                <Icon name="Package" size={20} className="mr-2" />
+            <div className="flex flex-wrap gap-6 pt-6 justify-center">
+              <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-xl px-10 py-6" onClick={() => scrollToSection('models')}>
+                <Icon name="Package" size={24} className="mr-2" />
                 Выбрать модель
               </Button>
-              <Button size="lg" variant="outline" className="text-lg px-8" onClick={() => setDialogOpen(true)}>
-                <Icon name="Phone" size={20} className="mr-2" />
+              <Button size="lg" variant="outline" className="text-xl px-10 py-6" onClick={() => setDialogOpen(true)}>
+                <Icon name="Phone" size={24} className="mr-2" />
                 Получить КП
               </Button>
             </div>
@@ -508,7 +510,7 @@ export default function Index() {
       </section>
 
       {/* Use Cases Section */}
-      <section id="use-cases" className="py-16 bg-white">
+      <section id="use-cases" className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Где применяются паллетообмотчики
