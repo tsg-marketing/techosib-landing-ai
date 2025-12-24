@@ -175,7 +175,19 @@ const models: Model[] = [
       turntableSpeed: "4-12 об/мин",
       weight: "600 кг"
     },
-    images: ["https://cdn.poehali.dev/files/TS-3000SPS-MT.jpg"]
+    images: [
+      "https://cdn.poehali.dev/files/TS3000SPS-MT.jpg",
+      "https://cdn.poehali.dev/files/TS3000SPS-MT-1.jpg",
+      "https://cdn.poehali.dev/files/TS3000SPS-MT-2.jpg",
+      "https://cdn.poehali.dev/files/TS3000SPS-MT-3.jpg",
+      "https://cdn.poehali.dev/files/TS3000SPS-MT-4.jpg",
+      "https://cdn.poehali.dev/files/TS3000SPS-MT-5.jpg",
+      "https://cdn.poehali.dev/files/TS3000SPS-MT-6.jpg",
+      "https://cdn.poehali.dev/files/TS3000SPS-MT-7.jpg",
+      "https://cdn.poehali.dev/files/TS3000SPS-MT-8.jpg",
+      "https://cdn.poehali.dev/files/TS3000SPS-MT-9.jpg",
+      "https://cdn.poehali.dev/files/TS3000SPS-MT-10.jpg"
+    ]
   },
   {
     id: "ts3000mr-mt-tp",
