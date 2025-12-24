@@ -479,7 +479,15 @@ export default function Index() {
       <section className="pt-24 pb-16 bg-gradient-to-b from-blue-50 to-white">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="space-y-6">
+            <div className="relative lg:order-1">
+              <img 
+                src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/17628d5a-be04-4752-b750-1b229ddbe56a.jpg" 
+                alt="Паллетообмотчики ТЕХНОСИБ" 
+                className="w-full rounded-2xl shadow-2xl"
+              />
+            </div>
+            
+            <div className="space-y-6 lg:order-2">
               <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
                 Паллетообмотчики <span className="text-primary uppercase tracking-wider font-bold">ТЕХНОСИБ</span>
               </h1>
@@ -499,14 +507,6 @@ export default function Index() {
                   Получить КП
                 </Button>
               </div>
-            </div>
-            
-            <div className="relative">
-              <img 
-                src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/f9f35b89-6eae-4027-a48e-ce2d80ff4897.jpg" 
-                alt="Паллетообмотчики ТЕХНОСИБ" 
-                className="w-full rounded-2xl shadow-2xl"
-              />
             </div>
           </div>
         </div>
