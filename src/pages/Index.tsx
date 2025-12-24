@@ -11,6 +11,7 @@ import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/
 import Icon from "@/components/ui/icon";
 import ImageCarousel from "@/components/ImageCarousel";
 import Header from "@/components/sections/Header";
+import MachineCollage from "@/components/MachineCollage";
 
 // Model data structure
 interface Model {
@@ -479,12 +480,8 @@ export default function Index() {
       <section className="pt-24 pb-16 bg-gradient-to-b from-blue-50 to-white">
         <div className="container mx-auto px-4">
           <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative lg:order-1">
-              <img 
-                src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/17628d5a-be04-4752-b750-1b229ddbe56a.jpg" 
-                alt="Паллетообмотчики ТЕХНОСИБ" 
-                className="w-full rounded-2xl shadow-2xl"
-              />
+            <div className="relative lg:order-1 h-[500px]">
+              <MachineCollage />
             </div>
             
             <div className="space-y-6 lg:order-2">
