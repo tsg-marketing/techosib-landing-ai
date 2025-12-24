@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import { Button } from '@/components/ui/button';
 import { Dialog, DialogContent } from '@/components/ui/dialog';
 import Icon from '@/components/ui/icon';
@@ -30,6 +30,23 @@ export default function ImageCarousel({ images, alt, inStock }: ImageCarouselPro
     setLightboxIndex(index);
     setLightboxOpen(true);
   };
+
+  useEffect(() => {
+    const handleKeyDown = (e: KeyboardEvent) => {
+      if (!lightboxOpen) return;
+      
+      if (e.key === 'ArrowLeft') {
+        goToPreviousLightbox();
+      } else if (e.key === 'ArrowRight') {
+        goToNextLightbox();
+      } else if (e.key === 'Escape') {
+        setLightboxOpen(false);
+      }
+    };
+
+    window.addEventListener('keydown', handleKeyDown);
+    return () => window.removeEventListener('keydown', handleKeyDown);
+  }, [lightboxOpen, lightboxIndex, images.length]);
 
   const goToNextLightbox = () => {
     setLightboxIndex((prev) => (prev === images.length - 1 ? 0 : prev + 1));
@@ -182,18 +199,18 @@ export default function ImageCarousel({ images, alt, inStock }: ImageCarouselPro
                   variant="ghost"
                   size="icon"
                   onClick={goToPreviousLightbox}
-                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white h-12 w-12"
+                  className="absolute left-4 top-1/2 -translate-y-1/2 bg-white hover:bg-white/90 text-gray-900 h-16 w-16 rounded-full shadow-2xl transition-all hover:scale-110"
                 >
-                  <Icon name="ChevronLeft" size={32} />
+                  <Icon name="ChevronLeft" size={40} />
                 </Button>
                 
                 <Button
                   variant="ghost"
                   size="icon"
                   onClick={goToNextLightbox}
-                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/20 hover:bg-white/30 text-white h-12 w-12"
+                  className="absolute right-4 top-1/2 -translate-y-1/2 bg-white hover:bg-white/90 text-gray-900 h-16 w-16 rounded-full shadow-2xl transition-all hover:scale-110"
                 >
-                  <Icon name="ChevronRight" size={32} />
+                  <Icon name="ChevronRight" size={40} />
                 </Button>
 
                 <div className="absolute bottom-4 left-1/2 -translate-x-1/2 bg-black/50 text-white text-sm px-4 py-2 rounded">
