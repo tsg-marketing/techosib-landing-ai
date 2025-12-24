@@ -35,12 +35,12 @@ export default function Header({
           </div>
           
           <nav className="hidden md:flex items-center gap-8">
-            <button onClick={() => scrollToSection('models')} className="text-sm font-semibold hover:text-primary transition-colors">Модели</button>
-            <button onClick={() => scrollToSection('advantages')} className="text-sm font-semibold hover:text-primary transition-colors">Преимущества</button>
-            <button onClick={() => scrollToSection('specs')} className="text-sm font-semibold hover:text-primary transition-colors">Характеристики</button>
-            <button onClick={() => scrollToSection('service')} className="text-sm font-semibold hover:text-primary transition-colors">Сервис</button>
-            <button onClick={() => scrollToSection('faq')} className="text-sm font-semibold hover:text-primary transition-colors">FAQ</button>
-            <button onClick={() => scrollToSection('contacts')} className="text-sm font-semibold hover:text-primary transition-colors">Контакты</button>
+            <button onClick={() => scrollToSection('models')} className="text-base font-semibold hover:text-primary transition-colors">Модели</button>
+            <button onClick={() => scrollToSection('advantages')} className="text-base font-semibold hover:text-primary transition-colors">Преимущества</button>
+            <button onClick={() => scrollToSection('specs')} className="text-base font-semibold hover:text-primary transition-colors">Характеристики</button>
+            <button onClick={() => scrollToSection('service')} className="text-base font-semibold hover:text-primary transition-colors">Сервис</button>
+            <button onClick={() => scrollToSection('faq')} className="text-base font-semibold hover:text-primary transition-colors">FAQ</button>
+            <button onClick={() => scrollToSection('contacts')} className="text-base font-semibold hover:text-primary transition-colors">Контакты</button>
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
@@ -91,12 +91,12 @@ export default function Header({
 
         {mobileMenuOpen && (
           <nav className="md:hidden mt-4 pb-4 space-y-3 animate-fade-in">
-            <button onClick={() => scrollToSection('models')} className="block w-full text-left py-2 text-sm font-semibold hover:text-primary transition-colors">Модели</button>
-            <button onClick={() => scrollToSection('advantages')} className="block w-full text-left py-2 text-sm font-semibold hover:text-primary transition-colors">Преимущества</button>
-            <button onClick={() => scrollToSection('specs')} className="block w-full text-left py-2 text-sm font-semibold hover:text-primary transition-colors">Характеристики</button>
-            <button onClick={() => scrollToSection('service')} className="block w-full text-left py-2 text-sm font-semibold hover:text-primary transition-colors">Сервис</button>
-            <button onClick={() => scrollToSection('faq')} className="block w-full text-left py-2 text-sm font-semibold hover:text-primary transition-colors">FAQ</button>
-            <button onClick={() => scrollToSection('contacts')} className="block w-full text-left py-2 text-sm font-semibold hover:text-primary transition-colors">Контакты</button>
+            <button onClick={() => scrollToSection('models')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Модели</button>
+            <button onClick={() => scrollToSection('advantages')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Преимущества</button>
+            <button onClick={() => scrollToSection('specs')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Характеристики</button>
+            <button onClick={() => scrollToSection('service')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Сервис</button>
+            <button onClick={() => scrollToSection('faq')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">FAQ</button>
+            <button onClick={() => scrollToSection('contacts')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Контакты</button>
             <a href="tel:88005004054" className="block py-2 text-lg font-semibold text-blue-900">8-800-500-40-54</a>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
