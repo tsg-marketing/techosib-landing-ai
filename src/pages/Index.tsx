@@ -477,37 +477,31 @@ export default function Index() {
       />
 
       {/* Hero Section */}
-      <section className="pt-24 pb-16 bg-gradient-to-b from-blue-50 to-white">
-        <div className="container mx-auto px-4">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
-            <div className="relative lg:order-1">
-              <img 
-                src="https://cdn.poehali.dev/files/баннер.jpg" 
-                alt="Паллетообмотчики ТЕХНОСИБ" 
-                className="w-full rounded-2xl shadow-2xl"
-              />
-            </div>
-            
-            <div className="space-y-6 lg:order-2">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                Паллетообмотчики <span className="text-primary uppercase tracking-wider font-bold">ТЕХНОСИБ</span>
-              </h1>
-              <p className="text-xl md:text-2xl text-gray-700">
-                Надежное оборудование по доступной цене
-              </p>
-              <p className="text-3xl md:text-4xl font-bold text-secondary">
-                От 300 тыс.руб
-              </p>
-              <div className="flex flex-wrap gap-4 pt-4">
-                <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-lg px-8" onClick={() => scrollToSection('models')}>
-                  <Icon name="Package" size={20} className="mr-2" />
-                  Выбрать модель
-                </Button>
-                <Button size="lg" variant="outline" className="text-lg px-8" onClick={() => setDialogOpen(true)}>
-                  <Icon name="Phone" size={20} className="mr-2" />
-                  Получить КП
-                </Button>
-              </div>
+      <section 
+        className="relative pt-24 pb-16 bg-cover bg-center bg-no-repeat"
+        style={{ backgroundImage: 'url(https://cdn.poehali.dev/files/баннер.jpg)' }}
+      >
+        <div className="absolute inset-0 bg-white/80"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-4xl mx-auto text-center space-y-6">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+              Паллетообмотчики <span className="text-primary uppercase tracking-wider font-bold">ТЕХНОСИБ</span>
+            </h1>
+            <p className="text-xl md:text-2xl text-gray-700">
+              Надежное оборудование по доступной цене
+            </p>
+            <p className="text-3xl md:text-4xl font-bold text-secondary">
+              От 300 тыс.руб
+            </p>
+            <div className="flex flex-wrap gap-4 pt-4 justify-center">
+              <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-lg px-8" onClick={() => scrollToSection('models')}>
+                <Icon name="Package" size={20} className="mr-2" />
+                Выбрать модель
+              </Button>
+              <Button size="lg" variant="outline" className="text-lg px-8" onClick={() => setDialogOpen(true)}>
+                <Icon name="Phone" size={20} className="mr-2" />
+                Получить КП
+              </Button>
             </div>
           </div>
         </div>
