@@ -34,6 +34,8 @@ export function usePrices() {
         if (cached) {
           const { data, timestamp } = JSON.parse(cached);
           if (now - timestamp < CACHE_DURATION) {
+            console.log('Using cached prices:', data.prices);
+            console.log('Cached min price:', data.min_price);
             setPrices(data.prices);
             setMinPrice(data.min_price);
             setLoading(false);
@@ -54,6 +56,9 @@ export function usePrices() {
           Object.entries(result.prices).forEach(([model, data]) => {
             pricesMap[model] = data.price;
           });
+
+          console.log('Loaded prices from API:', pricesMap);
+          console.log('Min price:', result.min_price);
 
           setPrices(pricesMap);
           setMinPrice(result.min_price);

@@ -389,7 +389,7 @@ const faqItems = [
 ];
 
 export default function Index() {
-  const { prices, minPrice } = usePrices();
+  const { prices, minPrice, loading } = usePrices();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState("");
@@ -402,7 +402,10 @@ export default function Index() {
   });
 
   const getPrice = (modelName: string): string => {
-    return prices[modelName] || models.find(m => m.name === modelName)?.price || "по запросу";
+    if (Object.keys(prices).length > 0 && prices[modelName]) {
+      return prices[modelName];
+    }
+    return models.find(m => m.name === modelName)?.price || "по запросу";
   };
 
   const scrollToSection = (id: string) => {
