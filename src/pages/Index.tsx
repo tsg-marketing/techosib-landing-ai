@@ -40,7 +40,7 @@ const models: Model[] = [
     id: "ts3000mr-h",
     name: "TS3000MR-H",
     inStock: true,
-    price: "по запросу",
+    price: "300 000",
     description: "Базовая модель с ручным креплением пленки. Идеальна для небольших складов и производств.",
     features: [
       "Ручное крепление пленки",
@@ -86,7 +86,7 @@ const models: Model[] = [
     id: "ts3000sps-h",
     name: "TS3000SPS-H",
     inStock: true,
-    price: "по запросу",
+    price: "350 000",
     description: "Модель с автоматической подачей и обрезкой пленки. Повышенная производительность.",
     features: [
       "Автоматическая подача пленки",
@@ -114,7 +114,7 @@ const models: Model[] = [
   {
     id: "ts3000mr-tp",
     name: "TS3000MR-TP",
-    price: "по запросу",
+    price: "380 000",
     description: "Модель с верхним прижимом груза для дополнительной фиксации нестабильных паллет.",
     features: [
       "Верхний прижим груза",
@@ -141,7 +141,7 @@ const models: Model[] = [
     id: "ts3000sps-tp",
     name: "TS3000SPS-TP",
     inStock: true,
-    price: "по запросу",
+    price: "430 000",
     description: "Автоматическая модель с верхним прижимом. Максимальная надежность упаковки.",
     features: [
       "Автоматическая подача и обрезка",
@@ -185,7 +185,7 @@ const models: Model[] = [
     id: "ts3000mr-mt",
     name: "TS3000MR-MT",
     inStock: false,
-    price: "по запросу",
+    price: "420 000",
     description: "Модель с увеличенной мачтой для упаковки высоких паллет до 3000 мм.",
     features: [
       "Высота обмотки до 3000 мм",
@@ -209,7 +209,7 @@ const models: Model[] = [
     id: "ts3000sps-mt",
     name: "TS3000SPS-MT",
     inStock: true,
-    price: "по запросу",
+    price: "470 000",
     description: "Автоматическая модель с увеличенной мачтой. Для высоких грузов с полной автоматизацией.",
     features: [
       "Автоматическая подача и обрезка",
@@ -245,7 +245,7 @@ const models: Model[] = [
     id: "ts3000mr-mt-tp",
     name: "TS3000MR-MT-TP",
     inStock: false,
-    price: "по запросу",
+    price: "500 000",
     description: "Максимальная комплектация с увеличенной мачтой и верхним прижимом.",
     features: [
       "Высота обмотки до 3000 мм",
@@ -271,7 +271,7 @@ const models: Model[] = [
     id: "ts3000sps-mt-tp",
     name: "TS3000SPS-MT-TP",
     inStock: false,
-    price: "по запросу",
+    price: "550 000",
     description: "Топовая модель с полной автоматизацией, увеличенной мачтой и верхним прижимом.",
     features: [
       "Полная автоматизация процесса",
@@ -493,7 +493,7 @@ export default function Index() {
               Надежное оборудование по доступной цене
             </p>
             <p className="text-4xl md:text-5xl lg:text-6xl font-bold text-secondary">
-              Цены по запросу
+              От 300 тыс.руб
             </p>
             <div className="flex flex-wrap gap-6 pt-6 justify-center">
               <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-xl px-10 py-6" onClick={() => scrollToSection('models')}>
