@@ -43,7 +43,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         '6368': 'TS3000MR-MT',
         '6367': 'TS3000SPS-MT',
         '6369': 'TS3000MR-MT-TP',
-        '6370': 'TS3000SPS-MT-TP'
+        '6370': 'TS3000SPS-MT-TP',
+        '5322': 'ROBO-MS'
     }
     
     prices = {}
