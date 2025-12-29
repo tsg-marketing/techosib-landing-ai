@@ -299,7 +299,7 @@ const models: Model[] = [
       weight: "640 кг",
       type: "стационарный"
     },
-    images: ["https://cdn.poehali.dev/files/1.jpg"]
+    images: ["https://cdn.poehali.dev/files/ts3000sps-mt-tp.jpg"]
   },
   {
     id: "robo-ms",
