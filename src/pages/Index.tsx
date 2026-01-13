@@ -29,6 +29,7 @@ interface Model {
     maxHeight: string;
     wrappingSpeed: string;
     turntableSpeed: string;
+    carriageSpeed: string;
     weight: string;
     type: string;
   };
@@ -43,21 +44,23 @@ const models: Model[] = [
     name: "TS3000MR-H",
     inStock: true,
     price: "300 000",
-    description: "Базовая модель с ручным креплением пленки. Идеальна для небольших складов и производств.",
+    description: "Каретка MR – механическая регулировка натяжения плёнки на каретке (без предварительного растяжения плёнки).",
     features: [
-      "Ручное крепление пленки",
-      "Простота в эксплуатации",
-      "Надежная конструкция",
-      "Экономичное решение"
+      "Размеры паллет 500×1200 мм и 1000×1200 мм",
+      "Высота паллет до 2400 мм",
+      "Вес паллет до 2000 кг",
+      "Привод кареткоповоротного стола – цепной",
+      "10 пользовательских программ в памяти"
     ],
     specs: {
-      voltage: "220V / 380V",
-      power: "1.5 кВт",
-      turntableSize: "1500x1500 мм",
+      voltage: "220V",
+      power: "1.15 кВт",
+      turntableSize: "1650 мм (диаметр)",
       maxLoad: "2000 кг",
-      maxHeight: "2000 мм",
+      maxHeight: "2400 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
+      carriageSpeed: "0-4 м/мин",
       weight: "480 кг",
       type: "стационарный"
     },
@@ -90,21 +93,23 @@ const models: Model[] = [
     name: "TS3000SPS-H",
     inStock: true,
     price: "350 000",
-    description: "Модель с автоматической подачей и обрезкой пленки. Повышенная производительность.",
+    description: "Моторизированная каретка SPS – предварительное растяжение плёнки – 250% (фиксированное), натяжение плёнки на паллете регулируется с панели управления.",
     features: [
-      "Автоматическая подача пленки",
-      "Автоматическая обрезка",
-      "Повышенная скорость работы",
-      "Минимальное участие оператора"
+      "Размеры паллет 500×1200 мм и 1000×1200 мм",
+      "Высота паллет до 2400 мм",
+      "Вес паллет до 2000 кг",
+      "Привод кареткоповоротного стола – цепной",
+      "10 пользовательских программ в памяти"
     ],
     specs: {
-      voltage: "220V / 380V",
+      voltage: "220V",
       power: "1.5 кВт",
-      turntableSize: "1500x1500 мм",
+      turntableSize: "1650 мм (диаметр)",
       maxLoad: "2000 кг",
-      maxHeight: "2000 мм",
+      maxHeight: "2400 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
+      carriageSpeed: "0-4 м/мин",
       weight: "500 кг",
       type: "стационарный"
     },
@@ -119,21 +124,23 @@ const models: Model[] = [
     id: "ts3000mr-tp",
     name: "TS3000MR-TP",
     price: "380 000",
-    description: "Модель с верхним прижимом груза для дополнительной фиксации нестабильных паллет.",
+    description: "Электромеханический прижим для фиксации нестабильного груза и предотвращения его смещения в процессе обмотки. Механическая регулировка натяжения плёнки.",
     features: [
-      "Верхний прижим груза",
-      "Стабилизация паллеты",
-      "Ручное крепление пленки",
-      "Подходит для сложных грузов"
+      "Размеры паллет 500×1200 мм и 1000×1200 мм",
+      "Высота паллет до 2400 мм",
+      "Вес паллет до 2000 кг",
+      "Привод кареткоповоротного стола – цепной",
+      "10 пользовательских программ в памяти"
     ],
     specs: {
-      voltage: "220V / 380V",
-      power: "1.8 кВт",
-      turntableSize: "1500x1500 мм",
+      voltage: "220V",
+      power: "1.5 кВт",
+      turntableSize: "1650 мм (диаметр)",
       maxLoad: "2000 кг",
-      maxHeight: "2200 мм",
+      maxHeight: "2400 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
+      carriageSpeed: "0-4 м/мин",
       weight: "520 кг",
       type: "стационарный"
     },
@@ -147,21 +154,23 @@ const models: Model[] = [
     name: "TS3000SPS-TP",
     inStock: true,
     price: "430 000",
-    description: "Автоматическая модель с верхним прижимом. Максимальная надежность упаковки.",
+    description: "Электромеханический прижим для фиксации нестабильного груза и предотвращения его смещения в процессе обмотки. Предварительное растяжение плёнки – 250%.",
     features: [
-      "Автоматическая подача и обрезка",
-      "Верхний прижим груза",
-      "Полная автоматизация",
-      "Максимальная надежность"
+      "Размеры паллет 500×1200 мм и 1000×1200 мм",
+      "Высота паллет до 2400 мм",
+      "Вес паллет до 2000 кг",
+      "Привод кареткоповоротного стола – цепной",
+      "10 пользовательских программ в памяти"
     ],
     specs: {
-      voltage: "220V / 380V",
-      power: "1.8 кВт",
-      turntableSize: "1500x1500 мм",
+      voltage: "220V",
+      power: "1.89 кВт",
+      turntableSize: "1650 мм (диаметр)",
       maxLoad: "2000 кг",
-      maxHeight: "2200 мм",
+      maxHeight: "2400 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
+      carriageSpeed: "0-4 м/мин",
       weight: "540 кг",
       type: "стационарный"
     },
@@ -192,21 +201,23 @@ const models: Model[] = [
     name: "TS3000MR-MT",
     inStock: false,
     price: "420 000",
-    description: "Модель с увеличенной мачтой для упаковки высоких паллет до 3000 мм.",
+    description: "Модель оснащена E-образным столом, который позволяет легко захватывать поддон с грузом без применения подъездной рамы. Механическая регулировка натяжения плёнки на каретке.",
     features: [
-      "Высота обмотки до 3000 мм",
-      "Усиленная конструкция",
-      "Ручное крепление пленки",
-      "Для высоких грузов"
+      "Размеры паллет 800×1200 мм и 1000×1200 мм",
+      "Высота паллет до 2400 мм",
+      "Вес паллет до 800 кг",
+      "10 пользовательских программ в памяти",
+      "Цикл упаковки по заданной высоте"
     ],
     specs: {
-      voltage: "220V / 380V",
-      power: "1.8 кВт",
-      turntableSize: "1500x1500 мм",
-      maxLoad: "2000 кг",
-      maxHeight: "3000 мм",
+      voltage: "220V",
+      power: "1.2 кВт",
+      turntableSize: "1650 мм (диаметр)",
+      maxLoad: "800 кг",
+      maxHeight: "2400 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
+      carriageSpeed: "0-4 м/мин",
       weight: "580 кг",
       type: "стационарный"
     },
@@ -217,21 +228,23 @@ const models: Model[] = [
     name: "TS3000SPS-MT",
     inStock: true,
     price: "470 000",
-    description: "Автоматическая модель с увеличенной мачтой. Для высоких грузов с полной автоматизацией.",
+    description: "Модель оснащена E-образным столом, который позволяет легко захватывать поддон с грузом без применения подъездной рамы. Предварительное растяжение плёнки на каретке — 250%.",
     features: [
-      "Автоматическая подача и обрезка",
-      "Высота обмотки до 3000 мм",
-      "Высокая производительность",
-      "Усиленная конструкция"
+      "Размеры паллет 800×1200 мм и 1000×1200 мм",
+      "Высота паллет до 2400 мм",
+      "Вес паллет до 800 кг",
+      "10 пользовательских программ в памяти",
+      "Цикл упаковки по заданной высоте"
     ],
     specs: {
-      voltage: "220V / 380V",
-      power: "1.8 кВт",
-      turntableSize: "1500x1500 мм",
-      maxLoad: "2000 кг",
-      maxHeight: "3000 мм",
+      voltage: "220V",
+      power: "1.5 кВт",
+      turntableSize: "1650 мм (диаметр)",
+      maxLoad: "800 кг",
+      maxHeight: "2400 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
+      carriageSpeed: "0-4 м/мин",
       weight: "600 кг",
       type: "стационарный"
     },
@@ -254,21 +267,23 @@ const models: Model[] = [
     name: "TS3000MR-MT-TP",
     inStock: false,
     price: "500 000",
-    description: "Максимальная комплектация с увеличенной мачтой и верхним прижимом.",
+    description: "Модель оснащена E-образным столом, а также электромеханическим прижимом. Механическая регулировка натяжения плёнки на каретке.",
     features: [
-      "Высота обмотки до 3000 мм",
-      "Верхний прижим груза",
-      "Универсальное решение",
-      "Для сложных грузов"
+      "Размеры паллет 800×1200 мм и 1000×1200 мм",
+      "Высота паллет до 2400 мм",
+      "Вес паллет до 800 кг",
+      "10 пользовательских программ в памяти",
+      "Цикл упаковки по заданной высоте"
     ],
     specs: {
-      voltage: "220V / 380V",
-      power: "2.0 кВт",
-      turntableSize: "1500x1500 мм",
-      maxLoad: "2000 кг",
-      maxHeight: "3000 мм",
+      voltage: "220V",
+      power: "1.5 кВт",
+      turntableSize: "1650 мм (диаметр)",
+      maxLoad: "800 кг",
+      maxHeight: "2400 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
+      carriageSpeed: "0-4 м/мин",
       weight: "620 кг",
       type: "стационарный"
     },
@@ -281,21 +296,23 @@ const models: Model[] = [
     name: "TS3000SPS-MT-TP",
     inStock: false,
     price: "550 000",
-    description: "Топовая модель с полной автоматизацией, увеличенной мачтой и верхним прижимом.",
+    description: "Модель оснащена E-образным столом, а также электромеханическим прижимом. Предварительное растяжение плёнки — 250%, идеальное решение для упаковки нестабильных грузов.",
     features: [
-      "Полная автоматизация процесса",
-      "Высота обмотки до 3000 мм",
-      "Верхний прижим груза",
-      "Максимальная надежность и производительность"
+      "Размеры паллет 800×1200 мм и 1000×1200 мм",
+      "Высота паллет до 2400 мм",
+      "Вес паллет до 800 кг",
+      "10 пользовательских программ в памяти",
+      "Цикл упаковки по заданной высоте"
     ],
     specs: {
-      voltage: "220V / 380V",
-      power: "2.0 кВт",
-      turntableSize: "1500x1500 мм",
-      maxLoad: "2000 кг",
-      maxHeight: "3000 мм",
+      voltage: "220V",
+      power: "2.1 кВт",
+      turntableSize: "1650 мм (диаметр)",
+      maxLoad: "800 кг",
+      maxHeight: "2400 мм",
       wrappingSpeed: "0-12 об/мин",
       turntableSpeed: "4-12 об/мин",
+      carriageSpeed: "0-4 м/мин",
       weight: "640 кг",
       type: "стационарный"
     },
@@ -308,19 +325,22 @@ const models: Model[] = [
     price: "По запросу",
     description: "Мобильный паллетообмотчик для упаковки грузов в любом месте склада или производства.",
     features: [
-      "Мобильная конструкция",
-      "Автономная работа",
-      "Высокая маневренность",
-      "Компактное хранение"
+      "Без ограничения по размерам паллет",
+      "Без ограничения по весу паллет",
+      "Высота паллет до 2400 мм",
+      "Предварительное растяжение плёнки — 250%",
+      "Два свинцово-кислотных АКБ 12V 110AH",
+      "Время работы от аккумулятора до 8 ч"
     ],
     specs: {
-      voltage: "220V",
+      voltage: "АКБ",
       power: "0.95 кВт",
-      turntableSize: "1650x1650 мм",
-      maxLoad: "нет",
+      turntableSize: "—",
+      maxLoad: "—",
       maxHeight: "2400 мм",
-      wrappingSpeed: "не применимо",
-      turntableSpeed: "не применимо",
+      wrappingSpeed: "—",
+      turntableSpeed: "—",
+      carriageSpeed: "—",
       weight: "520 кг",
       type: "мобильный"
     },
@@ -357,17 +377,17 @@ const advantages = [
   {
     icon: "DollarSign",
     title: "Экономия средств",
-    description: "Снижение расхода стретч-пленки до 30% по сравнению с ручной упаковкой"
+    description: "Снижение расхода стретч-пленки от 30% до 50% по сравнению с ручной упаковкой и сокращение расходов на оплату труда"
   },
   {
     icon: "Zap",
     title: "Высокая производительность",
-    description: "Упаковка одного паллета занимает 60-90 секунд"
+    description: "Упаковка одного паллета занимает 2-3 минуты"
   },
   {
     icon: "Shield",
     title: "Надежная защита груза",
-    description: "Равномерное натяжение пленки обеспечивает качественную фиксацию"
+    description: "Надежная защита груза при транспортировке"
   },
   {
     icon: "Settings",
@@ -390,11 +410,11 @@ const advantages = [
 const faqItems = [
   {
     question: "Какая модель подойдет для моего бизнеса?",
-    answer: "Выбор модели зависит от объемов производства, высоты паллет и требований к автоматизации. Для небольших объемов подойдут базовые модели MR-H, для средних и крупных - модели с автоматикой SPS. Если у вас высокие паллеты (выше 2м), выбирайте модели с маркировкой MT. Для нестабильных грузов рекомендуем модели с верхним прижимом (TP)."
+    answer: "Выбор модели зависит от объемов производства, высоты паллет и требований к функционалу оборудования. Для небольших объемов 20-30 паллет в день подойдут базовые модели TS3000MR-H, для средних и крупных - модели TS3000SPS-H, позволяющие максимально снизить расход упаковочного материала. Для упаковки нестабильного груза, фиксации и предотвращения его смещения в процессе обмотки лучшим выбором будет модель с электромеханическим прижимом (TP). Включение цикла работы с прижимным устройством осуществляется с панели управления. E-образный стол модели (MT) позволяет легко закатывать рохлю с грузом без применения подъездной рампы. Это существенно экономит рабочее пространство склада, а так же при упаковке нестабильных грузов предотвращает их смещение (разваливание) при закатывании паллета с помощью наклонной рампы или подъеме паллета погрузчиком."
   },
   {
     question: "Какое напряжение питания требуется?",
-    answer: "Все модели работают от стандартной сети 220V или 380V (трехфазное). При заказе укажите доступное у вас напряжение, мы настроим оборудование соответствующим образом."
+    answer: "Все модели имеют стандартное подключение от сети 220V."
   },
   {
     question: "Входит ли доставка в стоимость?",
@@ -410,7 +430,7 @@ const faqItems = [
   },
   {
     question: "Какой расход стретч-пленки?",
-    answer: "Расход пленки зависит от размеров паллеты, количества слоев и степени натяжения. В среднем на один паллет уходит 150-300 метров пленки. Автоматические модели обеспечивают экономию пленки до 30% по сравнению с ручной обмоткой."
+    answer: "В зависимости от веса груза, типа паллеты (евро, стандарт) и оборотов средний расход пленки при машинной обмотке составляет 200–250 грамм. Модели с моторизированной кареткой (престрейчем) обеспечивают экономию пленки от 30% до 50% по сравнению с ручной обмоткой."
   },
   {
     question: "Как происходит техническое обслуживание?",
@@ -434,9 +454,11 @@ export default function Index() {
   const [selectedModelForQuiz, setSelectedModelForQuiz] = useState("");
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState({
-    volume: "",
-    height: "",
-    automation: ""
+    palletSize: "",
+    palletHeight: "",
+    palletWeight: "",
+    dailyVolume: "",
+    machineType: ""
   });
 
   const getPrice = (modelName: string): string => {
@@ -469,31 +491,30 @@ export default function Index() {
   };
 
   const getRecommendedModel = () => {
-    const { volume, height, automation } = quizAnswers;
+    const { palletSize, palletHeight, palletWeight, dailyVolume, machineType } = quizAnswers;
     
-    if (!volume || !height || !automation) {
+    if (!palletSize || !palletHeight || !palletWeight || !dailyVolume || !machineType) {
       return models[0];
     }
 
-    let recommendedModels = models;
+    if (machineType === "mobile") {
+      return models.find(m => m.id === "robo-ms") || models[0];
+    }
 
-    // Filter by height
-    if (height === "low") {
-      recommendedModels = recommendedModels.filter(m => !m.id.includes("-mt"));
-    } else {
+    let recommendedModels = models.filter(m => m.specs.type === "стационарный");
+
+    // Filter by pallet size and weight (MT models for 800kg)
+    if (palletSize === "800x1200" || palletWeight === "800") {
       recommendedModels = recommendedModels.filter(m => m.id.includes("-mt"));
-    }
-
-    // Filter by automation
-    if (automation === "auto") {
-      recommendedModels = recommendedModels.filter(m => m.id.includes("sps"));
     } else {
-      recommendedModels = recommendedModels.filter(m => m.id.includes("mr"));
+      recommendedModels = recommendedModels.filter(m => !m.id.includes("-mt"));
     }
 
-    // Recommend TP for high volume
-    if (volume === "high" && recommendedModels.some(m => m.id.includes("-tp"))) {
-      recommendedModels = recommendedModels.filter(m => m.id.includes("-tp"));
+    // Filter by daily volume
+    if (dailyVolume === "high" && recommendedModels.some(m => m.id.includes("sps"))) {
+      recommendedModels = recommendedModels.filter(m => m.id.includes("sps"));
+    } else if (dailyVolume === "low") {
+      recommendedModels = recommendedModels.filter(m => m.id.includes("mr"));
     }
 
     return recommendedModels[0] || models[0];
@@ -502,12 +523,12 @@ export default function Index() {
   const handleQuizComplete = () => {
     const recommended = getRecommendedModel();
     setSelectedModelForQuiz(recommended.name);
-    setQuizStep(4);
+    setQuizStep(5);
   };
 
   const resetQuiz = () => {
     setQuizStep(0);
-    setQuizAnswers({ volume: "", height: "", automation: "" });
+    setQuizAnswers({ palletSize: "", palletHeight: "", palletWeight: "", dailyVolume: "", machineType: "" });
     setSelectedModelForQuiz("");
   };
 
@@ -688,18 +709,18 @@ export default function Index() {
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Скорость обмотки</td>
+                  <td className="px-4 py-3 font-medium">Скорость вращения поворотного стола (об/мин)</td>
                   {models.map((model) => (
                     <td key={model.id} className="px-4 py-3 text-center">
-                      {model.specs.wrappingSpeed}
+                      {model.specs.turntableSpeed}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Скорость вращения стола</td>
+                  <td className="px-4 py-3 font-medium">Скорость перемещения каретки (м/мин)</td>
                   {models.map((model) => (
                     <td key={model.id} className="px-4 py-3 text-center">
-                      {model.specs.turntableSpeed}
+                      {model.specs.carriageSpeed}
                     </td>
                   ))}
                 </tr>
@@ -760,26 +781,26 @@ export default function Index() {
                 {quizStep === 0 && (
                   <div className="space-y-6">
                     <div>
-                      <Label className="text-lg mb-4 block">Какой объем упаковки планируете?</Label>
-                      <RadioGroup value={quizAnswers.volume} onValueChange={(value) => setQuizAnswers({ ...quizAnswers, volume: value })}>
+                      <Label className="text-lg mb-4 block">Размеры паллет</Label>
+                      <RadioGroup value={quizAnswers.palletSize} onValueChange={(value) => setQuizAnswers({ ...quizAnswers, palletSize: value })}>
                         <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
-                          <RadioGroupItem value="low" id="low" />
-                          <Label htmlFor="low" className="flex-1 cursor-pointer">До 20 паллет в день</Label>
+                          <RadioGroupItem value="800x1200" id="size-1" />
+                          <Label htmlFor="size-1" className="flex-1 cursor-pointer">800×1200 мм</Label>
                         </div>
                         <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
-                          <RadioGroupItem value="medium" id="medium" />
-                          <Label htmlFor="medium" className="flex-1 cursor-pointer">20-50 паллет в день</Label>
+                          <RadioGroupItem value="1000x1200" id="size-2" />
+                          <Label htmlFor="size-2" className="flex-1 cursor-pointer">1000×1200 мм</Label>
                         </div>
                         <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
-                          <RadioGroupItem value="high" id="high" />
-                          <Label htmlFor="high" className="flex-1 cursor-pointer">Более 50 паллет в день</Label>
+                          <RadioGroupItem value="other" id="size-3" />
+                          <Label htmlFor="size-3" className="flex-1 cursor-pointer">Другое</Label>
                         </div>
                       </RadioGroup>
                     </div>
                     <Button 
                       className="w-full bg-secondary hover:bg-secondary/90" 
                       onClick={() => setQuizStep(1)}
-                      disabled={!quizAnswers.volume}
+                      disabled={!quizAnswers.palletSize}
                     >
                       Далее
                     </Button>
@@ -789,15 +810,19 @@ export default function Index() {
                 {quizStep === 1 && (
                   <div className="space-y-6">
                     <div>
-                      <Label className="text-lg mb-4 block">Какая высота ваших паллет?</Label>
-                      <RadioGroup value={quizAnswers.height} onValueChange={(value) => setQuizAnswers({ ...quizAnswers, height: value })}>
+                      <Label className="text-lg mb-4 block">Высота паллет</Label>
+                      <RadioGroup value={quizAnswers.palletHeight} onValueChange={(value) => setQuizAnswers({ ...quizAnswers, palletHeight: value })}>
                         <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
-                          <RadioGroupItem value="low" id="height-low" />
-                          <Label htmlFor="height-low" className="flex-1 cursor-pointer">До 2 метров</Label>
+                          <RadioGroupItem value="2000" id="height-1" />
+                          <Label htmlFor="height-1" className="flex-1 cursor-pointer">До 2000 мм</Label>
                         </div>
                         <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
-                          <RadioGroupItem value="high" id="height-high" />
-                          <Label htmlFor="height-high" className="flex-1 cursor-pointer">До 3 метров</Label>
+                          <RadioGroupItem value="2400" id="height-2" />
+                          <Label htmlFor="height-2" className="flex-1 cursor-pointer">До 2,4 мм</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="other" id="height-3" />
+                          <Label htmlFor="height-3" className="flex-1 cursor-pointer">Другое</Label>
                         </div>
                       </RadioGroup>
                     </div>
@@ -808,7 +833,7 @@ export default function Index() {
                       <Button 
                         className="flex-1 bg-secondary hover:bg-secondary/90" 
                         onClick={() => setQuizStep(2)}
-                        disabled={!quizAnswers.height}
+                        disabled={!quizAnswers.palletHeight}
                       >
                         Далее
                       </Button>
@@ -819,25 +844,19 @@ export default function Index() {
                 {quizStep === 2 && (
                   <div className="space-y-6">
                     <div>
-                      <Label className="text-lg mb-4 block">Требуется ли автоматизация?</Label>
-                      <RadioGroup value={quizAnswers.automation} onValueChange={(value) => setQuizAnswers({ ...quizAnswers, automation: value })}>
+                      <Label className="text-lg mb-4 block">Вес паллет</Label>
+                      <RadioGroup value={quizAnswers.palletWeight} onValueChange={(value) => setQuizAnswers({ ...quizAnswers, palletWeight: value })}>
                         <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
-                          <RadioGroupItem value="manual" id="manual" />
-                          <Label htmlFor="manual" className="flex-1 cursor-pointer">
-                            <div>
-                              <div className="font-semibold">Ручное крепление</div>
-                              <div className="text-sm text-muted-foreground">Экономичный вариант</div>
-                            </div>
-                          </Label>
+                          <RadioGroupItem value="800" id="weight-1" />
+                          <Label htmlFor="weight-1" className="flex-1 cursor-pointer">До 800 кг</Label>
                         </div>
                         <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
-                          <RadioGroupItem value="auto" id="auto" />
-                          <Label htmlFor="auto" className="flex-1 cursor-pointer">
-                            <div>
-                              <div className="font-semibold">Автоматическая подача и обрезка</div>
-                              <div className="text-sm text-muted-foreground">Повышенная производительность</div>
-                            </div>
-                          </Label>
+                          <RadioGroupItem value="2000" id="weight-2" />
+                          <Label htmlFor="weight-2" className="flex-1 cursor-pointer">До 2000 кг</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="more" id="weight-3" />
+                          <Label htmlFor="weight-3" className="flex-1 cursor-pointer">Более 2000 кг</Label>
                         </div>
                       </RadioGroup>
                     </div>
@@ -847,8 +866,72 @@ export default function Index() {
                       </Button>
                       <Button 
                         className="flex-1 bg-secondary hover:bg-secondary/90" 
+                        onClick={() => setQuizStep(3)}
+                        disabled={!quizAnswers.palletWeight}
+                      >
+                        Далее
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {quizStep === 3 && (
+                  <div className="space-y-6">
+                    <div>
+                      <Label className="text-lg mb-4 block">Количество паллет в день</Label>
+                      <RadioGroup value={quizAnswers.dailyVolume} onValueChange={(value) => setQuizAnswers({ ...quizAnswers, dailyVolume: value })}>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="low" id="volume-1" />
+                          <Label htmlFor="volume-1" className="flex-1 cursor-pointer">До 50</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="medium" id="volume-2" />
+                          <Label htmlFor="volume-2" className="flex-1 cursor-pointer">До 100</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="high" id="volume-3" />
+                          <Label htmlFor="volume-3" className="flex-1 cursor-pointer">Более 100</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                    <div className="flex gap-3">
+                      <Button variant="outline" className="flex-1" onClick={() => setQuizStep(2)}>
+                        Назад
+                      </Button>
+                      <Button 
+                        className="flex-1 bg-secondary hover:bg-secondary/90" 
+                        onClick={() => setQuizStep(4)}
+                        disabled={!quizAnswers.dailyVolume}
+                      >
+                        Далее
+                      </Button>
+                    </div>
+                  </div>
+                )}
+
+                {quizStep === 4 && !selectedModelForQuiz && (
+                  <div className="space-y-6">
+                    <div>
+                      <Label className="text-lg mb-4 block">Тип паллетообмотчика</Label>
+                      <RadioGroup value={quizAnswers.machineType} onValueChange={(value) => setQuizAnswers({ ...quizAnswers, machineType: value })}>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="stationary" id="type-1" />
+                          <Label htmlFor="type-1" className="flex-1 cursor-pointer">Стационарный</Label>
+                        </div>
+                        <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
+                          <RadioGroupItem value="mobile" id="type-2" />
+                          <Label htmlFor="type-2" className="flex-1 cursor-pointer">Мобильный</Label>
+                        </div>
+                      </RadioGroup>
+                    </div>
+                    <div className="flex gap-3">
+                      <Button variant="outline" className="flex-1" onClick={() => setQuizStep(3)}>
+                        Назад
+                      </Button>
+                      <Button 
+                        className="flex-1 bg-secondary hover:bg-secondary/90" 
                         onClick={handleQuizComplete}
-                        disabled={!quizAnswers.automation}
+                        disabled={!quizAnswers.machineType}
                       >
                         Получить результат
                       </Button>
@@ -856,7 +939,7 @@ export default function Index() {
                   </div>
                 )}
 
-                {quizStep === 4 && selectedModelForQuiz && (
+                {quizStep === 5 && selectedModelForQuiz && (
                   <div className="space-y-6 text-center">
                     <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
                       <Icon name="CheckCircle" size={48} className="text-primary" />
