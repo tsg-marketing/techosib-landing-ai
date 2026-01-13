@@ -459,6 +459,8 @@ export default function Index() {
   const [selectedModelForQuiz, setSelectedModelForQuiz] = useState("");
   const [videoDialogOpen, setVideoDialogOpen] = useState(false);
   const [selectedVideo, setSelectedVideo] = useState("");
+  const [heroFormOpen, setHeroFormOpen] = useState(false);
+  const [demoFormOpen, setDemoFormOpen] = useState(false);
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState({
     palletSize: "",
@@ -574,46 +576,31 @@ export default function Index() {
             <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-8">
               От {minPrice} руб
             </p>
-          </div>
-        </div>
-      </section>
-
-      {/* Lead Form Section */}
-      <section className="py-12 bg-white">
-        <div className="container mx-auto px-4">
-          <div className="max-w-2xl mx-auto">
-            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900">
-              Получить коммерческое предложение
-            </h2>
-            <Card className="shadow-lg">
-              <CardContent className="p-6 md:p-8">
-                <form onSubmit={handleFormSubmit} className="space-y-6">
-                  <div>
-                    <Label htmlFor="hero-phone" className="text-base">Телефон *</Label>
-                    <Input id="hero-phone" type="tel" placeholder="+7 (___) ___-__-__" required className="mt-2" />
-                  </div>
-                  <div>
-                    <Label htmlFor="hero-name" className="text-base">Имя</Label>
-                    <Input id="hero-name" type="text" placeholder="Ваше имя" className="mt-2" />
-                  </div>
-                  <div className="flex items-start gap-2">
-                    <Checkbox id="hero-consent" required />
-                    <Label htmlFor="hero-consent" className="text-sm text-muted-foreground cursor-pointer">
-                      Согласен на обработку персональных данных
-                    </Label>
-                  </div>
-                  <div className="flex flex-col sm:flex-row gap-4">
-                    <Button type="submit" size="lg" className="flex-1 bg-secondary hover:bg-secondary/90 text-lg py-6">
-                      Отправить заявку
-                    </Button>
-                    <Button type="button" size="lg" variant="outline" className="flex-1 text-lg py-6" onClick={() => scrollToSection('models')}>
-                      <Icon name="Package" size={20} className="mr-2" />
-                      Выбрать модель
-                    </Button>
-                  </div>
-                </form>
-              </CardContent>
-            </Card>
+            <div className="flex flex-col sm:flex-row gap-4">
+              <Button 
+                size="lg" 
+                className="bg-secondary hover:bg-secondary/90 text-white text-lg py-6"
+                onClick={() => setHeroFormOpen(true)}
+              >
+                Получить предложение
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg py-6"
+                onClick={() => setDemoFormOpen(true)}
+              >
+                Посмотреть товар в демозале
+              </Button>
+              <Button 
+                size="lg" 
+                variant="outline" 
+                className="text-lg py-6"
+                onClick={() => scrollToSection('models')}
+              >
+                Посмотреть модели
+              </Button>
+            </div>
           </div>
         </div>
       </section>
@@ -1151,6 +1138,64 @@ export default function Index() {
               className="w-full h-full"
             ></iframe>
           </div>
+        </DialogContent>
+      </Dialog>
+
+      {/* Hero Form Dialog - Получить предложение */}
+      <Dialog open={heroFormOpen} onOpenChange={setHeroFormOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Получить коммерческое предложение</DialogTitle>
+            <DialogDescription>Заполните форму и мы отправим КП на указанный номер</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={(e) => { handleFormSubmit(e); setHeroFormOpen(false); }} className="space-y-4">
+            <div>
+              <Label htmlFor="hero-form-name">Имя *</Label>
+              <Input id="hero-form-name" type="text" placeholder="Ваше имя" required />
+            </div>
+            <div>
+              <Label htmlFor="hero-form-phone">Телефон *</Label>
+              <Input id="hero-form-phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+            </div>
+            <div className="flex items-start gap-2">
+              <Checkbox id="hero-form-consent" required />
+              <Label htmlFor="hero-form-consent" className="text-xs text-muted-foreground cursor-pointer">
+                Согласен на обработку персональных данных
+              </Label>
+            </div>
+            <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">
+              Отправить
+            </Button>
+          </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Demo Form Dialog - Посмотреть товар в демозале */}
+      <Dialog open={demoFormOpen} onOpenChange={setDemoFormOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <DialogTitle>Посмотреть товар в демозале</DialogTitle>
+            <DialogDescription>Оставьте контакты и мы свяжемся с вами для записи на просмотр</DialogDescription>
+          </DialogHeader>
+          <form onSubmit={(e) => { handleFormSubmit(e); setDemoFormOpen(false); }} className="space-y-4">
+            <div>
+              <Label htmlFor="demo-form-name">Имя *</Label>
+              <Input id="demo-form-name" type="text" placeholder="Ваше имя" required />
+            </div>
+            <div>
+              <Label htmlFor="demo-form-phone">Телефон *</Label>
+              <Input id="demo-form-phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+            </div>
+            <div className="flex items-start gap-2">
+              <Checkbox id="demo-form-consent" required />
+              <Label htmlFor="demo-form-consent" className="text-xs text-muted-foreground cursor-pointer">
+                Согласен на обработку персональных данных
+              </Label>
+            </div>
+            <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">
+              Отправить
+            </Button>
+          </form>
         </DialogContent>
       </Dialog>
 
