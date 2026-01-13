@@ -547,7 +547,7 @@ export default function Index() {
       {/* Hero Section */}
       <section 
         className="relative pt-24 pb-8 bg-contain bg-center bg-no-repeat min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center"
-        style={{ backgroundImage: 'url(https://cdn.poehali.dev/files/баннер.jpg)' }}
+        style={{ backgroundImage: 'url(https://cdn.poehali.dev/files/Паллетник_ТС.jpg)' }}
       >
         <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/80 to-white/90"></div>
         <div className="container mx-auto px-4 relative z-10 w-full">
@@ -1119,7 +1119,7 @@ export default function Index() {
               <button onClick={() => scrollToSection('contacts')} className="hover:text-white transition-colors">Контакты</button>
             </div>
             <div className="text-sm text-gray-500 pt-4">
-              2025 ТЕХНОСИБ. Все права защищены.
+              2026 ТЕХНОСИБ. Все права защищены.
             </div>
           </div>
         </div>
