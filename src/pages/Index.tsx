@@ -557,33 +557,60 @@ export default function Index() {
       />
 
       {/* Hero Section */}
-      <section 
-        className="relative pt-24 pb-8 bg-contain bg-center bg-no-repeat min-h-[600px] md:min-h-[700px] lg:min-h-[800px] flex items-center"
-        style={{ backgroundImage: 'url(https://cdn.poehali.dev/files/Паллетник_ТС.jpg)' }}
-      >
-        <div className="absolute inset-0 bg-gradient-to-b from-white/90 via-white/80 to-white/90"></div>
-        <div className="container mx-auto px-4 relative z-10 w-full">
-          <div className="max-w-5xl mx-auto text-center space-y-4 md:space-y-8">
-            <h1 className="text-3xl sm:text-4xl md:text-6xl lg:text-7xl xl:text-8xl font-bold text-gray-900 leading-tight">
-              <span className="font-serif">Паллетообмотчики</span> <span className="inline-block">
-                <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="inline-block h-8 sm:h-10 md:h-16 lg:h-20 xl:h-24 align-middle" />
-              </span>
-            </h1>
-            <p className="text-lg sm:text-xl md:text-3xl lg:text-4xl text-gray-700 font-semibold px-2">
-              Надежное оборудование по доступной цене
-            </p>
-            <p className="text-2xl sm:text-3xl md:text-5xl lg:text-6xl font-bold text-secondary">
-              От {minPrice} руб
-            </p>
-            <div className="flex flex-col sm:flex-row flex-wrap gap-4 md:gap-6 pt-4 md:pt-6 justify-center px-2">
-              <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-lg sm:text-xl md:text-2xl px-8 sm:px-12 md:px-14 py-6 md:py-8 w-full sm:w-auto" onClick={() => scrollToSection('models')}>
-                <Icon name="Package" size={24} className="mr-2" />
-                Выбрать модель
-              </Button>
-              <Button size="lg" variant="outline" className="text-lg sm:text-xl md:text-2xl px-8 sm:px-12 md:px-14 py-6 md:py-8 border-2 w-full sm:w-auto" onClick={() => setDialogOpen(true)}>
-                <Icon name="Phone" size={24} className="mr-2" />
-                Получить КП
-              </Button>
+      <section className="relative pt-24 pb-8 min-h-[700px] md:min-h-[800px] flex items-center bg-gray-50">
+        <div className="container mx-auto px-4 w-full">
+          <div className="grid lg:grid-cols-2 gap-8 items-center">
+            {/* Left: Text */}
+            <div className="space-y-6">
+              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
+                <span className="font-serif">Паллетообмотчики</span>
+                <br />
+                <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-12 md:h-16 lg:h-20 mt-4" />
+              </h1>
+              <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-semibold">
+                Надежное оборудование по доступной цене
+              </p>
+              <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary">
+                От {minPrice} руб
+              </p>
+              <div className="flex flex-col sm:flex-row gap-4 pt-4">
+                <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-lg md:text-xl px-8 py-6" onClick={() => scrollToSection('models')}>
+                  <Icon name="Package" size={24} className="mr-2" />
+                  Выбрать модель
+                </Button>
+              </div>
+            </div>
+
+            {/* Right: Image + Form */}
+            <div className="space-y-6">
+              <div className="rounded-lg overflow-hidden shadow-xl">
+                <img src="https://cdn.poehali.dev/files/Паллетник_ТС.jpg" alt="Паллетообмотчик" className="w-full h-auto" />
+              </div>
+              <Card className="shadow-xl">
+                <CardHeader>
+                  <CardTitle className="text-xl">Получить коммерческое предложение</CardTitle>
+                  <CardDescription>Заполните форму и мы отправим КП</CardDescription>
+                </CardHeader>
+                <CardContent>
+                  <form onSubmit={handleFormSubmit} className="space-y-4">
+                    <div>
+                      <Label htmlFor="hero-phone">Телефон *</Label>
+                      <Input id="hero-phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+                    </div>
+                    <div>
+                      <Label htmlFor="hero-name">Имя</Label>
+                      <Input id="hero-name" type="text" placeholder="Ваше имя" />
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Checkbox id="hero-consent" required />
+                      <Label htmlFor="hero-consent" className="text-xs text-muted-foreground cursor-pointer">
+                        Согласен на обработку персональных данных
+                      </Label>
+                    </div>
+                    <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">Отправить заявку</Button>
+                  </form>
+                </CardContent>
+              </Card>
             </div>
           </div>
         </div>
@@ -625,16 +652,16 @@ export default function Index() {
               <Card key={model.id} className="hover:shadow-xl transition-shadow flex flex-col">
                 <ImageCarousel images={model.images} alt={model.name} inStock={model.inStock} />
                 <CardHeader>
-                  <CardTitle className="text-2xl">{model.name}</CardTitle>
+                  <CardTitle className="text-2xl text-gray-900">{model.name}</CardTitle>
                   <CardDescription className="text-3xl font-bold text-secondary">
                     {getPrice(model.name)} руб
                   </CardDescription>
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
-                  <p className="text-base text-muted-foreground mb-4">{model.description}</p>
+                  <p className="text-base text-gray-700 mb-4">{model.description}</p>
                   <ul className="space-y-2 mb-6 flex-1">
                     {model.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-base">
+                      <li key={idx} className="flex items-start gap-2 text-base text-gray-700">
                         <Icon name="Check" size={18} className="text-primary mt-0.5 flex-shrink-0" />
                         <span>{feature}</span>
                       </li>
@@ -685,107 +712,87 @@ export default function Index() {
               </thead>
               <tbody>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Цена</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">Цена</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center text-secondary font-bold">
+                    <td key={model.id} className="px-4 py-3 text-center text-gray-900 font-bold">
                       {getPrice(model.name)} руб
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Напряжение</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">Напряжение</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center">
+                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
                       {model.specs.voltage}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Мощность</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">Мощность</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center">
+                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
                       {model.specs.power}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Размер поворотного стола</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">Размер поворотного стола</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center">
+                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
                       {model.specs.turntableSize}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Макс. нагрузка</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">Макс. нагрузка</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center">
+                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
                       {model.specs.maxLoad}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Макс. высота обмотки</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">Макс. высота обмотки</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center font-semibold">
+                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
                       {model.specs.maxHeight}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Скорость вращения поворотного стола (об/мин)</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">Скорость вращения поворотного стола (об/мин)</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center">
+                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
                       {model.specs.turntableSpeed}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Скорость перемещения каретки (м/мин)</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">Скорость перемещения каретки (м/мин)</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center">
+                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
                       {model.specs.carriageSpeed}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Вес оборудования</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">Вес оборудования</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center">
+                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
                       {model.specs.weight}
                     </td>
                   ))}
                 </tr>
                 <tr className="hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium">Тип оборудования</td>
+                  <td className="px-4 py-3 font-medium text-gray-900">Тип оборудования</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center font-semibold">
+                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
                       {model.specs.type}
                     </td>
                   ))}
                 </tr>
               </tbody>
             </table>
-          </div>
-        </div>
-      </section>
-
-      {/* Video Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <div className="max-w-4xl mx-auto text-center space-y-6">
-            <h2 className="text-3xl md:text-4xl font-bold text-gray-900">
-              Посмотрите видео о нашем оборудовании
-            </h2>
-            <div className="relative aspect-video rounded-lg overflow-hidden shadow-lg">
-              <iframe
-                src="https://rutube.ru/play/embed/36ca1c58ba9d91e41a902101aefb239a"
-                frameBorder="0"
-                allow="clipboard-write; autoplay"
-                allowFullScreen
-                className="w-full h-full"
-              ></iframe>
-            </div>
           </div>
         </div>
       </section>
@@ -842,7 +849,7 @@ export default function Index() {
                         </div>
                         <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
                           <RadioGroupItem value="2400" id="height-2" />
-                          <Label htmlFor="height-2" className="flex-1 cursor-pointer">До 2,4 мм</Label>
+                          <Label htmlFor="height-2" className="flex-1 cursor-pointer">До 2400 мм</Label>
                         </div>
                         <div className="flex items-center space-x-2 p-3 border rounded-lg hover:bg-gray-50">
                           <RadioGroupItem value="other" id="height-3" />
@@ -954,42 +961,40 @@ export default function Index() {
                       </Button>
                       <Button 
                         className="flex-1 bg-secondary hover:bg-secondary/90" 
-                        onClick={handleQuizComplete}
+                        onClick={() => setQuizStep(5)}
                         disabled={!quizAnswers.machineType}
                       >
-                        Получить результат
+                        Далее
                       </Button>
                     </div>
                   </div>
                 )}
 
-                {quizStep === 5 && selectedModelForQuiz && (
-                  <div className="space-y-6 text-center">
-                    <div className="w-20 h-20 bg-primary/10 rounded-full flex items-center justify-center mx-auto">
-                      <Icon name="CheckCircle" size={48} className="text-primary" />
+                {quizStep === 5 && (
+                  <form onSubmit={handleFormSubmit} className="space-y-4">
+                    <div>
+                      <Label htmlFor="quiz-name">Имя *</Label>
+                      <Input id="quiz-name" type="text" placeholder="Ваше имя" required />
                     </div>
                     <div>
-                      <h3 className="text-2xl font-bold mb-2">Рекомендуем модель</h3>
-                      <p className="text-3xl font-bold text-primary mb-4">{selectedModelForQuiz}</p>
-                      <p className="text-muted-foreground mb-6">
-                        {models.find(m => m.name === selectedModelForQuiz)?.description}
-                      </p>
-                      <div className="text-2xl font-bold text-secondary mb-6">
-                        {getPrice(selectedModelForQuiz)} руб
-                      </div>
+                      <Label htmlFor="quiz-phone">Телефон *</Label>
+                      <Input id="quiz-phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+                    </div>
+                    <div className="flex items-start gap-2">
+                      <Checkbox id="quiz-consent" required />
+                      <Label htmlFor="quiz-consent" className="text-xs text-muted-foreground cursor-pointer">
+                        Согласен на обработку персональных данных
+                      </Label>
                     </div>
                     <div className="flex gap-3">
-                      <Button variant="outline" className="flex-1" onClick={resetQuiz}>
-                        Пройти заново
+                      <Button type="button" variant="outline" className="flex-1" onClick={resetQuiz}>
+                        Назад
                       </Button>
-                      <Button 
-                        className="flex-1 bg-secondary hover:bg-secondary/90" 
-                        onClick={() => openModelDialog(selectedModelForQuiz)}
-                      >
-                        Получить КП
+                      <Button type="submit" className="flex-1 bg-secondary hover:bg-secondary/90">
+                        Оставить заявку
                       </Button>
                     </div>
-                  </div>
+                  </form>
                 )}
               </CardContent>
             </Card>
