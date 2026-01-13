@@ -560,11 +560,11 @@ export default function Index() {
 
       {/* Hero Section */}
       <section 
-        className="relative pt-24 pb-16 min-h-[600px] md:min-h-[700px] flex items-center bg-cover bg-center"
+        className="relative pt-24 pb-16 min-h-[600px] md:min-h-[700px] flex items-center bg-contain bg-right bg-no-repeat"
         style={{ backgroundImage: 'url(https://cdn.poehali.dev/files/Паллетник_ТС.jpg)' }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/70"></div>
-        <div className="container mx-auto px-4 relative z-10">
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent"></div>
+        <div className="w-full px-4 relative z-10">
           <div className="max-w-2xl">
             <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight mb-4">
               <span className="font-serif">Паллетообмотчики</span>
@@ -586,8 +586,7 @@ export default function Index() {
               </Button>
               <Button 
                 size="lg" 
-                variant="outline" 
-                className="text-lg py-6"
+                className="bg-primary/20 hover:bg-primary/30 text-gray-900 border border-primary/30 text-lg py-6"
                 onClick={() => setDemoFormOpen(true)}
               >
                 Посмотреть товар в демозале
