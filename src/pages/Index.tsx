@@ -35,6 +35,7 @@ interface Model {
   };
   images: string[];
   inStock?: boolean;
+  videoUrl?: string;
 }
 
 // All 9 models
@@ -45,6 +46,7 @@ const models: Model[] = [
     inStock: true,
     price: "300 000",
     description: "Каретка MR – механическая регулировка натяжения плёнки на каретке (без предварительного растяжения плёнки).",
+    videoUrl: "https://rutube.ru/video/3d5b579103f00442bcbcf94e1a75a079/",
     features: [
       "Размеры паллет 500×1200 мм и 1000×1200 мм",
       "Высота паллет до 2400 мм",
@@ -94,6 +96,7 @@ const models: Model[] = [
     inStock: true,
     price: "350 000",
     description: "Моторизированная каретка SPS – предварительное растяжение плёнки – 250% (фиксированное), натяжение плёнки на паллете регулируется с панели управления.",
+    videoUrl: "https://rutube.ru/video/36ca1c58ba9d91e41a902101aefb239a/",
     features: [
       "Размеры паллет 500×1200 мм и 1000×1200 мм",
       "Высота паллет до 2400 мм",
@@ -452,6 +455,8 @@ export default function Index() {
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState("");
   const [selectedModelForQuiz, setSelectedModelForQuiz] = useState("");
+  const [videoDialogOpen, setVideoDialogOpen] = useState(false);
+  const [selectedVideo, setSelectedVideo] = useState("");
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState({
     palletSize: "",
@@ -488,6 +493,11 @@ export default function Index() {
   const openModelDialog = (modelName: string) => {
     setSelectedModel(modelName);
     setDialogOpen(true);
+  };
+
+  const openVideoDialog = (videoUrl: string) => {
+    setSelectedVideo(videoUrl);
+    setVideoDialogOpen(true);
   };
 
   const getRecommendedModel = () => {
@@ -628,12 +638,24 @@ export default function Index() {
                       </li>
                     ))}
                   </ul>
-                  <Button 
-                    className="w-full bg-primary hover:bg-primary/90 text-white text-lg py-6" 
-                    onClick={() => openModelDialog(model.name)}
-                  >
-                    Получить КП
-                  </Button>
+                  <div className="space-y-2">
+                    {model.videoUrl && (
+                      <Button 
+                        variant="outline"
+                        className="w-full text-base py-5" 
+                        onClick={() => openVideoDialog(model.videoUrl!)}
+                      >
+                        <Icon name="Play" size={18} className="mr-2" />
+                        Посмотреть видео
+                      </Button>
+                    )}
+                    <Button 
+                      className="w-full bg-primary hover:bg-primary/90 text-white text-lg py-6" 
+                      onClick={() => openModelDialog(model.name)}
+                    >
+                      Получить КП
+                    </Button>
+                  </div>
                 </CardContent>
               </Card>
             ))}
@@ -1104,6 +1126,24 @@ export default function Index() {
           </div>
         </div>
       </section>
+
+      {/* Video Dialog */}
+      <Dialog open={videoDialogOpen} onOpenChange={setVideoDialogOpen}>
+        <DialogContent className="sm:max-w-4xl">
+          <DialogHeader>
+            <DialogTitle>Видео о модели</DialogTitle>
+          </DialogHeader>
+          <div className="relative aspect-video rounded-lg overflow-hidden">
+            <iframe
+              src={selectedVideo.replace('/video/', '/play/embed/')}
+              frameBorder="0"
+              allow="clipboard-write; autoplay"
+              allowFullScreen
+              className="w-full h-full"
+            ></iframe>
+          </div>
+        </DialogContent>
+      </Dialog>
 
       {/* Footer */}
       <footer className="bg-gray-900 text-white py-8">
