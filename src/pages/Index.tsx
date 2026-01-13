@@ -557,61 +557,63 @@ export default function Index() {
       />
 
       {/* Hero Section */}
-      <section className="relative pt-24 pb-8 min-h-[700px] md:min-h-[800px] flex items-center bg-gray-50">
-        <div className="container mx-auto px-4 w-full">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
-            {/* Left: Text */}
-            <div className="space-y-6">
-              <h1 className="text-4xl md:text-5xl lg:text-6xl font-bold text-gray-900 leading-tight">
-                <span className="font-serif">Паллетообмотчики</span>
-                <br />
-                <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-12 md:h-16 lg:h-20 mt-4" />
-              </h1>
-              <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-semibold">
-                Надежное оборудование по доступной цене
-              </p>
-              <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary">
-                От {minPrice} руб
-              </p>
-              <div className="flex flex-col sm:flex-row gap-4 pt-4">
-                <Button size="lg" className="bg-secondary hover:bg-secondary/90 text-lg md:text-xl px-8 py-6" onClick={() => scrollToSection('models')}>
-                  <Icon name="Package" size={24} className="mr-2" />
-                  Выбрать модель
-                </Button>
-              </div>
-            </div>
+      <section 
+        className="relative pt-24 pb-16 min-h-[600px] md:min-h-[700px] flex items-center bg-cover bg-center"
+        style={{ backgroundImage: 'url(https://cdn.poehali.dev/files/Паллетник_ТС.jpg)' }}
+      >
+        <div className="absolute inset-0 bg-gradient-to-r from-white/95 via-white/85 to-white/70"></div>
+        <div className="container mx-auto px-4 relative z-10">
+          <div className="max-w-2xl">
+            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight mb-4">
+              <span className="font-serif">Паллетообмотчики</span>
+            </h1>
+            <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-12 md:h-16 lg:h-20 mb-6" />
+            <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-semibold mb-4">
+              Надежное оборудование по доступной цене
+            </p>
+            <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-8">
+              От {minPrice} руб
+            </p>
+          </div>
+        </div>
+      </section>
 
-            {/* Right: Image + Form */}
-            <div className="space-y-6">
-              <div className="rounded-lg overflow-hidden shadow-xl">
-                <img src="https://cdn.poehali.dev/files/Паллетник_ТС.jpg" alt="Паллетообмотчик" className="w-full h-auto" />
-              </div>
-              <Card className="shadow-xl">
-                <CardHeader>
-                  <CardTitle className="text-xl">Получить коммерческое предложение</CardTitle>
-                  <CardDescription>Заполните форму и мы отправим КП</CardDescription>
-                </CardHeader>
-                <CardContent>
-                  <form onSubmit={handleFormSubmit} className="space-y-4">
-                    <div>
-                      <Label htmlFor="hero-phone">Телефон *</Label>
-                      <Input id="hero-phone" type="tel" placeholder="+7 (___) ___-__-__" required />
-                    </div>
-                    <div>
-                      <Label htmlFor="hero-name">Имя</Label>
-                      <Input id="hero-name" type="text" placeholder="Ваше имя" />
-                    </div>
-                    <div className="flex items-start gap-2">
-                      <Checkbox id="hero-consent" required />
-                      <Label htmlFor="hero-consent" className="text-xs text-muted-foreground cursor-pointer">
-                        Согласен на обработку персональных данных
-                      </Label>
-                    </div>
-                    <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">Отправить заявку</Button>
-                  </form>
-                </CardContent>
-              </Card>
-            </div>
+      {/* Lead Form Section */}
+      <section className="py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-2xl mx-auto">
+            <h2 className="text-3xl md:text-4xl font-bold text-center mb-8 text-gray-900">
+              Получить коммерческое предложение
+            </h2>
+            <Card className="shadow-lg">
+              <CardContent className="p-6 md:p-8">
+                <form onSubmit={handleFormSubmit} className="space-y-6">
+                  <div>
+                    <Label htmlFor="hero-phone" className="text-base">Телефон *</Label>
+                    <Input id="hero-phone" type="tel" placeholder="+7 (___) ___-__-__" required className="mt-2" />
+                  </div>
+                  <div>
+                    <Label htmlFor="hero-name" className="text-base">Имя</Label>
+                    <Input id="hero-name" type="text" placeholder="Ваше имя" className="mt-2" />
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Checkbox id="hero-consent" required />
+                    <Label htmlFor="hero-consent" className="text-sm text-muted-foreground cursor-pointer">
+                      Согласен на обработку персональных данных
+                    </Label>
+                  </div>
+                  <div className="flex flex-col sm:flex-row gap-4">
+                    <Button type="submit" size="lg" className="flex-1 bg-secondary hover:bg-secondary/90 text-lg py-6">
+                      Отправить заявку
+                    </Button>
+                    <Button type="button" size="lg" variant="outline" className="flex-1 text-lg py-6" onClick={() => scrollToSection('models')}>
+                      <Icon name="Package" size={20} className="mr-2" />
+                      Выбрать модель
+                    </Button>
+                  </div>
+                </form>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
