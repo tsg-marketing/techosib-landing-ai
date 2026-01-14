@@ -75,16 +75,11 @@ const models: Model[] = [
       "https://cdn.poehali.dev/files/TS-3000MR-H-5.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-6.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-7.jpg",
-      "https://cdn.poehali.dev/files/TS-3000MR-H-8.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-9.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-10.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-11.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-12.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-13.jpg",
-      "https://cdn.poehali.dev/files/TS-3000MR-H-14.jpg",
-      "https://cdn.poehali.dev/files/TS-3000MR-H-15.jpg",
-      "https://cdn.poehali.dev/files/TS-3000MR-H-16.jpg",
-      "https://cdn.poehali.dev/files/TS-3000MR-H-17.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-18.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-19.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-20.jpg"
@@ -188,16 +183,12 @@ const models: Model[] = [
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-6.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-7.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-8.jpg",
-      "https://cdn.poehali.dev/files/TS-3000SPS-TP-9.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-10.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-11.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-12.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-13.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-14.jpg",
-      "https://cdn.poehali.dev/files/TS-3000SPS-TP-15.jpg",
-      "https://cdn.poehali.dev/files/TS-3000SPS-TP-16.jpg",
-      "https://cdn.poehali.dev/files/TS-3000SPS-TP-17.jpg",
-      "https://cdn.poehali.dev/files/TS-3000SPS-TP-18.jpg"
+      "https://cdn.poehali.dev/files/TS-3000SPS-TP-15.jpg"
     ]
   },
   {
