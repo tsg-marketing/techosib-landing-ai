@@ -5,7 +5,7 @@ export default function MachineCollage() {
         src="https://cdn.poehali.dev/files/6I8A7424 (2).jpg" 
         alt="Паллетообмотчик ROBO-MS" 
         className="max-w-full max-h-full object-contain"
-        style={{ maxHeight: '500px' }}
+        style={{ maxHeight: '350px', marginTop: '40px' }}
       />
     </div>
   );
