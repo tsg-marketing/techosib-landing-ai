@@ -44,7 +44,7 @@ export default function Header({
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
-            <a href="tel:88005004054" className="text-lg font-semibold text-blue-900 hover:text-secondary transition-colors">8-800-500-40-54</a>
+            <a href="tel:88005057238" className="text-lg font-semibold text-blue-900 hover:text-secondary transition-colors">8-800-505-72-38</a>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="bg-secondary hover:bg-secondary/90">Получить КП</Button>
@@ -105,7 +105,7 @@ export default function Header({
             <button onClick={() => scrollToSection('service')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Сервис</button>
             <button onClick={() => scrollToSection('faq')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">FAQ</button>
             <button onClick={() => scrollToSection('contacts')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Контакты</button>
-            <a href="tel:88005004054" className="block py-2 text-lg font-semibold text-blue-900">8-800-500-40-54</a>
+            <a href="tel:88005057238" className="block py-2 text-lg font-semibold text-blue-900">8-800-505-72-38</a>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="w-full bg-secondary hover:bg-secondary/90">Получить КП</Button>

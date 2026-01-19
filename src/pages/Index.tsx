@@ -720,6 +720,40 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Video Gallery Section */}
+      <section className="py-16 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            Видеообзоры оборудования
+          </h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            Смотрите, как работают наши паллетообмотчики в реальных условиях
+          </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {models.filter(m => m.videoUrl).map((model) => (
+              <Card key={model.id} className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" onClick={() => openVideoDialog(model.videoUrl!)}>
+                <div className="relative aspect-video bg-gray-900">
+                  <img 
+                    src={model.images[0]} 
+                    alt={model.name}
+                    className="w-full h-full object-cover opacity-70"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors">
+                    <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-2xl">
+                      <Icon name="Play" size={32} className="text-white ml-1" />
+                    </div>
+                  </div>
+                </div>
+                <CardContent className="p-4">
+                  <h3 className="text-xl font-bold mb-2">{model.name}</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{model.description}</p>
+                </CardContent>
+              </Card>
+            ))}
+          </div>
+        </div>
+      </section>
+
       {/* Models Section */}
       <section id="models" className="py-16 bg-white">
         <div className="container mx-auto px-4">
@@ -783,9 +817,9 @@ export default function Index() {
             <table className="w-full bg-white rounded-lg shadow-lg">
               <thead className="bg-primary text-white">
                 <tr>
-                  <th className="px-4 py-3 text-left font-semibold">Характеристика</th>
+                  <th className="px-2 py-3 text-left font-semibold text-sm">Характеристика</th>
                   {models.map((model) => (
-                    <th key={model.id} className="px-4 py-3 text-center font-semibold min-w-[140px]">
+                    <th key={model.id} className="px-2 py-3 text-center font-semibold text-sm min-w-[100px]">
                       {model.name}
                     </th>
                   ))}
@@ -793,81 +827,81 @@ export default function Index() {
               </thead>
               <tbody>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">Цена</td>
+                  <td className="px-2 py-2 font-medium text-gray-900 text-sm">Цена</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center text-gray-900 font-bold">
+                    <td key={model.id} className="px-2 py-2 text-center text-gray-900 font-bold text-xs">
                       {getPrice(model.name)} руб
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">Напряжение</td>
+                  <td className="px-2 py-2 font-medium text-gray-900 text-sm">Напряжение</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
+                    <td key={model.id} className="px-2 py-2 text-center text-gray-900 text-xs">
                       {model.specs.voltage}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">Мощность</td>
+                  <td className="px-2 py-2 font-medium text-gray-900 text-sm">Мощность</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
+                    <td key={model.id} className="px-2 py-2 text-center text-gray-900 text-xs">
                       {model.specs.power}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">Размер поворотного стола</td>
+                  <td className="px-2 py-2 font-medium text-gray-900 text-sm">Размер стола</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
+                    <td key={model.id} className="px-2 py-2 text-center text-gray-900 text-xs">
                       {model.specs.turntableSize}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">Макс. нагрузка</td>
+                  <td className="px-2 py-2 font-medium text-gray-900 text-sm">Макс. нагрузка</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
+                    <td key={model.id} className="px-2 py-2 text-center text-gray-900 text-xs">
                       {model.specs.maxLoad}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">Макс. высота обмотки</td>
+                  <td className="px-2 py-2 font-medium text-gray-900 text-sm">Макс. высота</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
+                    <td key={model.id} className="px-2 py-2 text-center text-gray-900 text-xs">
                       {model.specs.maxHeight}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">Скорость вращения поворотного стола (об/мин)</td>
+                  <td className="px-2 py-2 font-medium text-gray-900 text-sm">Скорость стола</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
+                    <td key={model.id} className="px-2 py-2 text-center text-gray-900 text-xs">
                       {model.specs.turntableSpeed}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">Скорость перемещения каретки (м/мин)</td>
+                  <td className="px-2 py-2 font-medium text-gray-900 text-sm">Скорость каретки</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
+                    <td key={model.id} className="px-2 py-2 text-center text-gray-900 text-xs">
                       {model.specs.carriageSpeed}
                     </td>
                   ))}
                 </tr>
                 <tr className="border-b hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">Вес оборудования</td>
+                  <td className="px-2 py-2 font-medium text-gray-900 text-sm">Вес</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
+                    <td key={model.id} className="px-2 py-2 text-center text-gray-900 text-xs">
                       {model.specs.weight}
                     </td>
                   ))}
                 </tr>
                 <tr className="hover:bg-gray-50">
-                  <td className="px-4 py-3 font-medium text-gray-900">Тип оборудования</td>
+                  <td className="px-2 py-2 font-medium text-gray-900 text-sm">Тип</td>
                   {models.map((model) => (
-                    <td key={model.id} className="px-4 py-3 text-center text-gray-900">
+                    <td key={model.id} className="px-2 py-2 text-center text-gray-900 text-xs">
                       {model.specs.type}
                     </td>
                   ))}
@@ -1199,8 +1233,8 @@ export default function Index() {
                 <CardContent className="p-6 space-y-3">
                   <Icon name="Phone" size={32} className="mx-auto" />
                   <h3 className="text-xl font-semibold">Позвоните нам</h3>
-                  <a href="tel:88005004054" className="text-2xl font-bold block hover:text-secondary transition-colors">
-                    8-800-500-40-54
+                  <a href="tel:88005057238" className="text-2xl font-bold block hover:text-secondary transition-colors">
+                    8-800-505-72-38
                   </a>
                   <p className="text-sm text-white/80">Пн-Пт: 9:00 - 18:00</p>
                 </CardContent>
@@ -1209,8 +1243,8 @@ export default function Index() {
                 <CardContent className="p-6 space-y-3">
                   <Icon name="Mail" size={32} className="mx-auto" />
                   <h3 className="text-xl font-semibold">Напишите нам</h3>
-                  <a href="mailto:info5@t-sib.ru" className="text-xl font-semibold block hover:text-secondary transition-colors">
-                    info5@t-sib.ru
+                  <a href="mailto:pallet@t-sib.ru" className="text-xl font-semibold block hover:text-secondary transition-colors">
+                    pallet@t-sib.ru
                   </a>
                   <p className="text-sm text-white/80">Ответим в течение часа</p>
                 </CardContent>
