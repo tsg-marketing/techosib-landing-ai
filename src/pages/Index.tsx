@@ -316,6 +316,7 @@ const models: Model[] = [
     inStock: true,
     price: "По запросу",
     description: "Мобильный паллетообмотчик для упаковки грузов в любом месте склада или производства.",
+    videoUrl: "https://rutube.ru/video/998b38f116a6ed24365f83277005a639/",
     features: [
       "Без ограничения по размерам паллет",
       "Без ограничения по весу паллет",
@@ -336,7 +337,35 @@ const models: Model[] = [
       weight: "520 кг",
       type: "мобильный"
     },
-    images: ["https://cdn.poehali.dev/files/ROBO-MS.jpg"]
+    images: [
+      "https://cdn.poehali.dev/files/6I8A7423 (2).jpg",
+      "https://cdn.poehali.dev/files/6I8A7424 (2).jpg",
+      "https://cdn.poehali.dev/files/6I8A7399.jpg",
+      "https://cdn.poehali.dev/files/6I8A7397.jpg",
+      "https://cdn.poehali.dev/files/6I8A7398.jpg",
+      "https://cdn.poehali.dev/files/6I8A7413.jpg",
+      "https://cdn.poehali.dev/files/6I8A7440.jpg",
+      "https://cdn.poehali.dev/files/6I8A7422.jpg",
+      "https://cdn.poehali.dev/files/6I8A7421.jpg",
+      "https://cdn.poehali.dev/files/6I8A7430.jpg",
+      "https://cdn.poehali.dev/files/6I8A7412.jpg",
+      "https://cdn.poehali.dev/files/6I8A7409.jpg",
+      "https://cdn.poehali.dev/files/6I8A7406.jpg",
+      "https://cdn.poehali.dev/files/6I8A7404.jpg",
+      "https://cdn.poehali.dev/files/6I8A7418.jpg",
+      "https://cdn.poehali.dev/files/6I8A7402.jpg",
+      "https://cdn.poehali.dev/files/6I8A7416.jpg",
+      "https://cdn.poehali.dev/files/6I8A7417.jpg",
+      "https://cdn.poehali.dev/files/6I8A7415.jpg",
+      "https://cdn.poehali.dev/files/6I8A7435.jpg",
+      "https://cdn.poehali.dev/files/6I8A7428.jpg",
+      "https://cdn.poehali.dev/files/6I8A7436.jpg",
+      "https://cdn.poehali.dev/files/6I8A7438.jpg",
+      "https://cdn.poehali.dev/files/6I8A7439.jpg",
+      "https://cdn.poehali.dev/files/6I8A7425.jpg",
+      "https://cdn.poehali.dev/files/6I8A7426.jpg",
+      "https://cdn.poehali.dev/files/6I8A7427.jpg"
+    ]
   }
 ];
 
@@ -723,8 +752,7 @@ export default function Index() {
                   <div className="space-y-2">
                     {model.videoUrl && (
                       <Button 
-                        variant="outline"
-                        className="w-full text-base py-5" 
+                        className="w-full text-base py-5 bg-red-600 hover:bg-red-700 text-white" 
                         onClick={() => openVideoDialog(model.videoUrl!)}
                       >
                         <Icon name="Play" size={18} className="mr-2" />
