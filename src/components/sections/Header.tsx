@@ -57,15 +57,23 @@ export default function Header({
                 <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div>
                     <Label htmlFor="phone">Телефон *</Label>
-                    <Input id="phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+                    <Input id="phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required />
                   </div>
                   <div>
                     <Label htmlFor="name">Имя</Label>
-                    <Input id="name" type="text" placeholder="Ваше имя" />
+                    <Input id="name" name="name" type="text" placeholder="Ваше имя" />
+                  </div>
+                  <div>
+                    <Label htmlFor="email">Email</Label>
+                    <Input id="email" name="email" type="email" placeholder="your@email.com" />
+                  </div>
+                  <div>
+                    <Label htmlFor="company">Компания</Label>
+                    <Input id="company" name="company" type="text" placeholder="Название компании" />
                   </div>
                   <div>
                     <Label htmlFor="comment">Комментарий</Label>
-                    <Textarea id="comment" placeholder="Дополнительная информация" />
+                    <Textarea id="comment" name="comment" placeholder="Дополнительная информация" />
                   </div>
                   {selectedModel && (
                     <div className="text-sm text-muted-foreground">

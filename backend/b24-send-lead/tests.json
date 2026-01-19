@@ -1,0 +1,36 @@
+{
+  "tests": [
+    {
+      "name": "Test lead submission with all fields",
+      "method": "POST",
+      "body": {
+        "name": "Иван Петров",
+        "phone": "+79001234567",
+        "email": "ivan@example.com",
+        "company": "ООО Компания",
+        "comment": "Интересует модель TS3000MR-H<br>Требуется доставка",
+        "productType": "Паллетообмотчик",
+        "modelType": "TS3000MR-H"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": "boolean"
+      },
+      "bodyMatcher": "partial"
+    },
+    {
+      "name": "Test lead submission with minimal fields",
+      "method": "POST",
+      "body": {
+        "name": "Мария Сидорова",
+        "phone": "+79009876543",
+        "comment": "Прошу связаться"
+      },
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": "boolean"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

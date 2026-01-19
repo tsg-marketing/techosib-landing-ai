@@ -474,10 +474,75 @@ export default function Index() {
     setMobileMenuOpen(false);
   };
 
-  const handleFormSubmit = (e: React.FormEvent) => {
+  const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
-    alert("Спасибо! Мы свяжемся с вами в ближайшее время.");
-    setDialogOpen(false);
+    
+    const form = e.target as HTMLFormElement;
+    const formData = new FormData(form);
+    
+    const name = formData.get('name') as string || '';
+    const phone = formData.get('phone') as string || '';
+    const email = formData.get('email') as string || '';
+    const company = formData.get('company') as string || '';
+    let comment = formData.get('comment') as string || '';
+    
+    let modelForRequest = selectedModel;
+    
+    if (quizStep === 5 && selectedModelForQuiz) {
+      const quizInfo = `Результат подбора:<br>` +
+        `Размер паллет: ${quizAnswers.palletSize}<br>` +
+        `Высота паллет: ${quizAnswers.palletHeight}<br>` +
+        `Вес паллет: ${quizAnswers.palletWeight}<br>` +
+        `Объем в день: ${quizAnswers.dailyVolume}<br>` +
+        `Тип оборудования: ${quizAnswers.machineType}<br>` +
+        `Рекомендованная модель: ${selectedModelForQuiz}`;
+      comment = quizInfo + (comment ? '<br><br>' + comment : '');
+      modelForRequest = selectedModelForQuiz;
+    } else if (selectedModel) {
+      comment = `Интересующая модель: ${selectedModel}${comment ? '<br><br>' + comment : ''}`;
+    }
+    
+    if (demoFormOpen) {
+      comment = `Запрос на просмотр в демозале${comment ? '<br><br>' + comment : ''}`;
+    }
+    
+    const requestData = {
+      name,
+      phone,
+      email,
+      company,
+      comment,
+      productType: 'Паллетообмотчик',
+      modelType: modelForRequest || ''
+    };
+    
+    try {
+      const response = await fetch('https://functions.poehali.dev/17d5087f-4530-470b-8c08-b24fc351eb1e', {
+        method: 'POST',
+        headers: {
+          'Content-Type': 'application/json'
+        },
+        body: JSON.stringify(requestData)
+      });
+      
+      const result = await response.json();
+      
+      if (result.success) {
+        alert("Спасибо! Мы свяжемся с вами в ближайшее время.");
+        setDialogOpen(false);
+        setHeroFormOpen(false);
+        setDemoFormOpen(false);
+        if (quizStep === 5) {
+          resetQuiz();
+        }
+        form.reset();
+      } else {
+        alert("Произошла ошибка при отправке. Пожалуйста, попробуйте позже или позвоните нам.");
+      }
+    } catch (error) {
+      alert("Произошла ошибка при отправке. Пожалуйста, попробуйте позже или позвоните нам.");
+      console.error('Form submission error:', error);
+    }
   };
 
   const openModelDialog = (modelName: string) => {
@@ -948,11 +1013,23 @@ export default function Index() {
                   <form onSubmit={handleFormSubmit} className="space-y-4">
                     <div>
                       <Label htmlFor="quiz-name">Имя *</Label>
-                      <Input id="quiz-name" type="text" placeholder="Ваше имя" required />
+                      <Input id="quiz-name" name="name" type="text" placeholder="Ваше имя" required />
                     </div>
                     <div>
                       <Label htmlFor="quiz-phone">Телефон *</Label>
-                      <Input id="quiz-phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+                      <Input id="quiz-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+                    </div>
+                    <div>
+                      <Label htmlFor="quiz-email">Email</Label>
+                      <Input id="quiz-email" name="email" type="email" placeholder="your@email.com" />
+                    </div>
+                    <div>
+                      <Label htmlFor="quiz-company">Компания</Label>
+                      <Input id="quiz-company" name="company" type="text" placeholder="Название компании" />
+                    </div>
+                    <div>
+                      <Label htmlFor="quiz-comment">Комментарий</Label>
+                      <Textarea id="quiz-comment" name="comment" placeholder="Дополнительная информация" />
                     </div>
                     <div className="flex items-start gap-2">
                       <Checkbox id="quiz-consent" required />
@@ -1133,14 +1210,26 @@ export default function Index() {
             <DialogTitle>Получить коммерческое предложение</DialogTitle>
             <DialogDescription>Заполните форму и мы отправим КП на указанный номер</DialogDescription>
           </DialogHeader>
-          <form onSubmit={(e) => { handleFormSubmit(e); setHeroFormOpen(false); }} className="space-y-4">
+          <form onSubmit={handleFormSubmit} className="space-y-4">
             <div>
               <Label htmlFor="hero-form-name">Имя *</Label>
-              <Input id="hero-form-name" type="text" placeholder="Ваше имя" required />
+              <Input id="hero-form-name" name="name" type="text" placeholder="Ваше имя" required />
             </div>
             <div>
               <Label htmlFor="hero-form-phone">Телефон *</Label>
-              <Input id="hero-form-phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+              <Input id="hero-form-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+            </div>
+            <div>
+              <Label htmlFor="hero-form-email">Email</Label>
+              <Input id="hero-form-email" name="email" type="email" placeholder="your@email.com" />
+            </div>
+            <div>
+              <Label htmlFor="hero-form-company">Компания</Label>
+              <Input id="hero-form-company" name="company" type="text" placeholder="Название компании" />
+            </div>
+            <div>
+              <Label htmlFor="hero-form-comment">Комментарий</Label>
+              <Textarea id="hero-form-comment" name="comment" placeholder="Дополнительная информация" />
             </div>
             <div className="flex items-start gap-2">
               <Checkbox id="hero-form-consent" required />
@@ -1162,14 +1251,26 @@ export default function Index() {
             <DialogTitle>Посмотреть товар в демозале</DialogTitle>
             <DialogDescription>Оставьте контакты и мы свяжемся с вами для записи на просмотр</DialogDescription>
           </DialogHeader>
-          <form onSubmit={(e) => { handleFormSubmit(e); setDemoFormOpen(false); }} className="space-y-4">
+          <form onSubmit={handleFormSubmit} className="space-y-4">
             <div>
               <Label htmlFor="demo-form-name">Имя *</Label>
-              <Input id="demo-form-name" type="text" placeholder="Ваше имя" required />
+              <Input id="demo-form-name" name="name" type="text" placeholder="Ваше имя" required />
             </div>
             <div>
               <Label htmlFor="demo-form-phone">Телефон *</Label>
-              <Input id="demo-form-phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+              <Input id="demo-form-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+            </div>
+            <div>
+              <Label htmlFor="demo-form-email">Email</Label>
+              <Input id="demo-form-email" name="email" type="email" placeholder="your@email.com" />
+            </div>
+            <div>
+              <Label htmlFor="demo-form-company">Компания</Label>
+              <Input id="demo-form-company" name="company" type="text" placeholder="Название компании" />
+            </div>
+            <div>
+              <Label htmlFor="demo-form-comment">Комментарий</Label>
+              <Textarea id="demo-form-comment" name="comment" placeholder="Дополнительная информация" />
             </div>
             <div className="flex items-start gap-2">
               <Checkbox id="demo-form-consent" required />
