@@ -506,6 +506,8 @@ export default function Index() {
       comment = `Запрос на просмотр в демозале${comment ? '<br><br>' + comment : ''}`;
     }
     
+    const pageUrl = window.location.href;
+    
     const requestData = {
       name,
       phone,
@@ -513,11 +515,12 @@ export default function Index() {
       company,
       comment,
       productType: 'Паллетообмотчик',
-      modelType: modelForRequest || ''
+      modelType: modelForRequest || '',
+      url: pageUrl
     };
     
     try {
-      const response = await fetch('https://functions.poehali.dev/17d5087f-4530-470b-8c08-b24fc351eb1e', {
+      const response = await fetch('/api/b24-send-lead.php', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json'
