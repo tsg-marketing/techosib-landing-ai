@@ -655,7 +655,11 @@ export default function Index() {
       {/* Hero Section */}
       <section 
         className="relative pt-24 pb-16 min-h-[600px] md:min-h-[700px] flex items-center bg-contain bg-right bg-no-repeat"
-        style={{ backgroundImage: 'url(https://cdn.poehali.dev/files/Паллетник_ТС.jpg)' }}
+        style={{ 
+          backgroundImage: 'url(https://cdn.poehali.dev/files/Паллетник_ТС.jpg)',
+          backgroundSize: '40%',
+          backgroundPosition: 'right 10% center'
+        }}
       >
         <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent"></div>
         <div className="container mx-auto px-4 relative z-10">
