@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useEffect } from "react";
+import { saveUtmToCookies, getUtmFromCookies } from "@/utils/utm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -456,6 +457,10 @@ export default function Index() {
     machineType: ""
   });
 
+  useEffect(() => {
+    saveUtmToCookies();
+  }, []);
+
   const getPrice = (modelName: string): string => {
     if (Object.keys(prices).length > 0 && prices[modelName]) {
       return prices[modelName];
@@ -511,6 +516,7 @@ export default function Index() {
     }
     
     const pageUrl = window.location.href;
+    const utmData = getUtmFromCookies();
     
     const requestData = {
       name,
@@ -520,7 +526,8 @@ export default function Index() {
       comment,
       productType: 'Паллетообмотчик',
       modelType: modelForRequest || '',
-      url: pageUrl
+      url: pageUrl,
+      ...utmData
     };
     
     try {
