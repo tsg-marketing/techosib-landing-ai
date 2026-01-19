@@ -488,16 +488,20 @@ export default function Index() {
     
     let modelForRequest = selectedModel;
     
-    if (quizStep === 5 && selectedModelForQuiz) {
+    if (quizStep === 5) {
       const quizInfo = `Результат подбора:<br>` +
         `Размер паллет: ${quizAnswers.palletSize}<br>` +
         `Высота паллет: ${quizAnswers.palletHeight}<br>` +
         `Вес паллет: ${quizAnswers.palletWeight}<br>` +
         `Объем в день: ${quizAnswers.dailyVolume}<br>` +
-        `Тип оборудования: ${quizAnswers.machineType}<br>` +
-        `Рекомендованная модель: ${selectedModelForQuiz}`;
-      comment = quizInfo + (comment ? '<br><br>' + comment : '');
-      modelForRequest = selectedModelForQuiz;
+        `Тип оборудования: ${quizAnswers.machineType}`;
+      
+      if (selectedModelForQuiz) {
+        comment = quizInfo + `<br>Рекомендованная модель: ${selectedModelForQuiz}` + (comment ? '<br><br>' + comment : '');
+        modelForRequest = selectedModelForQuiz;
+      } else {
+        comment = quizInfo + (comment ? '<br><br>' + comment : '');
+      }
     } else if (selectedModel) {
       comment = `Интересующая модель: ${selectedModel}${comment ? '<br><br>' + comment : ''}`;
     }
