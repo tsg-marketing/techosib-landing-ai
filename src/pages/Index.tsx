@@ -34,6 +34,36 @@ interface Model {
     weight: string;
     type: string;
   };
+  detailedSpecs?: {
+    brand: string;
+    weight: string;
+    installedPower: string;
+    turntableRotationSpeed: string;
+    turntableDrive: string;
+    preStretch: string;
+    carriageDrive: string;
+    filmTension: string;
+    turntableHeight: string;
+    turntableDiameter: string;
+    maxPalletSize: string;
+    maxPalletHeight: string;
+    smoothStartStop: string;
+    carriageSpeed: string;
+    maxFilmRollDiameter: string;
+    filmCoreDiameter: string;
+    filmWidthThickness: string;
+    topCoverCycle: string;
+    filmBreakSignal: string;
+    programsCount: string;
+    separateWrapsAdjustment: string;
+    heightDetection: string;
+    heightWrapping: string;
+    forkliftCompatibility: string;
+    controlPanel: string;
+    power: string;
+    dimensions: string;
+    maxCapacity: string;
+  };
   images: string[];
   inStock?: boolean;
   videoUrl?: string;
@@ -66,6 +96,36 @@ const models: Model[] = [
       carriageSpeed: "0-4 м/мин",
       weight: "480 кг",
       type: "стационарный"
+    },
+    detailedSpecs: {
+      brand: "ТЕХНОСИБ",
+      weight: "~550 кг",
+      installedPower: "1,15 кВт",
+      turntableRotationSpeed: "Регулируемая",
+      turntableDrive: "Цепной",
+      preStretch: "Нет",
+      carriageDrive: "Цепной",
+      filmTension: "Механическая регулировка на каретке",
+      turntableHeight: "78-80 мм",
+      turntableDiameter: "1650 мм",
+      maxPalletSize: "1000×1200 мм",
+      maxPalletHeight: "2400 мм",
+      smoothStartStop: "Да",
+      carriageSpeed: "Регулируемая",
+      maxFilmRollDiameter: "250 мм",
+      filmCoreDiameter: "76 мм",
+      filmWidthThickness: "500 мм; 15-35 мкм",
+      topCoverCycle: "Да",
+      filmBreakSignal: "Да",
+      programsCount: "10",
+      separateWrapsAdjustment: "1-9",
+      heightDetection: "Да",
+      heightWrapping: "Да",
+      forkliftCompatibility: "Да, спереди и сзади",
+      controlPanel: "Сенсорная панель управления. Язык: Английский, Русский",
+      power: "220 В 1Ф 50/60 Гц",
+      dimensions: "2535×1650×2760 мм",
+      maxCapacity: "2000 кг"
     },
     images: [
       "https://cdn.poehali.dev/files/e4d94967-8ee7-44a6-9587-a22100c9c4cf.jpg",
@@ -482,6 +542,8 @@ export default function Index() {
   const [selectedVideo, setSelectedVideo] = useState("");
   const [heroFormOpen, setHeroFormOpen] = useState(false);
   const [demoFormOpen, setDemoFormOpen] = useState(false);
+  const [specsDialogOpen, setSpecsDialogOpen] = useState(false);
+  const [selectedModelSpecs, setSelectedModelSpecs] = useState<Model | null>(null);
   const [quizStep, setQuizStep] = useState(0);
   const [quizAnswers, setQuizAnswers] = useState({
     palletSize: "",
@@ -601,6 +663,11 @@ export default function Index() {
   const openVideoDialog = (videoUrl: string) => {
     setSelectedVideo(videoUrl);
     setVideoDialogOpen(true);
+  };
+
+  const openSpecsDialog = (model: Model) => {
+    setSelectedModelSpecs(model);
+    setSpecsDialogOpen(true);
   };
 
   const getRecommendedModel = () => {
@@ -759,6 +826,16 @@ export default function Index() {
                     ))}
                   </ul>
                   <div className="space-y-2">
+                    {model.detailedSpecs && (
+                      <Button 
+                        variant="outline"
+                        className="w-full text-base py-5" 
+                        onClick={() => openSpecsDialog(model)}
+                      >
+                        <Icon name="FileText" size={18} className="mr-2" />
+                        Детальные характеристики
+                      </Button>
+                    )}
                     {model.videoUrl && (
                       <Button 
                         className="w-full text-base py-5 bg-red-600 hover:bg-red-700 text-white" 
@@ -911,8 +988,22 @@ export default function Index() {
                     </div>
                   </div>
                 </div>
-                <CardContent className="p-4">
+                <CardContent className="p-4 space-y-3">
                   <h3 className="text-xl font-bold text-center">{model.name}</h3>
+                  {model.detailedSpecs && (
+                    <Button 
+                      variant="outline"
+                      size="sm"
+                      className="w-full" 
+                      onClick={(e) => {
+                        e.stopPropagation();
+                        openSpecsDialog(model);
+                      }}
+                    >
+                      <Icon name="FileText" size={16} className="mr-2" />
+                      Детальные характеристики
+                    </Button>
+                  )}
                 </CardContent>
               </Card>
             ))}
@@ -1366,6 +1457,145 @@ export default function Index() {
               Отправить
             </Button>
           </form>
+        </DialogContent>
+      </Dialog>
+
+      {/* Detailed Specs Dialog */}
+      <Dialog open={specsDialogOpen} onOpenChange={setSpecsDialogOpen}>
+        <DialogContent className="max-w-3xl max-h-[80vh] overflow-y-auto">
+          <DialogHeader>
+            <DialogTitle className="text-2xl font-bold">Детальные характеристики {selectedModelSpecs?.name}</DialogTitle>
+            <DialogDescription>Полная техническая информация о модели</DialogDescription>
+          </DialogHeader>
+          {selectedModelSpecs?.detailedSpecs && (
+            <div className="grid gap-4 py-4">
+              <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Бренд</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.brand}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Вес</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.weight}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Установленная мощность</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.installedPower}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Скорость вращения поворотного стола</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.turntableRotationSpeed}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Привод поворотного стола</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.turntableDrive}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Предварительное растяжение пленки</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.preStretch}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Привод каретки</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.carriageDrive}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Натяжение пленки</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.filmTension}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Высота поворотного стола от пола</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.turntableHeight}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Диаметр поворотного стола</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.turntableDiameter}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Максимальные размеры паллета (Д×Ш)</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.maxPalletSize}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Максимальная высота паллета с грузом</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.maxPalletHeight}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Плавный запуск и остановка поворотного стола</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.smoothStartStop}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Скорость перемещения каретки</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.carriageSpeed}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Максимальный диаметр ролика пленки</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.maxFilmRollDiameter}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Диаметр втулки пленки</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.filmCoreDiameter}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg col-span-1 md:col-span-2">
+                  <h4 className="font-semibold text-gray-900 mb-1">Ширина и толщина пленки</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.filmWidthThickness}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Цикл с укрытием верха паллета</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.topCoverCycle}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Сигнал обрыва пленки</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.filmBreakSignal}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Количество пользовательских программ в памяти</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.programsCount}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Раздельная регулировка количества витков пленки</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.separateWrapsAdjustment}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Определение высоты паллета по фотодатчику</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.heightDetection}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Обмотка паллета по заданной высоте</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.heightWrapping}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg col-span-1 md:col-span-2">
+                  <h4 className="font-semibold text-gray-900 mb-1">Возможность использования вилочного погрузчика для перемещения</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.forkliftCompatibility}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg col-span-1 md:col-span-2">
+                  <h4 className="font-semibold text-gray-900 mb-1">Панель управления</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.controlPanel}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Питание</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.power}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg">
+                  <h4 className="font-semibold text-gray-900 mb-1">Габариты (Д×Ш×В)</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.dimensions}</p>
+                </div>
+                <div className="bg-gray-50 p-4 rounded-lg col-span-1 md:col-span-2">
+                  <h4 className="font-semibold text-gray-900 mb-1">Максимальная грузоподъемность</h4>
+                  <p className="text-gray-700">{selectedModelSpecs.detailedSpecs.maxCapacity}</p>
+                </div>
+              </div>
+              <div className="pt-4">
+                <Button 
+                  className="w-full bg-primary hover:bg-primary/90 text-white" 
+                  onClick={() => {
+                    setSpecsDialogOpen(false);
+                    openModelDialog(selectedModelSpecs.name);
+                  }}
+                >
+                  Получить коммерческое предложение
+                </Button>
+              </div>
+            </div>
+          )}
         </DialogContent>
       </Dialog>
 
