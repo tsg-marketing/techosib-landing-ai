@@ -1015,7 +1015,7 @@ export default function Index() {
       </section>
 
       {/* Advantages Section */}
-      <section id="advantages" className="py-12 bg-white">
+      <section id="advantages" className="py-8 md:py-12 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Преимущества оборудования ТЕХНОСИБ
@@ -1037,7 +1037,7 @@ export default function Index() {
       </section>
 
       {/* Models Section */}
-      <section id="models" className="py-12 bg-white">
+      <section id="models" className="py-8 md:py-12 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
             Модели паллетообмотчиков
@@ -1100,7 +1100,7 @@ export default function Index() {
       </section>
 
       {/* Specs Comparison Table */}
-      <section id="specs" className="py-12 bg-gray-50">
+      <section id="specs" className="py-8 md:py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Сравнительная таблица характеристик
@@ -1205,7 +1205,7 @@ export default function Index() {
       </section>
 
       {/* Video Gallery Section */}
-      <section className="py-12 bg-white">
+      <section className="py-8 md:py-12 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
             Видеообзоры оборудования
@@ -1261,7 +1261,7 @@ export default function Index() {
       </section>
 
       {/* Selection Quiz Section */}
-      <section className="py-12 bg-white">
+      <section className="py-8 md:py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             <Card>
@@ -1478,7 +1478,7 @@ export default function Index() {
       </section>
 
       {/* Service Section */}
-      <section id="service" className="py-12 bg-gray-50">
+      <section id="service" className="py-8 md:py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Сервис и поддержка
@@ -1544,7 +1544,7 @@ export default function Index() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-12 bg-white">
+      <section id="faq" className="py-8 md:py-12 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Часто задаваемые вопросы
@@ -1567,7 +1567,7 @@ export default function Index() {
       </section>
 
       {/* Final CTA / Contacts Section */}
-      <section id="contacts" className="py-12 bg-gradient-to-b from-primary to-primary/90 text-white">
+      <section id="contacts" className="py-8 md:py-12 bg-gradient-to-b from-primary to-primary/90 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="text-3xl md:text-4xl font-bold">
@@ -1598,13 +1598,53 @@ export default function Index() {
                 </CardContent>
               </Card>
             </div>
-            <Button 
-              size="lg" 
-              className="bg-secondary hover:bg-secondary/90 text-white text-lg px-12"
-              onClick={() => setDialogOpen(true)}
-            >
-              Получить коммерческое предложение
-            </Button>
+          </div>
+        </div>
+      </section>
+
+      {/* Contact Form Section */}
+      <section className="py-8 md:py-12 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="max-w-md mx-auto">
+            <Card>
+              <CardHeader>
+                <CardTitle className="text-2xl text-center">Получить коммерческое предложение</CardTitle>
+                <CardDescription className="text-center">Заполните форму и мы отправим КП на указанный номер</CardDescription>
+              </CardHeader>
+              <CardContent>
+                <form onSubmit={handleFormSubmit} className="space-y-4">
+                  <div>
+                    <Label htmlFor="footer-form-name">Имя *</Label>
+                    <Input id="footer-form-name" name="name" type="text" placeholder="Ваше имя" required />
+                  </div>
+                  <div>
+                    <Label htmlFor="footer-form-phone">Телефон *</Label>
+                    <Input id="footer-form-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+                  </div>
+                  <div>
+                    <Label htmlFor="footer-form-email">Email</Label>
+                    <Input id="footer-form-email" name="email" type="email" placeholder="your@email.com" />
+                  </div>
+                  <div>
+                    <Label htmlFor="footer-form-company">Компания</Label>
+                    <Input id="footer-form-company" name="company" type="text" placeholder="Название компании" />
+                  </div>
+                  <div>
+                    <Label htmlFor="footer-form-comment">Комментарий</Label>
+                    <Textarea id="footer-form-comment" name="comment" placeholder="Дополнительная информация" />
+                  </div>
+                  <div className="flex items-start gap-2">
+                    <Checkbox id="footer-form-consent" required />
+                    <Label htmlFor="footer-form-consent" className="text-xs text-muted-foreground cursor-pointer">
+                      Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
+                    </Label>
+                  </div>
+                  <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90 text-lg py-6">
+                    Отправить заявку
+                  </Button>
+                </form>
+              </CardContent>
+            </Card>
           </div>
         </div>
       </section>
