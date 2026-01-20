@@ -68,8 +68,8 @@ const models: Model[] = [
       type: "стационарный"
     },
     images: [
-      "https://cdn.poehali.dev/files/e4d94967-8ee7-44a6-9587-a22100c9c4cf.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H.jpg",
+      "https://cdn.poehali.dev/files/e4d94967-8ee7-44a6-9587-a22100c9c4cf.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-1.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-2.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-3.jpg",
@@ -111,8 +111,8 @@ const models: Model[] = [
       type: "стационарный"
     },
     images: [
-      "https://cdn.poehali.dev/files/aa52d517-72aa-495a-90bd-febdf303b98a.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-H.jpg",
+      "https://cdn.poehali.dev/files/aa52d517-72aa-495a-90bd-febdf303b98a.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-H-2.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-H-3.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-H-4.jpg"
@@ -174,8 +174,8 @@ const models: Model[] = [
       type: "стационарный"
     },
     images: [
-      "https://cdn.poehali.dev/files/0e06ce21-2a15-4b56-914b-6caf237e8435.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP.jpg",
+      "https://cdn.poehali.dev/files/0e06ce21-2a15-4b56-914b-6caf237e8435.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-1.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-2.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-3.jpg",
@@ -244,8 +244,8 @@ const models: Model[] = [
       type: "стационарный"
     },
     images: [
-      "https://cdn.poehali.dev/files/c79627b3-8daa-4e78-bd4a-cd4834553c2f.jpg",
       "https://cdn.poehali.dev/files/TS3000SPS-MT.jpg",
+      "https://cdn.poehali.dev/files/c79627b3-8daa-4e78-bd4a-cd4834553c2f.jpg",
       "https://cdn.poehali.dev/files/TS3000SPS-MT-1.jpg",
       "https://cdn.poehali.dev/files/TS3000SPS-MT-2.jpg",
       "https://cdn.poehali.dev/files/TS3000SPS-MT-3.jpg",
@@ -729,40 +729,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Video Gallery Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-            Видеообзоры оборудования
-          </h2>
-          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Смотрите, как работают наши паллетообмотчики в реальных условиях
-          </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {models.filter(m => m.videoUrl).map((model) => (
-              <Card key={model.id} className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" onClick={() => openVideoDialog(model.videoUrl!)}>
-                <div className="relative aspect-video bg-gray-900">
-                  <img 
-                    src={model.images[0]} 
-                    alt={model.name}
-                    className="w-full h-full object-cover opacity-70"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors">
-                    <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-2xl">
-                      <Icon name="Play" size={32} className="text-white ml-1" />
-                    </div>
-                  </div>
-                </div>
-                <CardContent className="p-4">
-                  <h3 className="text-xl font-bold mb-2">{model.name}</h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2">{model.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Models Section */}
       <section id="models" className="py-16 bg-white">
         <div className="container mx-auto px-4">
@@ -784,6 +750,17 @@ export default function Index() {
                 </CardHeader>
                 <CardContent className="flex-1 flex flex-col">
                   <p className="text-base text-gray-700 mb-4">{model.description}</p>
+                  
+                  <div className="bg-gray-50 rounded-lg p-4 mb-4">
+                    <h4 className="font-semibold text-sm text-gray-900 mb-2">Технические характеристики:</h4>
+                    <div className="grid grid-cols-2 gap-2 text-xs text-gray-700">
+                      <div><span className="font-medium">Напряжение:</span> {model.specs.voltage}</div>
+                      <div><span className="font-medium">Мощность:</span> {model.specs.power}</div>
+                      <div><span className="font-medium">Макс. нагрузка:</span> {model.specs.maxLoad}</div>
+                      <div><span className="font-medium">Макс. высота:</span> {model.specs.maxHeight}</div>
+                    </div>
+                  </div>
+
                   <ul className="space-y-2 mb-6 flex-1">
                     {model.features.map((feature, idx) => (
                       <li key={idx} className="flex items-start gap-2 text-base text-gray-700">
@@ -917,6 +894,40 @@ export default function Index() {
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Video Gallery Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            Видеообзоры оборудования
+          </h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            Смотрите, как работают наши паллетообмотчики в реальных условиях
+          </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {models.filter(m => m.videoUrl).map((model) => (
+              <Card key={model.id} className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" onClick={() => openVideoDialog(model.videoUrl!)}>
+                <div className="relative aspect-video bg-gray-900">
+                  <img 
+                    src={model.images[0]} 
+                    alt={model.name}
+                    className="w-full h-full object-cover opacity-70"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors">
+                    <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-2xl">
+                      <Icon name="Play" size={32} className="text-white ml-1" />
+                    </div>
+                  </div>
+                </div>
+                <CardContent className="p-4">
+                  <h3 className="text-xl font-bold mb-2">{model.name}</h3>
+                  <p className="text-sm text-muted-foreground line-clamp-2">{model.description}</p>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
