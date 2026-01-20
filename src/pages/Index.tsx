@@ -988,7 +988,7 @@ export default function Index() {
 
       {/* Hero Section */}
       <section 
-        className="relative pt-24 pb-16 min-h-[600px] md:min-h-[700px] flex items-center bg-contain bg-right bg-no-repeat"
+        className="relative pt-24 pb-8 min-h-[600px] md:min-h-[700px] flex items-center bg-contain bg-right bg-no-repeat"
         style={{ 
           backgroundImage: 'url(https://cdn.poehali.dev/files/Паллетник_ТС.jpg)',
           backgroundSize: 'auto 70%',
@@ -999,7 +999,7 @@ export default function Index() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight mb-4">
-              <span className="font-serif">Паллето<wbr/>обмотчики</span>
+              <span className="font-serif whitespace-nowrap">Паллетообмотчики</span>
             </h1>
             <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-12 md:h-16 lg:h-20 mb-6" />
             <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-semibold mb-4">
