@@ -969,15 +969,15 @@ export default function Index() {
         className="relative pt-24 pb-16 min-h-[600px] md:min-h-[700px] flex items-center bg-contain bg-right bg-no-repeat"
         style={{ 
           backgroundImage: 'url(https://cdn.poehali.dev/files/Паллетник_ТС.jpg)',
-          backgroundSize: '40%',
-          backgroundPosition: 'right 10% center'
+          backgroundSize: 'auto 70%',
+          backgroundPosition: 'right center'
         }}
       >
-        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/90 to-transparent"></div>
+        <div className="absolute inset-0 bg-gradient-to-r from-white via-white/95 to-transparent md:via-white/90"></div>
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl">
-            <h1 className="text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight mb-4">
-              <span className="font-serif">Паллетообмотчики</span>
+            <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight mb-4">
+              <span className="font-serif">Паллето<wbr/>обмотчики</span>
             </h1>
             <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-12 md:h-16 lg:h-20 mb-6" />
             <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-semibold mb-4">
@@ -1015,7 +1015,7 @@ export default function Index() {
       </section>
 
       {/* Advantages Section */}
-      <section id="advantages" className="py-16 bg-white">
+      <section id="advantages" className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Преимущества оборудования ТЕХНОСИБ
@@ -1037,7 +1037,7 @@ export default function Index() {
       </section>
 
       {/* Models Section */}
-      <section id="models" className="py-16 bg-white">
+      <section id="models" className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
             Модели паллетообмотчиков
@@ -1078,7 +1078,7 @@ export default function Index() {
                     )}
                     {model.videoUrl && (
                       <Button 
-                        className="w-full text-base py-5 bg-red-600 hover:bg-red-700 text-white" 
+                        className="w-full text-base py-5 bg-red-500/80 hover:bg-red-600 text-white" 
                         onClick={() => openVideoDialog(model.videoUrl!)}
                       >
                         <Icon name="Play" size={18} className="mr-2" />
@@ -1100,7 +1100,7 @@ export default function Index() {
       </section>
 
       {/* Specs Comparison Table */}
-      <section id="specs" className="py-16 bg-gray-50">
+      <section id="specs" className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Сравнительная таблица характеристик
@@ -1205,7 +1205,7 @@ export default function Index() {
       </section>
 
       {/* Video Gallery Section */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
             Видеообзоры оборудования
@@ -1245,7 +1245,7 @@ export default function Index() {
                     </Button>
                   )}
                   <Button 
-                    className="w-full bg-secondary hover:bg-secondary/80 text-white shadow-lg" 
+                    className="w-full bg-secondary hover:bg-secondary/80 text-white text-lg shadow-lg" 
                     onClick={(e) => {
                       e.stopPropagation();
                       openModelDialog(model.name);
@@ -1261,7 +1261,7 @@ export default function Index() {
       </section>
 
       {/* Selection Quiz Section */}
-      <section className="py-16 bg-white">
+      <section className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <div className="max-w-2xl mx-auto">
             <Card>
@@ -1478,7 +1478,7 @@ export default function Index() {
       </section>
 
       {/* Service Section */}
-      <section id="service" className="py-16 bg-gray-50">
+      <section id="service" className="py-12 bg-gray-50">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Сервис и поддержка
@@ -1544,7 +1544,7 @@ export default function Index() {
       </section>
 
       {/* FAQ Section */}
-      <section id="faq" className="py-16 bg-white">
+      <section id="faq" className="py-12 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
             Часто задаваемые вопросы
@@ -1567,7 +1567,7 @@ export default function Index() {
       </section>
 
       {/* Final CTA / Contacts Section */}
-      <section id="contacts" className="py-16 bg-gradient-to-b from-primary to-primary/90 text-white">
+      <section id="contacts" className="py-12 bg-gradient-to-b from-primary to-primary/90 text-white">
         <div className="container mx-auto px-4">
           <div className="max-w-3xl mx-auto text-center space-y-8">
             <h2 className="text-3xl md:text-4xl font-bold">
