@@ -493,6 +493,36 @@ const models: Model[] = [
       weight: "620 кг",
       type: "стационарный"
     },
+    detailedSpecs: {
+      brand: "ТЕХНОСИБ",
+      weight: "~550 кг",
+      installedPower: "1,5 кВт",
+      turntableRotationSpeed: "Регулируемая",
+      turntableDrive: "Цепной",
+      preStretch: "Нет",
+      carriageDrive: "Цепной",
+      filmTension: "Механическая регулировка на каретке",
+      turntableHeight: "78-80 мм",
+      turntableDiameter: "1650 мм",
+      maxPalletSize: "1000×1200 мм",
+      maxPalletHeight: "2400 мм",
+      smoothStartStop: "Да",
+      carriageSpeed: "Регулируемая",
+      maxFilmRollDiameter: "250 мм",
+      filmCoreDiameter: "76 мм",
+      filmWidthThickness: "500 мм; 15-35 мкм",
+      topCoverCycle: "Да",
+      filmBreakSignal: "Да",
+      programsCount: "10",
+      separateWrapsAdjustment: "1-9",
+      heightDetection: "Да",
+      heightWrapping: "Да",
+      forkliftCompatibility: "Да, сзади",
+      controlPanel: "Сенсорная панель управления. Язык: Английский, Русский",
+      power: "220 В 1Ф 50/60 Гц",
+      dimensions: "2535×1708×3270 мм",
+      maxCapacity: "800 кг"
+    },
     images: [
       "https://cdn.poehali.dev/files/TS3000MR-MT-TP.png"
     ]
