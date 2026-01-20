@@ -342,6 +342,7 @@ const models: Model[] = [
       type: "мобильный"
     },
     images: [
+      "https://cdn.poehali.dev/files/e3226e84-80c0-42ef-99fd-197f75e03d74.jpg",
       "https://cdn.poehali.dev/files/6I8A7423 (2).jpg",
       "https://cdn.poehali.dev/files/6I8A7424 (2).jpg",
       "https://cdn.poehali.dev/files/6I8A7399.jpg",
