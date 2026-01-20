@@ -1086,10 +1086,10 @@ export default function Index() {
                       </Button>
                     )}
                     <Button 
-                      className="w-full bg-primary hover:bg-primary/90 text-white text-lg py-6" 
+                      className="w-full bg-secondary hover:bg-secondary/80 text-white text-lg py-6 shadow-lg" 
                       onClick={() => openModelDialog(model.name)}
                     >
-                      Получить КП
+                      Оставить заявку
                     </Button>
                   </div>
                 </CardContent>
@@ -1245,13 +1245,13 @@ export default function Index() {
                     </Button>
                   )}
                   <Button 
-                    className="w-full bg-primary hover:bg-primary/90 text-white" 
+                    className="w-full bg-secondary hover:bg-secondary/80 text-white shadow-lg" 
                     onClick={(e) => {
                       e.stopPropagation();
                       openModelDialog(model.name);
                     }}
                   >
-                    Получить КП
+                    Оставить заявку
                   </Button>
                 </CardContent>
               </Card>
@@ -1458,7 +1458,7 @@ export default function Index() {
                     <div className="flex items-start gap-2">
                       <Checkbox id="quiz-consent" required />
                       <Label htmlFor="quiz-consent" className="text-xs text-muted-foreground cursor-pointer">
-                        Согласен на обработку персональных данных
+                        Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
                       </Label>
                     </div>
                     <div className="flex gap-3">
@@ -1658,7 +1658,7 @@ export default function Index() {
             <div className="flex items-start gap-2">
               <Checkbox id="hero-form-consent" required />
               <Label htmlFor="hero-form-consent" className="text-xs text-muted-foreground cursor-pointer">
-                Согласен на обработку персональных данных
+                Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
               </Label>
             </div>
             <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">
@@ -1699,7 +1699,7 @@ export default function Index() {
             <div className="flex items-start gap-2">
               <Checkbox id="demo-form-consent" required />
               <Label htmlFor="demo-form-consent" className="text-xs text-muted-foreground cursor-pointer">
-                Согласен на обработку персональных данных
+                Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
               </Label>
             </div>
             <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">

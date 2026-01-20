@@ -47,7 +47,7 @@ export default function Header({
             <a href="tel:88005057238" className="text-lg font-semibold text-blue-900 hover:text-secondary transition-colors">8-800-505-72-38</a>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="bg-secondary hover:bg-secondary/90">Получить КП</Button>
+                <Button className="bg-secondary hover:bg-secondary/80 shadow-lg">Оставить заявку</Button>
               </DialogTrigger>
               <DialogContent className="sm:max-w-md">
                 <DialogHeader>
@@ -83,7 +83,7 @@ export default function Header({
                   <div className="flex items-start gap-2">
                     <Checkbox id="consent" required />
                     <Label htmlFor="consent" className="text-xs text-muted-foreground cursor-pointer">
-                      Согласен на обработку персональных данных
+                      Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
                     </Label>
                   </div>
                   <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">Отправить заявку</Button>
@@ -108,7 +108,7 @@ export default function Header({
             <a href="tel:88005057238" className="block py-2 text-lg font-semibold text-blue-900">8-800-505-72-38</a>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
-                <Button className="w-full bg-secondary hover:bg-secondary/90">Получить КП</Button>
+                <Button className="w-full bg-secondary hover:bg-secondary/80 shadow-lg">Оставить заявку</Button>
               </DialogTrigger>
             </Dialog>
           </nav>
