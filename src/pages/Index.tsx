@@ -1244,6 +1244,15 @@ export default function Index() {
                       Детальные характеристики
                     </Button>
                   )}
+                  <Button 
+                    className="w-full bg-primary hover:bg-primary/90 text-white" 
+                    onClick={(e) => {
+                      e.stopPropagation();
+                      openModelDialog(model.name);
+                    }}
+                  >
+                    Получить КП
+                  </Button>
                 </CardContent>
               </Card>
             ))}
