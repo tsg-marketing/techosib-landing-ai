@@ -111,6 +111,7 @@ const models: Model[] = [
       type: "стационарный"
     },
     images: [
+      "https://cdn.poehali.dev/files/aa52d517-72aa-495a-90bd-febdf303b98a.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-H.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-H-2.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-H-3.jpg",
