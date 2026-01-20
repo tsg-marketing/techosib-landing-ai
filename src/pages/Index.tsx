@@ -775,7 +775,7 @@ export default function Index() {
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {models.map((model) => (
               <Card key={model.id} className="hover:shadow-xl transition-shadow flex flex-col">
-                <ImageCarousel images={model.images} alt={model.name} inStock={model.inStock} />
+                <ImageCarousel images={model.videoUrl ? model.images.slice(1) : model.images} alt={model.name} inStock={model.inStock} />
                 <CardHeader>
                   <CardTitle className="text-2xl text-gray-900">{model.name}</CardTitle>
                   <CardDescription className="text-3xl font-bold text-secondary">
