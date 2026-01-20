@@ -797,6 +797,28 @@ export default function Index() {
     saveUtmToCookies();
   }, []);
 
+  const handlePhoneInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    
+    // Remove all non-digit characters except +
+    const cleanValue = value.replace(/[^\d+]/g, '');
+    
+    // Check if starts with +7
+    if (cleanValue.startsWith('+7')) {
+      // Limit to +7 and 10 digits (total 12 characters)
+      const limitedValue = cleanValue.slice(0, 12);
+      e.currentTarget.value = limitedValue;
+    } else if (cleanValue.startsWith('+')) {
+      // For other country codes, limit to 13 characters total
+      const limitedValue = cleanValue.slice(0, 13);
+      e.currentTarget.value = limitedValue;
+    } else {
+      // If no +, limit to 11 digits
+      const limitedValue = cleanValue.slice(0, 11);
+      e.currentTarget.value = limitedValue;
+    }
+  };
+
   const getPrice = (modelName: string): string => {
     if (Object.keys(prices).length > 0 && prices[modelName]) {
       return prices[modelName];
@@ -1441,7 +1463,7 @@ export default function Index() {
                     </div>
                     <div>
                       <Label htmlFor="quiz-phone">Телефон *</Label>
-                      <Input id="quiz-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+                      <Input id="quiz-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" onInput={handlePhoneInput} required />
                     </div>
                     <div>
                       <Label htmlFor="quiz-email">Email</Label>
@@ -1619,7 +1641,7 @@ export default function Index() {
                   </div>
                   <div>
                     <Label htmlFor="footer-form-phone">Телефон *</Label>
-                    <Input id="footer-form-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+                    <Input id="footer-form-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" onInput={handlePhoneInput} required />
                   </div>
                   <div>
                     <Label htmlFor="footer-form-email">Email</Label>
@@ -1681,7 +1703,7 @@ export default function Index() {
             </div>
             <div>
               <Label htmlFor="hero-form-phone">Телефон *</Label>
-              <Input id="hero-form-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+              <Input id="hero-form-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" onInput={handlePhoneInput} required />
             </div>
             <div>
               <Label htmlFor="hero-form-email">Email</Label>
@@ -1722,7 +1744,7 @@ export default function Index() {
             </div>
             <div>
               <Label htmlFor="demo-form-phone">Телефон *</Label>
-              <Input id="demo-form-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+              <Input id="demo-form-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" onInput={handlePhoneInput} required />
             </div>
             <div>
               <Label htmlFor="demo-form-email">Email</Label>

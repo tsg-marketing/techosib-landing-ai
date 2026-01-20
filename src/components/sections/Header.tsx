@@ -26,6 +26,22 @@ export default function Header({
   scrollToSection,
   handleFormSubmit
 }: HeaderProps) {
+  const handlePhoneInput = (e: React.FormEvent<HTMLInputElement>) => {
+    const value = e.currentTarget.value;
+    
+    const cleanValue = value.replace(/[^\d+]/g, '');
+    
+    if (cleanValue.startsWith('+7')) {
+      const limitedValue = cleanValue.slice(0, 12);
+      e.currentTarget.value = limitedValue;
+    } else if (cleanValue.startsWith('+')) {
+      const limitedValue = cleanValue.slice(0, 13);
+      e.currentTarget.value = limitedValue;
+    } else {
+      const limitedValue = cleanValue.slice(0, 11);
+      e.currentTarget.value = limitedValue;
+    }
+  };
   return (
     <header className="fixed top-0 w-full bg-white/95 backdrop-blur-sm z-50 border-b border-gray-100 shadow-sm">
       <div className="container mx-auto px-4 py-4">
@@ -57,7 +73,7 @@ export default function Header({
                 <form onSubmit={handleFormSubmit} className="space-y-4">
                   <div>
                     <Label htmlFor="phone">Телефон *</Label>
-                    <Input id="phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" required />
+                    <Input id="phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" onInput={handlePhoneInput} required />
                   </div>
                   <div>
                     <Label htmlFor="name">Имя</Label>
