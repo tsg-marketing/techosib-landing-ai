@@ -901,6 +901,11 @@ export default function Index() {
       const result = await response.json();
       
       if (result.success) {
+        // Yandex Metrika goal
+        if (typeof window !== 'undefined' && (window as any).ym) {
+          (window as any).ym(106348259, 'reachGoal', 'form_sent');
+        }
+        
         setDialogOpen(false);
         setHeroFormOpen(false);
         setDemoFormOpen(false);
@@ -1604,7 +1609,11 @@ export default function Index() {
                 <CardContent className="p-6 space-y-3">
                   <Icon name="Phone" size={32} className="mx-auto" />
                   <h3 className="text-xl font-semibold">Позвоните нам</h3>
-                  <a href="tel:88005057238" className="text-2xl font-bold block hover:text-secondary transition-colors">
+                  <a href="tel:88005057238" className="text-2xl font-bold block hover:text-secondary transition-colors" onClick={() => {
+                    if (typeof window !== 'undefined' && (window as any).ym) {
+                      (window as any).ym(106348259, 'reachGoal', 'click_phone');
+                    }
+                  }}>
                     8-800-505-72-38
                   </a>
                   <p className="text-sm text-white/80">Пн-Пт: 9:00 - 18:00</p>
@@ -1614,7 +1623,11 @@ export default function Index() {
                 <CardContent className="p-6 space-y-3">
                   <Icon name="Mail" size={32} className="mx-auto" />
                   <h3 className="text-xl font-semibold">Напишите нам</h3>
-                  <a href="mailto:pallet@t-sib.ru" className="text-xl font-semibold block hover:text-secondary transition-colors">
+                  <a href="mailto:pallet@t-sib.ru" className="text-xl font-semibold block hover:text-secondary transition-colors" onClick={() => {
+                    if (typeof window !== 'undefined' && (window as any).ym) {
+                      (window as any).ym(106348259, 'reachGoal', 'click_email');
+                    }
+                  }}>
                     pallet@t-sib.ru
                   </a>
                   <p className="text-sm text-white/80">Ответим в течение часа</p>
