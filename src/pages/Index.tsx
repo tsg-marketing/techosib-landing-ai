@@ -68,6 +68,7 @@ const models: Model[] = [
       type: "стационарный"
     },
     images: [
+      "https://cdn.poehali.dev/files/e4d94967-8ee7-44a6-9587-a22100c9c4cf.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-1.jpg",
       "https://cdn.poehali.dev/files/TS-3000MR-H-2.jpg",
@@ -110,6 +111,7 @@ const models: Model[] = [
       type: "стационарный"
     },
     images: [
+      "https://cdn.poehali.dev/files/aa52d517-72aa-495a-90bd-febdf303b98a.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-H.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-H-2.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-H-3.jpg",
@@ -172,6 +174,7 @@ const models: Model[] = [
       type: "стационарный"
     },
     images: [
+      "https://cdn.poehali.dev/files/0e06ce21-2a15-4b56-914b-6caf237e8435.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-1.jpg",
       "https://cdn.poehali.dev/files/TS-3000SPS-TP-2.jpg",
@@ -241,6 +244,7 @@ const models: Model[] = [
       type: "стационарный"
     },
     images: [
+      "https://cdn.poehali.dev/files/c79627b3-8daa-4e78-bd4a-cd4834553c2f.jpg",
       "https://cdn.poehali.dev/files/TS3000SPS-MT.jpg",
       "https://cdn.poehali.dev/files/TS3000SPS-MT-1.jpg",
       "https://cdn.poehali.dev/files/TS3000SPS-MT-2.jpg",
@@ -338,6 +342,7 @@ const models: Model[] = [
       type: "мобильный"
     },
     images: [
+      "https://cdn.poehali.dev/files/e3226e84-80c0-42ef-99fd-197f75e03d74.jpg",
       "https://cdn.poehali.dev/files/6I8A7423 (2).jpg",
       "https://cdn.poehali.dev/files/6I8A7424 (2).jpg",
       "https://cdn.poehali.dev/files/6I8A7399.jpg",
