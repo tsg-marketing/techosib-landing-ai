@@ -792,6 +792,7 @@ export default function Index() {
     dailyVolume: "",
     machineType: ""
   });
+  const [successDialogOpen, setSuccessDialogOpen] = useState(false);
 
   useEffect(() => {
     saveUtmToCookies();
@@ -900,7 +901,6 @@ export default function Index() {
       const result = await response.json();
       
       if (result.success) {
-        alert("Спасибо за заявку. Наш менеджер свяжется с Вами в ближайшее время!");
         setDialogOpen(false);
         setHeroFormOpen(false);
         setDemoFormOpen(false);
@@ -908,6 +908,7 @@ export default function Index() {
           resetQuiz();
         }
         form.reset();
+        setSuccessDialogOpen(true);
       } else {
         alert("Произошла ошибка при отправке. Пожалуйста, попробуйте позже или позвоните нам.");
       }
@@ -1907,6 +1908,27 @@ export default function Index() {
               </div>
             </div>
           )}
+        </DialogContent>
+      </Dialog>
+
+      {/* Success Dialog */}
+      <Dialog open={successDialogOpen} onOpenChange={setSuccessDialogOpen}>
+        <DialogContent className="sm:max-w-md">
+          <DialogHeader>
+            <div className="mx-auto w-16 h-16 bg-green-100 rounded-full flex items-center justify-center mb-4">
+              <Icon name="CheckCircle" size={40} className="text-green-600" />
+            </div>
+            <DialogTitle className="text-2xl text-center">Спасибо за заявку!</DialogTitle>
+            <DialogDescription className="text-center text-lg">
+              Наш менеджер свяжется с Вами в ближайшее время!
+            </DialogDescription>
+          </DialogHeader>
+          <Button 
+            onClick={() => setSuccessDialogOpen(false)} 
+            className="w-full bg-secondary hover:bg-secondary/90"
+          >
+            Закрыть
+          </Button>
         </DialogContent>
       </Dialog>
 
