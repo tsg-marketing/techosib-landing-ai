@@ -900,7 +900,7 @@ export default function Index() {
       const result = await response.json();
       
       if (result.success) {
-        alert("Спасибо! Мы свяжемся с вами в ближайшее время.");
+        alert("Спасибо за заявку. Наш менеджер свяжется с Вами в ближайшее время!");
         setDialogOpen(false);
         setHeroFormOpen(false);
         setDemoFormOpen(false);
