@@ -729,40 +729,6 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Video Gallery Section */}
-      <section className="py-16 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-            Видеообзоры оборудования
-          </h2>
-          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Смотрите, как работают наши паллетообмотчики в реальных условиях
-          </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-            {models.filter(m => m.videoUrl).map((model) => (
-              <Card key={model.id} className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" onClick={() => openVideoDialog(model.videoUrl!)}>
-                <div className="relative aspect-video bg-gray-900">
-                  <img 
-                    src={model.images[0]} 
-                    alt={model.name}
-                    className="w-full h-full object-cover opacity-70"
-                  />
-                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors">
-                    <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-2xl">
-                      <Icon name="Play" size={32} className="text-white ml-1" />
-                    </div>
-                  </div>
-                </div>
-                <CardContent className="p-4">
-                  <h3 className="text-xl font-bold mb-2">{model.name}</h3>
-                  <p className="text-sm text-muted-foreground line-clamp-2">{model.description}</p>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
-
       {/* Models Section */}
       <section id="models" className="py-16 bg-white">
         <div className="container mx-auto px-4">
@@ -917,6 +883,39 @@ export default function Index() {
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Video Gallery Section */}
+      <section className="py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
+            Видеообзоры оборудования
+          </h2>
+          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
+            Смотрите, как работают наши паллетообмотчики в реальных условиях
+          </p>
+          <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
+            {models.filter(m => m.videoUrl).map((model) => (
+              <Card key={model.id} className="overflow-hidden hover:shadow-xl transition-shadow cursor-pointer" onClick={() => openVideoDialog(model.videoUrl!)}>
+                <div className="relative aspect-video bg-gray-900">
+                  <img 
+                    src={model.images[0]} 
+                    alt={model.name}
+                    className="w-full h-full object-cover opacity-70"
+                  />
+                  <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors">
+                    <div className="w-20 h-20 rounded-full bg-red-600 flex items-center justify-center shadow-2xl">
+                      <Icon name="Play" size={32} className="text-white ml-1" />
+                    </div>
+                  </div>
+                </div>
+                <CardContent className="p-4">
+                  <h3 className="text-xl font-bold text-center">{model.name}</h3>
+                </CardContent>
+              </Card>
+            ))}
           </div>
         </div>
       </section>
