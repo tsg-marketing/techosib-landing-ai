@@ -56,6 +56,7 @@ export default function Header({
             <button onClick={() => scrollToSection('specs')} className="text-base font-semibold hover:text-primary transition-colors">Характеристики</button>
             <button onClick={() => scrollToSection('service')} className="text-base font-semibold hover:text-primary transition-colors">Сервис</button>
             <button onClick={() => scrollToSection('faq')} className="text-base font-semibold hover:text-primary transition-colors">FAQ</button>
+            <button onClick={() => scrollToSection('about')} className="text-base font-semibold hover:text-primary transition-colors">О нас</button>
             <button onClick={() => scrollToSection('contacts')} className="text-base font-semibold hover:text-primary transition-colors">Контакты</button>
           </nav>
 
@@ -87,14 +88,7 @@ export default function Header({
                     <Label htmlFor="email">Email</Label>
                     <Input id="email" name="email" type="email" placeholder="your@email.com" />
                   </div>
-                  <div>
-                    <Label htmlFor="company">Компания</Label>
-                    <Input id="company" name="company" type="text" placeholder="Название компании" />
-                  </div>
-                  <div>
-                    <Label htmlFor="comment">Комментарий</Label>
-                    <Textarea id="comment" name="comment" placeholder="Дополнительная информация" />
-                  </div>
+
                   {selectedModel && (
                     <div className="text-sm text-muted-foreground">
                       Модель: <span className="font-semibold">{selectedModel}</span>
@@ -124,6 +118,7 @@ export default function Header({
             <button onClick={() => scrollToSection('specs')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Характеристики</button>
             <button onClick={() => scrollToSection('service')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Сервис</button>
             <button onClick={() => scrollToSection('faq')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">FAQ</button>
+            <button onClick={() => scrollToSection('about')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">О нас</button>
             <button onClick={() => scrollToSection('contacts')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Контакты</button>
             <a href="tel:88005057238" className="block py-2 text-lg font-semibold text-blue-900" onClick={() => {
               if (typeof window !== 'undefined' && (window as any).ym) {

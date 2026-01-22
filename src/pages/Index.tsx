@@ -1475,14 +1475,7 @@ export default function Index() {
                       <Label htmlFor="quiz-email">Email</Label>
                       <Input id="quiz-email" name="email" type="email" placeholder="your@email.com" />
                     </div>
-                    <div>
-                      <Label htmlFor="quiz-company">Компания</Label>
-                      <Input id="quiz-company" name="company" type="text" placeholder="Название компании" />
-                    </div>
-                    <div>
-                      <Label htmlFor="quiz-comment">Комментарий</Label>
-                      <Textarea id="quiz-comment" name="comment" placeholder="Дополнительная информация" />
-                    </div>
+
                     <div className="flex items-start gap-2">
                       <Checkbox id="quiz-consent" required />
                       <Label htmlFor="quiz-consent" className="text-xs text-muted-foreground cursor-pointer">
@@ -1594,6 +1587,26 @@ export default function Index() {
         </div>
       </section>
 
+      {/* About Us Section */}
+      <section id="about" className="py-8 md:py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-8">
+            О нас
+          </h2>
+          <div className="max-w-4xl mx-auto space-y-6 text-lg text-gray-700 leading-relaxed">
+            <p>
+              Компания «Техно‑Сиб» — надежный поставщик и партнер в сфере профессионального пищевого и фасовочно‑упаковочного оборудования. Мы работаем с 2001 года и уже 25 лет помогаем предприятиям эффективно оснащать производства и склады пищевым и упаковочным оборудованием, предоставляем сервисное обслуживание, а также реализуем упаковочные и расходные материалы.
+            </p>
+            <p>
+              Мы сотрудничаем с ведущими заводами‑производителями Европы, России и Китая, подбирая решения под задачи и бюджет клиента. Собственные офисы продаж, склады, сервисная служба и отлаженная логистика в Москве и Новосибирске позволяют нам оперативно выполнять поставки и поддерживать оборудование на территории России и стран СНГ.
+            </p>
+            <p>
+              Экспертиза наших специалистов помогает решать задачи любого уровня сложности — от подбора единичной позиции до комплексного оснащения. «Техно‑Сиб» всегда предложит оптимальное решение для вашего бизнеса и обеспечит надежную поддержку на всех этапах работы.
+            </p>
+          </div>
+        </div>
+      </section>
+
       {/* Final CTA / Contacts Section */}
       <section id="contacts" className="py-8 md:py-12 bg-gradient-to-b from-primary to-primary/90 text-white">
         <div className="container mx-auto px-4">
@@ -1661,14 +1674,7 @@ export default function Index() {
                     <Label htmlFor="footer-form-email">Email</Label>
                     <Input id="footer-form-email" name="email" type="email" placeholder="your@email.com" />
                   </div>
-                  <div>
-                    <Label htmlFor="footer-form-company">Компания</Label>
-                    <Input id="footer-form-company" name="company" type="text" placeholder="Название компании" />
-                  </div>
-                  <div>
-                    <Label htmlFor="footer-form-comment">Комментарий</Label>
-                    <Textarea id="footer-form-comment" name="comment" placeholder="Дополнительная информация" />
-                  </div>
+
                   <div className="flex items-start gap-2">
                     <Checkbox id="footer-form-consent" required />
                     <Label htmlFor="footer-form-consent" className="text-xs text-muted-foreground cursor-pointer">
@@ -1723,14 +1729,7 @@ export default function Index() {
               <Label htmlFor="hero-form-email">Email</Label>
               <Input id="hero-form-email" name="email" type="email" placeholder="your@email.com" />
             </div>
-            <div>
-              <Label htmlFor="hero-form-company">Компания</Label>
-              <Input id="hero-form-company" name="company" type="text" placeholder="Название компании" />
-            </div>
-            <div>
-              <Label htmlFor="hero-form-comment">Комментарий</Label>
-              <Textarea id="hero-form-comment" name="comment" placeholder="Дополнительная информация" />
-            </div>
+
             <div className="flex items-start gap-2">
               <Checkbox id="hero-form-consent" required />
               <Label htmlFor="hero-form-consent" className="text-xs text-muted-foreground cursor-pointer">
@@ -1764,14 +1763,7 @@ export default function Index() {
               <Label htmlFor="demo-form-email">Email</Label>
               <Input id="demo-form-email" name="email" type="email" placeholder="your@email.com" />
             </div>
-            <div>
-              <Label htmlFor="demo-form-company">Компания</Label>
-              <Input id="demo-form-company" name="company" type="text" placeholder="Название компании" />
-            </div>
-            <div>
-              <Label htmlFor="demo-form-comment">Комментарий</Label>
-              <Textarea id="demo-form-comment" name="comment" placeholder="Дополнительная информация" />
-            </div>
+
             <div className="flex items-start gap-2">
               <Checkbox id="demo-form-consent" required />
               <Label htmlFor="demo-form-consent" className="text-xs text-muted-foreground cursor-pointer">
@@ -1956,6 +1948,7 @@ export default function Index() {
               <button onClick={() => scrollToSection('advantages')} className="hover:text-white transition-colors">Преимущества</button>
               <button onClick={() => scrollToSection('service')} className="hover:text-white transition-colors">Сервис</button>
               <button onClick={() => scrollToSection('faq')} className="hover:text-white transition-colors">FAQ</button>
+              <button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">О нас</button>
               <button onClick={() => scrollToSection('contacts')} className="hover:text-white transition-colors">Контакты</button>
             </div>
             <div className="text-sm text-gray-500 pt-4">
