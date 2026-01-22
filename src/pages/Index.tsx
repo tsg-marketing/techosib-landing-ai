@@ -1626,8 +1626,8 @@ export default function Index() {
                   <div className="w-16 h-16 bg-secondary/10 rounded-full flex items-center justify-center mx-auto mb-4">
                     <Icon name="Globe" size={32} className="text-secondary" />
                   </div>
-                  <h3 className="text-lg font-semibold text-gray-900 mb-2">3 региона</h3>
-                  <p className="text-gray-600">Партнеры из Европы, России и Китая</p>
+                  <h3 className="text-lg font-semibold text-gray-900 mb-2">Проверенные партнеры</h3>
+                  <p className="text-gray-600">Из Европы, России и Китая</p>
                 </CardContent>
               </Card>
             </div>
