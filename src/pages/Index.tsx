@@ -1032,11 +1032,9 @@ export default function Index() {
                 size="lg" 
                 variant="outline" 
                 className="text-lg py-6"
-                asChild
+                onClick={() => scrollToSection('models')}
               >
-                <a href="https://t-sib.ru/pischevoe_oborudovanie/upakovochnoe_oborudovanie/">
-                  Посмотреть оборудование
-                </a>
+                Посмотреть модели
               </Button>
             </div>
           </div>
