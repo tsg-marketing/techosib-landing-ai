@@ -707,27 +707,27 @@ const advantages = [
   {
     icon: "Zap",
     title: "Высокая производительность",
-    description: "Упаковка одного паллета занимает 2-3 минуты"
+    description: "Упаковка одного паллета занимает 2-3 минуты. До 25 паллет/час"
   },
   {
     icon: "Shield",
     title: "Надежная защита груза",
-    description: "Надежная защита груза при транспортировке"
+    description: "Гарантия целостности — груз не повреждается даже при длительной транспортировке"
   },
   {
     icon: "Settings",
     title: "Простота эксплуатации",
-    description: "Интуитивное управление, не требует специальной подготовки"
+    description: "Интуитивное управление, не требует специальной подготовки. Обучение любого сотрудника за 2 часа. ПНР силами компании или консультация по телефону/в мессенджерах"
   },
   {
     icon: "Award",
     title: "Качество и надежность",
-    description: "Проверенное оборудование с гарантией 12 месяцев"
+    description: "Проверенное оборудование с гарантией 12 месяцев. Минимум сервисных случаев. Цепной привод"
   },
   {
     icon: "Wrench",
     title: "Легкое обслуживание",
-    description: "Минимальные требования к техническому обслуживанию"
+    description: "Минимальные требования к техническому обслуживанию. З/ч и поддержка — склад в Москве и Новосибирске. Быстрая поставка"
   }
 ];
 
@@ -1010,9 +1010,23 @@ export default function Index() {
             <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-semibold mb-4">
               Надежное оборудование по доступной цене
             </p>
-            <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-8">
+            <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-6">
               От {minPrice} руб
             </p>
+            <ul className="space-y-2 mb-8 text-base md:text-lg text-gray-700">
+              <li className="flex items-start gap-2">
+                <Icon name="Check" size={20} className="text-secondary mt-0.5 flex-shrink-0" />
+                <span>Работает без простоев в 3 смены</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Icon name="Check" size={20} className="text-secondary mt-0.5 flex-shrink-0" />
+                <span>Упаковка без брака и потерь</span>
+              </li>
+              <li className="flex items-start gap-2">
+                <Icon name="Check" size={20} className="text-secondary mt-0.5 flex-shrink-0" />
+                <span>Сервис и гарантия по всей России</span>
+              </li>
+            </ul>
             <div className="flex flex-col sm:flex-row gap-4">
               <Button 
                 size="lg" 
@@ -1059,6 +1073,53 @@ export default function Index() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* For Whom Section */}
+      <section className="py-8 md:py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Для кого предназначены наши паллетообмотчики
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="flex gap-4 items-start">
+              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Icon name="Factory" size={32} className="text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Для производственных предприятий</h3>
+                <p className="text-gray-700">Максимальная надежность — оборудование справляется с 3-сменной работой без остановок. Не допускает перерасхода пленки и брака упаковки.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Icon name="Truck" size={32} className="text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Для логистики и транспортных компаний</h3>
+                <p className="text-gray-700">Надежность упаковки на всем пути — защита от влаги и осыпания, предельно простое обучение персонала.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Icon name="Building2" size={32} className="text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Для дистрибьюторов стройматериалов</h3>
+                <p className="text-gray-700">Автоматизация: одна машина заменяет нескольких упаковщиков, подходит для работы с 40+ паллет/смена без контроля.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Icon name="Warehouse" size={32} className="text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Для складов розничных сетей</h3>
+                <p className="text-gray-700">Минимум простоев, быстрый сервис и доступность запчастей. Подходит для складов с высокой текучкой персонала и большими объемами.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
