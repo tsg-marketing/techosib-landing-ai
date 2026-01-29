@@ -1783,7 +1783,7 @@ export default function Index() {
                 <div className="grid md:grid-cols-[300px_1fr] gap-6">
                   <div className="hidden md:block">
                     <img 
-                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/9d78d85f-3b93-4cc1-8429-bc27223b8679.jpg" 
+                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/dbabe46e-cef5-42dc-a065-41c5ff2eb0e1.jpg" 
                       alt="Директор / собственник" 
                       className="w-full h-auto rounded-lg shadow-lg object-cover"
                     />
@@ -1805,7 +1805,7 @@ export default function Index() {
                 <div className="grid md:grid-cols-[300px_1fr] gap-6">
                   <div className="hidden md:block">
                     <img 
-                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/1ccc928c-b8f0-40a3-8282-94d4cb8fa5a9.jpg" 
+                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/094b5c15-abbd-4459-8bbb-d1d22966f57b.jpg" 
                       alt="Главный инженер / механик" 
                       className="w-full h-auto rounded-lg shadow-lg object-cover"
                     />
@@ -1827,7 +1827,7 @@ export default function Index() {
                 <div className="grid md:grid-cols-[300px_1fr] gap-6">
                   <div className="hidden md:block">
                     <img 
-                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/265d5f77-b711-438d-a8d7-260de6287475.jpg" 
+                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/c4d1e287-10d0-4863-972e-1ed27626a9c8.jpg" 
                       alt="Руководитель склада / логист" 
                       className="w-full h-auto rounded-lg shadow-lg object-cover"
                     />
@@ -1849,7 +1849,7 @@ export default function Index() {
                 <div className="grid md:grid-cols-[300px_1fr] gap-6">
                   <div className="hidden md:block">
                     <img 
-                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/75423464-7abb-46ae-8341-1ecbee88ba47.jpg" 
+                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/595de9b2-a634-492f-beed-bec899ffea60.jpg" 
                       alt="Снабжение / закупки" 
                       className="w-full h-auto rounded-lg shadow-lg object-cover"
                     />
