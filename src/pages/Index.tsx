@@ -9,6 +9,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { RadioGroup, RadioGroupItem } from "@/components/ui/radio-group";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import { Accordion, AccordionContent, AccordionItem, AccordionTrigger } from "@/components/ui/accordion";
+import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Icon from "@/components/ui/icon";
 import ImageCarousel from "@/components/ImageCarousel";
 import Header from "@/components/sections/Header";
@@ -770,6 +771,102 @@ const faqItems = [
     answer: "Компания Техно-Сиб основана в 2001 году. Мы специализируемся на поставках и сервисном обслуживании профессионального пищевого и фасовочно-упаковочного оборудования, а также обеспечении упаковочными и расходными материалами. Наши склады находятся в городах Москва и Новосибирск. Доставку оборудования мы делаем по всей России."
   }
 ];
+
+// Objections data
+const objections = {
+  director: [
+    {
+      objection: "Дешёвое оборудование долго не живёт. Потом всё равно купим дороже",
+      answer: "Техносиб — это не \"одноразовая\" техника: в линейке цепной привод поворотного стола, промышленная конструкция и понятные узлы обслуживания. Вы не платите за \"брендовую наценку\", а получаете рабочий ресурс под регулярную эксплуатацию."
+    },
+    {
+      objection: "Мне важно, чтобы не было простоев из за мелких поломок",
+      answer: "У оборудования простая механика, без редких нестандартных компонентов. Запчасти и расходники держатся на складе, гарантийные обращения закрываются без \"ожидания поставки месяцами\"."
+    },
+    {
+      objection: "Мы не хотим зависеть от одного оператора — персонал часто меняется",
+      answer: "Панель управления и сценарии упаковки простые: программы настройки в памяти, типовые циклы. Нового сотрудника можно быстро обучить на месте, без длительной подготовки."
+    },
+    {
+      objection: "Не уверен, что нам вообще нужен паллетообмотчик — сейчас вручную справляемся",
+      answer: "Ручная обмотка даёт две постоянные проблемы: нестабильное натяжение и перерасход плёнки. Машина делает упаковку повторяемой — одинаковое качество паллеты каждый раз, без \"человеческого фактора\"."
+    },
+    {
+      objection: "Вдруг не подойдёт под наши грузы и паллеты",
+      answer: "Под задачи подбирается конкретная конфигурация: по высоте паллет до 2400 мм, по нагрузке до 2000 кг (стационарные модели), по нестабильному грузу — версии с прижимом (TP), по экономии плёнки — каретка SPS с предрастяжением 250%."
+    }
+  ],
+  engineer: [
+    {
+      objection: "Сложная электроника — потом никто не разберётся",
+      answer: "Это не \"роботизированная линия\" с уникальными контроллерами. Управление и узлы типовые для класса паллетообмотчиков, обслуживание сводится к регламентным проверкам и настройкам натяжения/циклов."
+    },
+    {
+      objection: "Плёнку будет рвать, особенно на острых углах",
+      answer: "Для такой задачи важно правильное натяжение и режим обмотки. Вариант MR — механическая настройка натяжения на каретке. Вариант SPS — предрастяжение 250% и регулировка натяжения с панели, что помогает стабильно обматывать без \"перетяга\"."
+    },
+    {
+      objection: "Нестабильный груз будет заваливаться при вращении стола",
+      answer: "Для нестабильных паллет используются модели с прижимом (TP): он фиксирует груз сверху и снижает риск смещения во время обмотки."
+    },
+    {
+      objection: "У нас погрузчик, подъездная рама неудобна/негде ставить",
+      answer: "Для упрощения захвата паллеты есть модели с E образным столом (MT): поддон легче подать погрузчиком без дополнительных решений."
+    },
+    {
+      objection: "Что по электрике? У нас стандартное питание",
+      answer: "Стационарные модели работают от 220V. Если нужна автономность на складе без привязки к розетке — есть мобильный вариант ROBO MS на АКБ."
+    },
+    {
+      objection: "Как понять, выдержит ли по весу?",
+      answer: "Для тяжёлых грузов подходят стационарные модели с допустимой нагрузкой до 2000 кг. Если груз нестабильный — добавляется прижим (TP). Если важна экономия плёнки — SPS."
+    }
+  ],
+  warehouse: [
+    {
+      objection: "Нам нужно быстрее. Сейчас упаковываем и так, но очередь копится",
+      answer: "Скорость упаковки одной паллеты — порядка 2–3 минут (в зависимости от программы и высоты). Это стабилизирует отгрузку: нет \"провалов\", когда один человек устал/заменился/ошибся."
+    },
+    {
+      objection: "Груз приходит порванный: плёнка слетает, паллета расползается",
+      answer: "Машинная обмотка даёт повторяемое натяжение и одинаковое количество витков. Это снижает риск \"сползания\" упаковки на длинных плечах и при перегрузках."
+    },
+    {
+      objection: "У нас разные паллеты — боюсь, каждый раз надо перенастраивать",
+      answer: "Режимы сохраняются в памяти (10 программ). Под разные типы паллет можно держать отдельные программы: стандарт, высокий груз, усиленная фиксация, дополнительная обмотка внизу/вверху."
+    },
+    {
+      objection: "Если сломается — склад встанет",
+      answer: "Оборудование обслуживается по понятной схеме: большинство работ — на месте, без вывоза. Важный момент для склада — наличие запчастей и понятная конструкция, чтобы не ждать редкие компоненты."
+    },
+    {
+      objection: "Мобильность важнее: паллеты стоят в разных местах",
+      answer: "Для этого есть ROBO MS: мобильный паллетообмотчик, который работает от аккумуляторов и обматывает груз там, где он стоит."
+    }
+  ],
+  procurement: [
+    {
+      objection: "Нужны понятные основания для выбора: чем отличается MR от SPS?",
+      answer: "MR — механическая регулировка натяжения (без предрастяжения). SPS — предрастяжение плёнки 250% и регулировка натяжения с панели. Если цель — снизить расход плёнки и держать стабильное натяжение, чаще выбирают SPS."
+    },
+    {
+      objection: "Гарантия всего 12 месяцев — это мало",
+      answer: "12 месяцев — официальная гарантия. Важно другое: доступность запчастей, сервис и простые узлы, которые не требуют редких деталей. Это снижает эксплуатационные риски после гарантийного периода."
+    },
+    {
+      objection: "Вдруг поставщик пропадёт и не будет сервиса",
+      answer: "Техносиб — компания с офисами в Москве и Новосибирске и сервисной поддержкой. Это снижает риск \"оборудование есть, обслуживать некому\"."
+    },
+    {
+      objection: "Нам нужно сравнить с аналогами дороже: почему цена ниже?",
+      answer: "Цена ниже за счёт брендинга и комплектации без лишних \"опций ради опций\". Ключевые функции сохранены: цепной привод, программирование циклов, варианты кареток, прижим для нестабильных грузов, предрастяжение 250% в SPS."
+    },
+    {
+      objection: "Нужны сроки и предсказуемость поставки",
+      answer: "На сайте отмечены статусы \"в наличии / под заказ\". Это позволяет заранее понимать, что можно поставить быстро со склада, а что планировать по срокам."
+    }
+  ]
+};
 
 export default function Index() {
   const { prices, minPrice, loading } = usePrices();
@@ -1643,6 +1740,89 @@ export default function Index() {
                 </AccordionItem>
               ))}
             </Accordion>
+          </div>
+        </div>
+      </section>
+
+      {/* Objections Section */}
+      <section className="py-8 md:py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            А что если...
+          </h2>
+          <div className="max-w-5xl mx-auto">
+            <Tabs defaultValue="director" className="w-full">
+              <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 h-auto gap-2 bg-transparent p-0 mb-8">
+                <TabsTrigger 
+                  value="director" 
+                  className="text-sm md:text-base py-3 px-2 data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
+                >
+                  Директор / собственник
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="engineer"
+                  className="text-sm md:text-base py-3 px-2 data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
+                >
+                  Главный инженер / механик
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="warehouse"
+                  className="text-sm md:text-base py-3 px-2 data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
+                >
+                  Руководитель склада / логист
+                </TabsTrigger>
+                <TabsTrigger 
+                  value="procurement"
+                  className="text-sm md:text-base py-3 px-2 data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
+                >
+                  Снабжение / закупки
+                </TabsTrigger>
+              </TabsList>
+
+              <TabsContent value="director" className="space-y-4">
+                {objections.director.map((item, idx) => (
+                  <Card key={idx} className="border-l-4 border-l-primary">
+                    <CardContent className="p-6">
+                      <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </TabsContent>
+
+              <TabsContent value="engineer" className="space-y-4">
+                {objections.engineer.map((item, idx) => (
+                  <Card key={idx} className="border-l-4 border-l-primary">
+                    <CardContent className="p-6">
+                      <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </TabsContent>
+
+              <TabsContent value="warehouse" className="space-y-4">
+                {objections.warehouse.map((item, idx) => (
+                  <Card key={idx} className="border-l-4 border-l-primary">
+                    <CardContent className="p-6">
+                      <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </TabsContent>
+
+              <TabsContent value="procurement" className="space-y-4">
+                {objections.procurement.map((item, idx) => (
+                  <Card key={idx} className="border-l-4 border-l-primary">
+                    <CardContent className="p-6">
+                      <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
+                      <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
+                    </CardContent>
+                  </Card>
+                ))}
+              </TabsContent>
+            </Tabs>
           </div>
         </div>
       </section>
