@@ -1013,17 +1013,17 @@ export default function Index() {
             <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-6">
               От {minPrice} руб
             </p>
-            <ul className="space-y-2 mb-8 text-base md:text-lg text-gray-700">
-              <li className="flex items-start gap-2">
-                <Icon name="Check" size={20} className="text-secondary mt-0.5 flex-shrink-0" />
+            <ul className="space-y-2 mb-8 text-lg md:text-xl lg:text-2xl text-gray-700 font-medium">
+              <li className="flex items-start gap-3">
+                <Icon name="Check" size={24} className="text-secondary mt-1 flex-shrink-0" />
                 <span>Работает без простоев в 3 смены</span>
               </li>
-              <li className="flex items-start gap-2">
-                <Icon name="Check" size={20} className="text-secondary mt-0.5 flex-shrink-0" />
+              <li className="flex items-start gap-3">
+                <Icon name="Check" size={24} className="text-secondary mt-1 flex-shrink-0" />
                 <span>Упаковка без брака и потерь</span>
               </li>
-              <li className="flex items-start gap-2">
-                <Icon name="Check" size={20} className="text-secondary mt-0.5 flex-shrink-0" />
+              <li className="flex items-start gap-3">
+                <Icon name="Check" size={24} className="text-secondary mt-1 flex-shrink-0" />
                 <span>Сервис и гарантия по всей России</span>
               </li>
             </ul>
