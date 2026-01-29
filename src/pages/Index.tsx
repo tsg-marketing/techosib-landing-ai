@@ -1779,48 +1779,92 @@ export default function Index() {
                 </TabsTrigger>
               </TabsList>
 
-              <TabsContent value="director" className="space-y-4">
-                {objections.director.map((item, idx) => (
-                  <Card key={idx} className="border-l-4 border-l-primary">
-                    <CardContent className="p-6">
-                      <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
-                      <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
-                    </CardContent>
-                  </Card>
-                ))}
+              <TabsContent value="director" className="mt-6">
+                <div className="grid md:grid-cols-[300px_1fr] gap-6">
+                  <div className="hidden md:block">
+                    <img 
+                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/9d78d85f-3b93-4cc1-8429-bc27223b8679.jpg" 
+                      alt="Директор / собственник" 
+                      className="w-full h-auto rounded-lg shadow-lg object-cover"
+                    />
+                  </div>
+                  <div className="space-y-4">
+                    {objections.director.map((item, idx) => (
+                      <Card key={idx} className="border-l-4 border-l-primary">
+                        <CardContent className="p-6">
+                          <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
+                          <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
               </TabsContent>
 
-              <TabsContent value="engineer" className="space-y-4">
-                {objections.engineer.map((item, idx) => (
-                  <Card key={idx} className="border-l-4 border-l-primary">
-                    <CardContent className="p-6">
-                      <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
-                      <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
-                    </CardContent>
-                  </Card>
-                ))}
+              <TabsContent value="engineer" className="mt-6">
+                <div className="grid md:grid-cols-[300px_1fr] gap-6">
+                  <div className="hidden md:block">
+                    <img 
+                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/1ccc928c-b8f0-40a3-8282-94d4cb8fa5a9.jpg" 
+                      alt="Главный инженер / механик" 
+                      className="w-full h-auto rounded-lg shadow-lg object-cover"
+                    />
+                  </div>
+                  <div className="space-y-4">
+                    {objections.engineer.map((item, idx) => (
+                      <Card key={idx} className="border-l-4 border-l-primary">
+                        <CardContent className="p-6">
+                          <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
+                          <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
               </TabsContent>
 
-              <TabsContent value="warehouse" className="space-y-4">
-                {objections.warehouse.map((item, idx) => (
-                  <Card key={idx} className="border-l-4 border-l-primary">
-                    <CardContent className="p-6">
-                      <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
-                      <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
-                    </CardContent>
-                  </Card>
-                ))}
+              <TabsContent value="warehouse" className="mt-6">
+                <div className="grid md:grid-cols-[300px_1fr] gap-6">
+                  <div className="hidden md:block">
+                    <img 
+                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/265d5f77-b711-438d-a8d7-260de6287475.jpg" 
+                      alt="Руководитель склада / логист" 
+                      className="w-full h-auto rounded-lg shadow-lg object-cover"
+                    />
+                  </div>
+                  <div className="space-y-4">
+                    {objections.warehouse.map((item, idx) => (
+                      <Card key={idx} className="border-l-4 border-l-primary">
+                        <CardContent className="p-6">
+                          <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
+                          <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
               </TabsContent>
 
-              <TabsContent value="procurement" className="space-y-4">
-                {objections.procurement.map((item, idx) => (
-                  <Card key={idx} className="border-l-4 border-l-primary">
-                    <CardContent className="p-6">
-                      <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
-                      <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
-                    </CardContent>
-                  </Card>
-                ))}
+              <TabsContent value="procurement" className="mt-6">
+                <div className="grid md:grid-cols-[300px_1fr] gap-6">
+                  <div className="hidden md:block">
+                    <img 
+                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/75423464-7abb-46ae-8341-1ecbee88ba47.jpg" 
+                      alt="Снабжение / закупки" 
+                      className="w-full h-auto rounded-lg shadow-lg object-cover"
+                    />
+                  </div>
+                  <div className="space-y-4">
+                    {objections.procurement.map((item, idx) => (
+                      <Card key={idx} className="border-l-4 border-l-primary">
+                        <CardContent className="p-6">
+                          <h3 className="font-bold text-lg mb-3">{item.objection}</h3>
+                          <p className="text-muted-foreground leading-relaxed">{item.answer}</p>
+                        </CardContent>
+                      </Card>
+                    ))}
+                  </div>
+                </div>
               </TabsContent>
             </Tabs>
           </div>
