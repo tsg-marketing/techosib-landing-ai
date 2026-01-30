@@ -1755,25 +1755,25 @@ export default function Index() {
               <TabsList className="grid w-full grid-cols-2 lg:grid-cols-4 h-auto gap-2 bg-transparent p-0 mb-8">
                 <TabsTrigger 
                   value="director" 
-                  className="text-sm md:text-base py-3 px-2 data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
+                  className="text-xs sm:text-sm md:text-base py-3 px-2 whitespace-normal h-auto min-h-[60px] data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
                 >
                   Директор / собственник
                 </TabsTrigger>
                 <TabsTrigger 
                   value="engineer"
-                  className="text-sm md:text-base py-3 px-2 data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
+                  className="text-xs sm:text-sm md:text-base py-3 px-2 whitespace-normal h-auto min-h-[60px] data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
                 >
                   Главный инженер / механик
                 </TabsTrigger>
                 <TabsTrigger 
                   value="warehouse"
-                  className="text-sm md:text-base py-3 px-2 data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
+                  className="text-xs sm:text-sm md:text-base py-3 px-2 whitespace-normal h-auto min-h-[60px] data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
                 >
                   Руководитель склада / логист
                 </TabsTrigger>
                 <TabsTrigger 
                   value="procurement"
-                  className="text-sm md:text-base py-3 px-2 data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
+                  className="text-xs sm:text-sm md:text-base py-3 px-2 whitespace-normal h-auto min-h-[60px] data-[state=active]:bg-white data-[state=active]:shadow-md border border-transparent data-[state=active]:border-primary/20"
                 >
                   Снабжение / закупки
                 </TabsTrigger>
