@@ -892,6 +892,19 @@ export default function Index() {
 
   useEffect(() => {
     saveUtmToCookies();
+    
+    const hash = window.location.hash;
+    if (hash) {
+      setTimeout(() => {
+        const element = document.querySelector(hash);
+        if (element) {
+          const offset = 80;
+          const elementPosition = element.getBoundingClientRect().top;
+          const offsetPosition = elementPosition + window.pageYOffset - offset;
+          window.scrollTo({ top: offsetPosition, behavior: 'smooth' });
+        }
+      }, 500);
+    }
   }, []);
 
   const handlePhoneInput = (e: React.FormEvent<HTMLInputElement>) => {
@@ -1232,7 +1245,7 @@ export default function Index() {
           </p>
           <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
             {models.map((model) => (
-              <Card key={model.id} className="hover:shadow-xl transition-shadow flex flex-col">
+              <Card key={model.id} id={model.id} className="hover:shadow-xl transition-shadow flex flex-col scroll-mt-20">
                 <ImageCarousel images={model.videoUrl ? model.images.slice(1) : model.images} alt={model.name} inStock={model.inStock} />
                 <CardHeader>
                   <CardTitle className="text-2xl text-gray-900">{model.name}</CardTitle>

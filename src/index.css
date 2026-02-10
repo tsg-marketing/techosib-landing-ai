@@ -110,4 +110,8 @@
   h6 {
     font-family: "Inter", sans-serif;
   }
+
+  .scroll-mt-20 {
+    scroll-margin-top: 5rem;
+  }
 }
