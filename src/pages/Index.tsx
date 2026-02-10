@@ -895,6 +895,15 @@ export default function Index() {
     
     const hash = window.location.hash;
     if (hash) {
+      const modelId = hash.substring(1);
+      const model = models.find(m => m.id === modelId);
+      
+      if (model && model.detailedSpecs) {
+        setTimeout(() => {
+          openSpecsDialog(model);
+        }, 300);
+      }
+      
       setTimeout(() => {
         const element = document.querySelector(hash);
         if (element) {
