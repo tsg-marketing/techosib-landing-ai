@@ -1,0 +1,10 @@
+{
+  "tests": [
+    {
+      "name": "GET YML feed in-stock",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200
+    }
+  ]
+}
