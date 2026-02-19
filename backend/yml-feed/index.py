@@ -486,7 +486,7 @@ def build_yml():
         lines.append('<categoryId>1</categoryId>')
 
         for img in model["images"]:
-            lines.append(f'<picture>{escape_xml(img)}</picture>')
+            lines.append(f'<picture>{escape_xml(img.replace(" ", "%20"))}</picture>')
 
         lines.append(f'<description><![CDATA[{model["description"]}]]></description>')
 
