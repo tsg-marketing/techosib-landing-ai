@@ -15,6 +15,8 @@ import ImageCarousel from "@/components/ImageCarousel";
 import Header from "@/components/sections/Header";
 import MachineCollage from "@/components/MachineCollage";
 import { usePrices } from "@/hooks/usePrices";
+import { useCart } from "@/hooks/useCart";
+import { useNavigate } from "react-router-dom";
 
 // Model data structure
 interface Model {
@@ -870,6 +872,8 @@ const objections = {
 
 export default function Index() {
   const { prices, minPrice, loading } = usePrices();
+  const { addItem, items } = useCart();
+  const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
   const [selectedModel, setSelectedModel] = useState("");
@@ -1129,9 +1133,7 @@ export default function Index() {
             <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-semibold mb-4">
               Надежное оборудование по доступной цене
             </p>
-            <p className="text-3xl md:text-4xl lg:text-5xl font-bold text-secondary mb-6">
-              От {minPrice} руб
-            </p>
+
             <ul className="space-y-2 mb-8 text-lg md:text-xl lg:text-2xl text-gray-700 font-medium">
               <li className="flex items-start gap-3">
                 <Icon name="Check" size={24} className="text-secondary mt-1 flex-shrink-0" />
@@ -1292,12 +1294,30 @@ export default function Index() {
                         Посмотреть видео
                       </Button>
                     )}
-                    <Button 
-                      className="w-full bg-secondary hover:bg-secondary/80 text-white text-lg py-6 shadow-lg" 
-                      onClick={() => openModelDialog(model.name)}
-                    >
-                      Оставить заявку
-                    </Button>
+                    <div className="flex gap-2">
+                      <Button 
+                        className="flex-1 bg-secondary hover:bg-secondary/80 text-white text-lg py-6 shadow-lg" 
+                        onClick={() => openModelDialog(model.name)}
+                      >
+                        Оставить заявку
+                      </Button>
+                      <Button
+                        variant={items.some(i => i.id === model.id) ? "default" : "outline"}
+                        className={`py-6 px-4 ${items.some(i => i.id === model.id) ? "bg-green-500 hover:bg-green-600 text-white border-green-500" : ""}`}
+                        onClick={() => {
+                          const priceStr = getPrice(model.name);
+                          const priceNum = parseInt(priceStr.replace(/\D/g, ""), 10) || 0;
+                          if (items.some(i => i.id === model.id)) {
+                            navigate("/cart");
+                          } else {
+                            addItem({ id: model.id, name: model.name, price: priceNum });
+                          }
+                        }}
+                        title={items.some(i => i.id === model.id) ? "Перейти в корзину" : "Добавить в корзину"}
+                      >
+                        <Icon name={items.some(i => i.id === model.id) ? "ShoppingCart" : "ShoppingCart"} size={20} />
+                      </Button>
+                    </div>
                   </div>
                 </CardContent>
               </Card>
