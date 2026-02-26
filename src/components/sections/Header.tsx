@@ -1,4 +1,5 @@
 import { useState } from 'react';
+import { useNavigate } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
@@ -6,6 +7,7 @@ import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
 import Icon from '@/components/ui/icon';
+import { useCart } from '@/hooks/useCart';
 
 interface HeaderProps {
   mobileMenuOpen: boolean;
@@ -26,6 +28,10 @@ export default function Header({
   scrollToSection,
   handleFormSubmit
 }: HeaderProps) {
+  const navigate = useNavigate();
+  const { items } = useCart();
+  const cartCount = items.length;
+
   const handlePhoneInput = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
     
@@ -66,6 +72,15 @@ export default function Header({
                 (window as any).ym(106348259, 'reachGoal', 'click_phone');
               }
             }}>8-800-505-72-38</a>
+            <Button variant="outline" className="relative" onClick={() => navigate('/cart')}>
+              <Icon name="ShoppingCart" size={18} className="mr-2" />
+              Смотреть корзину
+              {cartCount > 0 && (
+                <span className="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                  {cartCount}
+                </span>
+              )}
+            </Button>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="bg-secondary hover:bg-secondary/80 shadow-lg">Оставить заявку</Button>
@@ -125,6 +140,15 @@ export default function Header({
                 (window as any).ym(106348259, 'reachGoal', 'click_phone');
               }
             }}>8-800-505-72-38</a>
+            <Button variant="outline" className="w-full relative" onClick={() => { navigate('/cart'); setMobileMenuOpen(false); }}>
+              <Icon name="ShoppingCart" size={18} className="mr-2" />
+              Смотреть корзину
+              {cartCount > 0 && (
+                <span className="ml-2 bg-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
+                  {cartCount}
+                </span>
+              )}
+            </Button>
             <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
               <DialogTrigger asChild>
                 <Button className="w-full bg-secondary hover:bg-secondary/80 shadow-lg">Оставить заявку</Button>

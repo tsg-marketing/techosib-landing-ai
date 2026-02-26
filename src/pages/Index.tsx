@@ -872,7 +872,7 @@ const objections = {
 
 export default function Index() {
   const { prices, minPrice, loading } = usePrices();
-  const { addItem, items } = useCart();
+  const { addItem, removeItem, items } = useCart();
   const navigate = useNavigate();
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
   const [dialogOpen, setDialogOpen] = useState(false);
@@ -1305,15 +1305,15 @@ export default function Index() {
                         variant={items.some(i => i.id === model.id) ? "default" : "outline"}
                         className={`py-6 px-4 ${items.some(i => i.id === model.id) ? "bg-green-500 hover:bg-green-600 text-white border-green-500" : ""}`}
                         onClick={() => {
-                          const priceStr = getPrice(model.name);
-                          const priceNum = parseInt(priceStr.replace(/\D/g, ""), 10) || 0;
                           if (items.some(i => i.id === model.id)) {
-                            navigate("/cart");
+                            removeItem(model.id);
                           } else {
+                            const priceStr = getPrice(model.name);
+                            const priceNum = parseInt(priceStr.replace(/\D/g, ""), 10) || 0;
                             addItem({ id: model.id, name: model.name, price: priceNum });
                           }
                         }}
-                        title={items.some(i => i.id === model.id) ? "Перейти в корзину" : "Добавить в корзину"}
+                        title={items.some(i => i.id === model.id) ? "Убрать из корзины" : "Добавить в корзину"}
                       >
                         <Icon name={items.some(i => i.id === model.id) ? "ShoppingCart" : "ShoppingCart"} size={20} />
                       </Button>
