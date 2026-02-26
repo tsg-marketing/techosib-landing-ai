@@ -57,13 +57,13 @@ export default function Header({
           </div>
           
           <nav className="hidden md:flex items-center gap-5">
-            <button onClick={() => scrollToSection('models')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">Модели</button>
-            <button onClick={() => scrollToSection('advantages')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">Преимущества</button>
-            <button onClick={() => scrollToSection('specs')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">Характеристики</button>
-            <button onClick={() => scrollToSection('service')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">Сервис</button>
-            <button onClick={() => scrollToSection('faq')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">FAQ</button>
-            <button onClick={() => scrollToSection('about')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">О нас</button>
-            <button onClick={() => scrollToSection('contacts')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">Контакты</button>
+            <button onClick={() => scrollToSection('models')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Модели</button>
+            <button onClick={() => scrollToSection('advantages')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Преимущества</button>
+            <button onClick={() => scrollToSection('specs')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Характеристики</button>
+            <button onClick={() => scrollToSection('service')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Сервис</button>
+            <button onClick={() => scrollToSection('faq')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">FAQ</button>
+            <button onClick={() => scrollToSection('about')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">О нас</button>
+            <button onClick={() => scrollToSection('contacts')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Контакты</button>
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
