@@ -56,14 +56,14 @@ export default function Header({
             <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-8" />
           </div>
           
-          <nav className="hidden md:flex items-center gap-8">
-            <button onClick={() => scrollToSection('models')} className="text-base font-semibold hover:text-primary transition-colors">Модели</button>
-            <button onClick={() => scrollToSection('advantages')} className="text-base font-semibold hover:text-primary transition-colors">Преимущества</button>
-            <button onClick={() => scrollToSection('specs')} className="text-base font-semibold hover:text-primary transition-colors">Характеристики</button>
-            <button onClick={() => scrollToSection('service')} className="text-base font-semibold hover:text-primary transition-colors">Сервис</button>
-            <button onClick={() => scrollToSection('faq')} className="text-base font-semibold hover:text-primary transition-colors">FAQ</button>
-            <button onClick={() => scrollToSection('about')} className="text-base font-semibold hover:text-primary transition-colors">О нас</button>
-            <button onClick={() => scrollToSection('contacts')} className="text-base font-semibold hover:text-primary transition-colors">Контакты</button>
+          <nav className="hidden md:flex items-center gap-5">
+            <button onClick={() => scrollToSection('models')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">Модели</button>
+            <button onClick={() => scrollToSection('advantages')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">Преимущества</button>
+            <button onClick={() => scrollToSection('specs')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">Характеристики</button>
+            <button onClick={() => scrollToSection('service')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">Сервис</button>
+            <button onClick={() => scrollToSection('faq')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">FAQ</button>
+            <button onClick={() => scrollToSection('about')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">О нас</button>
+            <button onClick={() => scrollToSection('contacts')} className="text-sm font-semibold hover:text-primary transition-colors whitespace-nowrap">Контакты</button>
           </nav>
 
           <div className="hidden md:flex items-center gap-4">
@@ -72,53 +72,54 @@ export default function Header({
                 (window as any).ym(106348259, 'reachGoal', 'click_phone');
               }
             }}>8-800-505-72-38</a>
-            <Button variant="outline" className="relative" onClick={() => navigate('/cart')}>
-              <Icon name="ShoppingCart" size={18} className="mr-2" />
-              Смотреть корзину
-              {cartCount > 0 && (
-                <span className="absolute -top-2 -right-2 bg-secondary text-white text-xs rounded-full w-5 h-5 flex items-center justify-center font-bold">
-                  {cartCount}
-                </span>
-              )}
-            </Button>
-            <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
-              <DialogTrigger asChild>
-                <Button className="bg-secondary hover:bg-secondary/80 shadow-lg">Оставить заявку</Button>
-              </DialogTrigger>
-              <DialogContent className="sm:max-w-md">
-                <DialogHeader>
-                  <DialogTitle>Получить коммерческое предложение</DialogTitle>
-                  <DialogDescription>Заполните форму и мы отправим КП на указанный номер</DialogDescription>
-                </DialogHeader>
-                <form onSubmit={handleFormSubmit} className="space-y-4">
-                  <div>
-                    <Label htmlFor="phone">Телефон *</Label>
-                    <Input id="phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" onInput={handlePhoneInput} required />
-                  </div>
-                  <div>
-                    <Label htmlFor="name">Имя</Label>
-                    <Input id="name" name="name" type="text" placeholder="Ваше имя" />
-                  </div>
-                  <div>
-                    <Label htmlFor="email">Email</Label>
-                    <Input id="email" name="email" type="email" placeholder="your@email.com" />
-                  </div>
-
-                  {selectedModel && (
-                    <div className="text-sm text-muted-foreground">
-                      Модель: <span className="font-semibold">{selectedModel}</span>
+            <div className="flex flex-col gap-1">
+              <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
+                <DialogTrigger asChild>
+                  <Button className="bg-secondary hover:bg-secondary/80 shadow-lg">Оставить заявку</Button>
+                </DialogTrigger>
+                <DialogContent className="sm:max-w-md">
+                  <DialogHeader>
+                    <DialogTitle>Получить коммерческое предложение</DialogTitle>
+                    <DialogDescription>Заполните форму и мы отправим КП на указанный номер</DialogDescription>
+                  </DialogHeader>
+                  <form onSubmit={handleFormSubmit} className="space-y-4">
+                    <div>
+                      <Label htmlFor="phone">Телефон *</Label>
+                      <Input id="phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" onInput={handlePhoneInput} required />
                     </div>
-                  )}
-                  <div className="flex items-start gap-2">
-                    <Checkbox id="consent" required />
-                    <Label htmlFor="consent" className="text-xs text-muted-foreground cursor-pointer">
-                      Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
-                    </Label>
-                  </div>
-                  <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">Отправить заявку</Button>
-                </form>
-              </DialogContent>
-            </Dialog>
+                    <div>
+                      <Label htmlFor="name">Имя</Label>
+                      <Input id="name" name="name" type="text" placeholder="Ваше имя" />
+                    </div>
+                    <div>
+                      <Label htmlFor="email">Email</Label>
+                      <Input id="email" name="email" type="email" placeholder="your@email.com" />
+                    </div>
+                    {selectedModel && (
+                      <div className="text-sm text-muted-foreground">
+                        Модель: <span className="font-semibold">{selectedModel}</span>
+                      </div>
+                    )}
+                    <div className="flex items-start gap-2">
+                      <Checkbox id="consent" required />
+                      <Label htmlFor="consent" className="text-xs text-muted-foreground cursor-pointer">
+                        Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
+                      </Label>
+                    </div>
+                    <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">Отправить заявку</Button>
+                  </form>
+                </DialogContent>
+              </Dialog>
+              <Button variant="outline" size="sm" className="relative justify-center" onClick={() => navigate('/cart')}>
+                <Icon name="ShoppingCart" size={15} className="mr-1.5" />
+                Смотреть корзину
+                {cartCount > 0 && (
+                  <span className="ml-1.5 bg-secondary text-white text-xs rounded-full w-4 h-4 flex items-center justify-center font-bold leading-none">
+                    {cartCount}
+                  </span>
+                )}
+              </Button>
+            </div>
           </div>
 
           <button onClick={() => setMobileMenuOpen(!mobileMenuOpen)} className="md:hidden">
