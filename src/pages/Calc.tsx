@@ -342,7 +342,7 @@ export default function Calc() {
                     {[
                       { label: "TS3000MR-H",     anchor: "ts3000mr-h" },
                       { label: "TS3000MR-TP",    anchor: "ts3000mr-tp" },
-                      { label: "TS3000MR-MT",    anchor: "ts3000mr-h" },
+                      { label: "TS3000MR-MT",    anchor: "ts3000mr-mt" },
                       { label: "TS3000MR-MT-TP", anchor: "ts3000mr-mt-tp" },
                     ].map(({ label, anchor }) => (
                       <li key={label}>
@@ -365,7 +365,7 @@ export default function Calc() {
                     {[
                       { label: "TS3000SPS-H",     anchor: "ts3000sps-h" },
                       { label: "TS3000SPS-TP",    anchor: "ts3000sps-tp" },
-                      { label: "TS3000SPS-MT",    anchor: "ts3000sps-h" },
+                      { label: "TS3000SPS-MT",    anchor: "ts3000sps-mt" },
                       { label: "TS3000SPS-MT-TP", anchor: "ts3000sps-mt-tp" },
                       { label: "ROBO-MS",         anchor: "robo-ms" },
                     ].map(({ label, anchor }) => (

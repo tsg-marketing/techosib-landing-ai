@@ -871,6 +871,42 @@ const objections = {
   ]
 };
 
+// ── Калькулятор ──────────────────────────────
+interface CalcColResult {
+  stretch: number;
+  consumption: number;
+  costPerPallet: number;
+  totalConsumptionYear: number;
+  totalCostYear: number;
+}
+
+function calcFilmCol(
+  thickness: number, length: number, width: number,
+  turns: number, pDay: number, days: number, filmPrice: number,
+  stretch: number, extraGrams: number
+): CalcColResult {
+  const perim_m = (length + width) * 2 / 1000;
+  const film_width_m = 500 / 1000;
+  const thickness_m = thickness / 1000000;
+  const stretch_coef = 100 / (100 + stretch);
+  const volume_m3 = perim_m * film_width_m * thickness_m * turns * stretch_coef;
+  const consumption = volume_m3 * 920 * 1000 + extraGrams;
+  const costPerPallet = filmPrice * consumption * 0.001;
+  const totalConsumptionYear = (consumption / 1000) * pDay * days;
+  const totalCostYear = totalConsumptionYear * filmPrice;
+  return { stretch, consumption, costPerPallet, totalConsumptionYear, totalCostYear };
+}
+
+function nCalc(s: string, fallback = 0): number {
+  const v = parseFloat(s.replace(",", "."));
+  return isNaN(v) || v < 0 ? fallback : v;
+}
+
+function fmtCalc(v: number, digits = 0): string {
+  return new Intl.NumberFormat("ru-RU", { maximumFractionDigits: digits }).format(v);
+}
+// ─────────────────────────────────────────────
+
 export default function Index() {
   const { prices, minPrice, loading } = usePrices();
   const { addItem, removeItem, items } = useCart();
@@ -895,6 +931,18 @@ export default function Index() {
   });
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [promoFormSent, setPromoFormSent] = useState(false);
+
+  // Калькулятор расхода плёнки
+  const [calcThickness, setCalcThickness] = useState("23");
+  const [calcLength, setCalcLength] = useState("1200");
+  const [calcWidth, setCalcWidth] = useState("800");
+  const [calcTurns, setCalcTurns] = useState("16");
+  const [calcPDay, setCalcPDay] = useState("10");
+  const [calcDays, setCalcDays] = useState("220");
+  const [calcPrice, setCalcPrice] = useState("300");
+  const [calcResults, setCalcResults] = useState<null | { hand: CalcColResult; machine: CalcColResult; prestretch: CalcColResult }>(null);
+  const [calcLeadSent, setCalcLeadSent] = useState(false);
+  const [calcLeadLoading, setCalcLeadLoading] = useState(false);
 
   useEffect(() => {
     saveUtmToCookies();
@@ -949,6 +997,46 @@ export default function Index() {
       return prices[modelName];
     }
     return models.find(m => m.name === modelName)?.price || "по запросу";
+  };
+
+  const handleCalcSubmit = () => {
+    const t = nCalc(calcThickness, 23);
+    const l = nCalc(calcLength, 1200);
+    const w = nCalc(calcWidth, 800);
+    const turns = nCalc(calcTurns, 16);
+    const pDay = nCalc(calcPDay, 10);
+    const days = nCalc(calcDays, 220);
+    const price = nCalc(calcPrice, 300);
+    setCalcResults({
+      hand:       calcFilmCol(t, l, w, turns, pDay, days, price, 0,   0),
+      machine:    calcFilmCol(t, l, w, turns, pDay, days, price, 50,  40),
+      prestretch: calcFilmCol(t, l, w, turns, pDay, days, price, 250, 10),
+    });
+  };
+
+  const handleCalcLead = async (e: React.FormEvent) => {
+    e.preventDefault();
+    const form = e.target as HTMLFormElement;
+    const fd = new FormData(form);
+    setCalcLeadLoading(true);
+    try {
+      await fetch('/api/b24-send-lead.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          name: fd.get('name') || '',
+          phone: fd.get('phone') || '',
+          email: '',
+          company: '',
+          comment: 'Запрос из калькулятора расхода плёнки',
+          productType: 'Паллетообмотчик',
+          url: window.location.href,
+        }),
+      });
+    } finally {
+      setCalcLeadLoading(false);
+      setCalcLeadSent(true);
+    }
   };
 
   const scrollToSection = (id: string) => {
@@ -1150,7 +1238,7 @@ export default function Index() {
                 <span>Сервис и гарантия по всей России</span>
               </li>
             </ul>
-            <div className="flex flex-col sm:flex-row gap-4">
+            <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
               <Button 
                 size="lg" 
                 className="bg-secondary hover:bg-secondary/90 text-white text-lg py-6"
@@ -1172,6 +1260,15 @@ export default function Index() {
                 onClick={() => scrollToSection('models')}
               >
                 Посмотреть модели
+              </Button>
+            </div>
+            <div className="mt-4">
+              <Button
+                size="lg"
+                className="bg-green-600 hover:bg-green-700 text-white text-base md:text-lg py-6 px-6 font-bold shadow-xl w-full sm:w-auto"
+                onClick={() => scrollToSection('film-calc')}
+              >
+                📊 Рассчитать экономию стреч-пленки с паллетообмотчиками Техно-Сиб
               </Button>
             </div>
           </div>
@@ -1429,6 +1526,117 @@ export default function Index() {
                 </tr>
               </tbody>
             </table>
+          </div>
+        </div>
+      </section>
+
+      {/* Калькулятор расхода плёнки */}
+      <section id="film-calc" className="py-12 md:py-16 bg-white">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-2">
+            Калькулятор расхода стрейч-плёнки
+          </h2>
+          <p className="text-center text-muted-foreground mb-10 max-w-2xl mx-auto text-lg">
+            Сравните затраты при ручной и машинной упаковке — прямо сейчас
+          </p>
+
+          {/* Поля ввода */}
+          <div className="bg-gray-50 border border-gray-200 rounded-2xl p-6 mb-6 max-w-4xl mx-auto">
+            <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4 mb-6">
+              {[
+                { label: "Толщина плёнки, мкм", val: calcThickness, set: setCalcThickness },
+                { label: "Длина паллеты, мм",   val: calcLength,    set: setCalcLength },
+                { label: "Ширина паллеты, мм",  val: calcWidth,     set: setCalcWidth },
+                { label: "Оборотов плёнки",     val: calcTurns,     set: setCalcTurns },
+                { label: "Паллет в сутки",      val: calcPDay,      set: setCalcPDay },
+                { label: "Рабочих дней в году", val: calcDays,      set: setCalcDays },
+                { label: "Цена плёнки, руб/кг", val: calcPrice,     set: setCalcPrice },
+              ].map(({ label, val, set }) => (
+                <div key={label} className="space-y-1">
+                  <Label className="text-sm text-gray-600">{label}</Label>
+                  <Input type="number" min={0} value={val} onChange={e => set(e.target.value)} className="bg-white" />
+                </div>
+              ))}
+            </div>
+            <Button onClick={handleCalcSubmit} className="w-full py-5 text-base font-bold bg-orange-500 hover:bg-orange-600 text-white">
+              Рассчитать
+            </Button>
+          </div>
+
+          {/* Результаты */}
+          {calcResults && (
+            <div className="max-w-4xl mx-auto space-y-6">
+              <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
+                <div className="overflow-x-auto">
+                  <table className="w-full text-sm">
+                    <thead>
+                      <tr className="bg-gray-50 border-b border-gray-200">
+                        <th className="text-left px-5 py-4 text-sm font-semibold text-gray-500 uppercase tracking-wide">Показатель</th>
+                        {(["hand","machine","prestretch"] as const).map((m, i) => (
+                          <th key={m} className={`text-right px-5 py-4 text-sm font-semibold uppercase tracking-wide ${i===0?"text-gray-500":i===1?"text-blue-600":"text-orange-600"}`}>
+                            {m==="hand"?"Ручная":m==="machine"?"Без пристрейча":"С пристрейчем"}
+                          </th>
+                        ))}
+                      </tr>
+                    </thead>
+                    <tbody className="divide-y divide-gray-100">
+                      {[
+                        { label: "Предварительное натяжение", vals: (["hand","machine","prestretch"] as const).map(m => `${calcResults[m].stretch}%`) },
+                        { label: "Расход на 1 паллет, г",     vals: (["hand","machine","prestretch"] as const).map(m => fmtCalc(calcResults[m].consumption, 1)) },
+                        { label: "Стоимость на 1 паллет, руб", vals: (["hand","machine","prestretch"] as const).map(m => `${fmtCalc(calcResults[m].costPerPallet, 2)} ₽`) },
+                        { label: "Расход в год, кг",           vals: (["hand","machine","prestretch"] as const).map(m => fmtCalc(calcResults[m].totalConsumptionYear, 1)) },
+                        { label: "Затраты в год, руб",         vals: (["hand","machine","prestretch"] as const).map(m => `${fmtCalc(calcResults[m].totalCostYear)} ₽`), highlight: true },
+                      ].map(({ label, vals, highlight }) => (
+                        <tr key={label} className={highlight ? "bg-orange-50 font-semibold" : "hover:bg-gray-50/50"}>
+                          <td className={`px-5 py-4 text-base text-gray-700 ${highlight?"font-semibold":""}`}>{label}</td>
+                          {vals.map((v, i) => (
+                            <td key={i} className={`px-5 py-4 text-right text-base ${highlight?"text-orange-700 font-bold text-lg":"text-gray-700"}`}>{v}</td>
+                          ))}
+                        </tr>
+                      ))}
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+              {/* Экономия */}
+              <div className="grid sm:grid-cols-2 gap-4">
+                {[
+                  { label: "Экономия: Без пристрейча vs Ручная", val: calcResults.hand.totalCostYear - calcResults.machine.totalCostYear },
+                  { label: "Экономия: С пристрейчем vs Ручная",  val: calcResults.hand.totalCostYear - calcResults.prestretch.totalCostYear },
+                ].map(({ label, val }) => (
+                  <div key={label} className="rounded-2xl p-6 border-2 bg-green-50 border-green-300">
+                    <p className="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-2">{label}</p>
+                    <p className="text-4xl font-black text-green-600">{fmtCalc(val)} ₽</p>
+                    <p className="text-xs text-gray-400 mt-1">в год</p>
+                  </div>
+                ))}
+              </div>
+            </div>
+          )}
+
+          {/* CTA — форма */}
+          <div className="mt-12 max-w-xl mx-auto">
+            <div className="bg-gray-900 rounded-2xl p-8 text-center">
+              <h3 className="text-2xl md:text-3xl font-bold text-white mb-2">
+                Рассчитать экономию для Вашего предприятия
+              </h3>
+              <p className="text-gray-400 mb-6">Наш специалист подберёт оборудование и подготовит точный расчёт</p>
+              {calcLeadSent ? (
+                <div className="text-center py-4">
+                  <Icon name="CheckCircle" size={40} className="text-green-400 mx-auto mb-3" />
+                  <p className="text-white font-semibold text-lg">Спасибо! Мы свяжемся с вами в рабочее время.</p>
+                </div>
+              ) : (
+                <form onSubmit={handleCalcLead} className="space-y-3">
+                  <Input name="name"  placeholder="Ваше имя"    required className="bg-white text-gray-900 text-base py-5" />
+                  <Input name="phone" placeholder="Телефон"      required className="bg-white text-gray-900 text-base py-5" />
+                  <Button type="submit" disabled={calcLeadLoading} className="w-full py-5 text-base font-bold bg-orange-500 hover:bg-orange-600 text-white">
+                    {calcLeadLoading ? "Отправляем…" : "Отправить"}
+                  </Button>
+                </form>
+              )}
+            </div>
           </div>
         </div>
       </section>
