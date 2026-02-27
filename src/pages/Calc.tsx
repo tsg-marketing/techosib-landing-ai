@@ -1,15 +1,6 @@
 import { useState, useEffect, useRef } from "react";
 import { Link } from "react-router-dom";
-import {
-  LineChart,
-  Line,
-  XAxis,
-  YAxis,
-  CartesianGrid,
-  Tooltip,
-  ReferenceLine,
-  ResponsiveContainer,
-} from "recharts";
+
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
@@ -285,6 +276,7 @@ export default function Calc() {
   const [qualityOpen, setQualityOpen] = useState(false);
   const [ownerOpen, setOwnerOpen] = useState(false);
   const [filmWarning, setFilmWarning] = useState(false);
+  const [formulaOpen, setFormulaOpen] = useState(false);
 
   // Лид-форма
   const [leadName, setLeadName] = useState("");
@@ -366,16 +358,6 @@ export default function Calc() {
     setShowScenarios(true);
   }
 
-  // График накопленной экономии
-  function buildChartData(r: CalcResult) {
-    if (r.saving_month <= 0 || !r.payback_months) return [];
-    const months = Math.min(Math.ceil(r.payback_months) + 6, 60);
-    return Array.from({ length: months + 1 }, (_, i) => ({
-      month: i,
-      cumulative: Math.round(i * r.saving_month - r.capex_total),
-    }));
-  }
-
   // Лид-форма
   async function handleLead(e: React.FormEvent) {
     e.preventDefault();
@@ -433,14 +415,92 @@ export default function Calc() {
 
       <main className="container mx-auto px-4 py-8 max-w-7xl">
         {/* TITLE */}
-        <div className="mb-8">
-          <h1 className="text-2xl md:text-3xl font-black text-gray-900 mb-2">
-            Калькулятор окупаемости паллетоупаковщика
-          </h1>
-          <p className="text-gray-500 text-sm md:text-base max-w-2xl">
-            Рассчитайте экономию пленки, времени и потерь. Получите срок окупаемости и рекомендацию типа оборудования.
-          </p>
+        <div className="mb-8 flex items-start justify-between gap-4">
+          <div>
+            <h1 className="text-2xl md:text-3xl font-black text-gray-900 mb-2">
+              Калькулятор окупаемости паллетоупаковщика
+            </h1>
+            <p className="text-gray-500 text-sm md:text-base max-w-2xl">
+              Рассчитайте экономию пленки, времени и потерь. Получите срок окупаемости и рекомендацию типа оборудования.
+            </p>
+          </div>
+          <button
+            type="button"
+            onClick={() => setFormulaOpen(true)}
+            className="flex-shrink-0 flex items-center gap-1.5 text-xs text-gray-500 border border-gray-300 rounded-lg px-3 py-2 hover:bg-gray-50 hover:border-gray-400 transition-colors"
+          >
+            <Icon name="Info" size={14} />
+            Как считается
+          </button>
         </div>
+
+        {/* FORMULA MODAL */}
+        {formulaOpen && (
+          <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={() => setFormulaOpen(false)}>
+            <div className="bg-white rounded-2xl shadow-2xl max-w-lg w-full max-h-[85vh] overflow-y-auto" onClick={(e) => e.stopPropagation()}>
+              <div className="flex items-center justify-between px-6 py-4 border-b border-gray-100">
+                <h2 className="font-bold text-gray-900 text-base">Как работают формулы</h2>
+                <button onClick={() => setFormulaOpen(false)} className="text-gray-400 hover:text-gray-700 transition-colors">
+                  <Icon name="X" size={20} />
+                </button>
+              </div>
+              <div className="px-6 py-5 space-y-5 text-sm text-gray-700">
+                <FormulaBlock step="1" title="Объём в месяц">
+                  <code className="block bg-gray-50 rounded px-3 py-2 text-xs font-mono text-gray-800 mt-1">
+                    Паллет/мес = Паллет/день × Рабочих дней
+                  </code>
+                  <p className="text-xs text-gray-400 mt-1">Пример: 10 × 22 = 220 паллет/мес</p>
+                </FormulaBlock>
+
+                <FormulaBlock step="2" title="Затраты на плёнку">
+                  <code className="block bg-gray-50 rounded px-3 py-2 text-xs font-mono text-gray-800 mt-1 leading-relaxed">
+                    Сейчас = Паллет × Расход сейчас × Цена плёнки<br/>
+                    На машине = Паллет × Расход на машине × Цена плёнки<br/>
+                    Экономия = Сейчас − На машине
+                  </code>
+                  <p className="text-xs text-gray-400 mt-1">Пример: 220 × 0,35 × 300 = 23 100 ₽ → 220 × 0,2 × 300 = 13 200 ₽ → экономия 9 900 ₽/мес</p>
+                </FormulaBlock>
+
+                <FormulaBlock step="3" title="Затраты на труд (ФОТ)">
+                  <code className="block bg-gray-50 rounded px-3 py-2 text-xs font-mono text-gray-800 mt-1 leading-relaxed">
+                    Сейчас = Паллет × (мин/пал ÷ 60) × ₽/час × сотрудников<br/>
+                    На машине = Паллет × (мин/пал ÷ 60) × ₽/час × операторов
+                  </code>
+                  <p className="text-xs text-gray-400 mt-1">Если время на машине не введено — оценка: −40% от ручного</p>
+                </FormulaBlock>
+
+                <FormulaBlock step="4" title="Потери и повреждения (опционально)">
+                  <code className="block bg-gray-50 rounded px-3 py-2 text-xs font-mono text-gray-800 mt-1 leading-relaxed">
+                    Потери = Паллет × (% повреждений ÷ 100) × Стоимость случая
+                  </code>
+                  <p className="text-xs text-gray-400 mt-1">Считается для «сейчас» и «после». Разница — экономия на качестве</p>
+                </FormulaBlock>
+
+                <FormulaBlock step="5" title="Итоговый результат">
+                  <code className="block bg-gray-50 rounded px-3 py-2 text-xs font-mono text-gray-800 mt-1 leading-relaxed">
+                    Экономия/мес = Итого сейчас − Итого на машине<br/>
+                    Окупаемость = Стоимость проекта ÷ Экономия/мес<br/>
+                    ROI/год = (Экономия/мес × 12) ÷ Стоимость проекта × 100%
+                  </code>
+                </FormulaBlock>
+
+                <FormulaBlock step="6" title="Рекомендация типа машины">
+                  <div className="mt-1 space-y-1 text-xs text-gray-600">
+                    <p>• <span className="font-medium">&lt; 20 пал/день</span> — мобильный робот</p>
+                    <p>• <span className="font-medium">20–59 пал/день</span> — полуавтомат (поворотный стол)</p>
+                    <p>• <span className="font-medium">60–149 пал/день</span> — вращающаяся рука</p>
+                    <p>• <span className="font-medium">150+ пал/день</span> — автоматическая линия</p>
+                  </div>
+                </FormulaBlock>
+              </div>
+              <div className="px-6 pb-5">
+                <Button onClick={() => setFormulaOpen(false)} className="w-full bg-orange-500 hover:bg-orange-600 text-white">
+                  Понятно
+                </Button>
+              </div>
+            </div>
+          </div>
+        )}
 
         {/* MAIN GRID */}
         <div className="grid lg:grid-cols-2 gap-6 items-start">
@@ -720,34 +780,24 @@ export default function Calc() {
               </div>
             ) : (
               <div className="space-y-4">
-                {/* KPI CARDS */}
-                <div
-                  className={`grid grid-cols-3 gap-3 ${
-                    result.saving_month <= 0 ? "opacity-60" : ""
-                  }`}
-                >
-                  <KPICard
-                    label="Экономия в месяц"
-                    value={`${fmt(result.saving_month)} ₽`}
-                    sub="мес"
-                    bad={result.saving_month <= 0}
-                  />
-                  <KPICard
-                    label="Окупаемость"
-                    value={
-                      result.payback_months
-                        ? `${fmtDec(result.payback_months)} мес`
-                        : "—"
-                    }
-                    sub={result.payback_months ? `≈ ${fmtDec(result.payback_months / 12)} лет` : "не достигнута"}
-                    bad={!result.payback_months}
-                  />
-                  <KPICard
-                    label="ROI"
-                    value={result.roi_year ? `${fmt(result.roi_year)}%` : "—"}
-                    sub="в год"
-                    bad={!result.roi_year}
-                  />
+                {/* KPI CARDS — два крупных блока */}
+                <div className={`grid grid-cols-2 gap-4 ${result.saving_month <= 0 ? "opacity-60" : ""}`}>
+                  <div className={`rounded-2xl p-6 text-center border-2 ${result.saving_month > 0 ? "bg-orange-50 border-orange-300" : "bg-gray-50 border-gray-200"}`}>
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">Экономия в месяц</p>
+                    <p className={`text-4xl font-black leading-none mb-1 ${result.saving_month > 0 ? "text-orange-600" : "text-gray-400"}`}>
+                      {fmt(result.saving_month)} ₽
+                    </p>
+                    <p className="text-xs text-gray-400 mt-1">{fmt(result.saving_year)} ₽ в год</p>
+                  </div>
+                  <div className={`rounded-2xl p-6 text-center border-2 ${result.roi_year ? "bg-green-50 border-green-300" : "bg-gray-50 border-gray-200"}`}>
+                    <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-2">ROI</p>
+                    <p className={`text-4xl font-black leading-none mb-1 ${result.roi_year ? "text-green-600" : "text-gray-400"}`}>
+                      {result.roi_year ? `${fmt(result.roi_year)}%` : "—"}
+                    </p>
+                    <p className="text-xs text-gray-400 mt-1">
+                      {result.payback_months ? `Окупаемость: ${fmtDec(result.payback_months)} мес` : "в год"}
+                    </p>
+                  </div>
                 </div>
 
                 {/* NEGATIVE WARNING */}
@@ -846,60 +896,7 @@ export default function Calc() {
                   </table>
                 </div>
 
-                {/* CHART */}
-                {result.saving_month > 0 && result.payback_months && (
-                  <div className="bg-white border border-gray-200 rounded-xl p-4">
-                    <p className="text-xs font-semibold text-gray-500 uppercase tracking-wide mb-3">
-                      Накопленная экономия, ₽
-                    </p>
-                    <ResponsiveContainer width="100%" height={180}>
-                      <LineChart
-                        data={buildChartData(result)}
-                        margin={{ top: 5, right: 10, left: 0, bottom: 0 }}
-                      >
-                        <CartesianGrid strokeDasharray="3 3" stroke="#f0f0f0" />
-                        <XAxis
-                          dataKey="month"
-                          tick={{ fontSize: 11 }}
-                          tickFormatter={(v) => `${v} мес`}
-                        />
-                        <YAxis
-                          tick={{ fontSize: 11 }}
-                          tickFormatter={(v) =>
-                            v >= 1000000
-                              ? `${(v / 1000000).toFixed(1)}M`
-                              : v >= 1000
-                              ? `${(v / 1000).toFixed(0)}K`
-                              : `${v}`
-                          }
-                          width={50}
-                        />
-                        <Tooltip
-                          formatter={(v: number) => [`${fmt(v)} ₽`, "Накоплено"]}
-                          labelFormatter={(l) => `Месяц ${l}`}
-                        />
-                        <ReferenceLine
-                          y={0}
-                          stroke="#ef4444"
-                          strokeDasharray="4 2"
-                          label={{
-                            value: "Точка окупаемости",
-                            position: "insideTopLeft",
-                            fontSize: 10,
-                            fill: "#ef4444",
-                          }}
-                        />
-                        <Line
-                          type="monotone"
-                          dataKey="cumulative"
-                          stroke="#f97316"
-                          strokeWidth={2}
-                          dot={false}
-                        />
-                      </LineChart>
-                    </ResponsiveContainer>
-                  </div>
-                )}
+
 
                 {/* MACHINE RECOMMENDATION */}
                 {result.machine_type.label !== "—" && (
@@ -1157,38 +1154,6 @@ function Field({
   );
 }
 
-function KPICard({
-  label,
-  value,
-  sub,
-  bad,
-}: {
-  label: string;
-  value: string;
-  sub: string;
-  bad?: boolean;
-}) {
-  return (
-    <div
-      className={`rounded-xl p-3 text-center border ${
-        bad
-          ? "bg-gray-50 border-gray-200"
-          : "bg-orange-50 border-orange-200"
-      }`}
-    >
-      <p className="text-xs text-gray-400 mb-1 leading-tight">{label}</p>
-      <p
-        className={`text-lg font-black leading-tight ${
-          bad ? "text-gray-400" : "text-orange-600"
-        }`}
-      >
-        {value}
-      </p>
-      <p className="text-xs text-gray-400 mt-0.5">{sub}</p>
-    </div>
-  );
-}
-
 function TableRow({
   label,
   a,
@@ -1224,5 +1189,27 @@ function TableRow({
         {fmt(diff)} ₽
       </td>
     </tr>
+  );
+}
+
+function FormulaBlock({
+  step,
+  title,
+  children,
+}: {
+  step: string;
+  title: string;
+  children: React.ReactNode;
+}) {
+  return (
+    <div className="flex gap-3">
+      <div className="w-6 h-6 rounded-full bg-orange-100 text-orange-600 text-xs font-bold flex items-center justify-center flex-shrink-0 mt-0.5">
+        {step}
+      </div>
+      <div className="flex-1">
+        <p className="font-semibold text-gray-800 text-sm">{title}</p>
+        {children}
+      </div>
+    </div>
   );
 }
