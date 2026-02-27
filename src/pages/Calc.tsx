@@ -49,8 +49,8 @@ const STRETCH: Record<PackMode, number> = {
 
 const MODE_LABELS: Record<PackMode, string> = {
   hand: "Ручная обмотка",
-  machine: "Машина без пристрейча",
-  prestretch: "Машина с пристрейчем",
+  machine: "Машина без престрейча",
+  prestretch: "Машина с престрейчем",
 };
 
 const MODES: PackMode[] = ["hand", "machine", "prestretch"];

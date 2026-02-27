@@ -1572,14 +1572,14 @@ export default function Index() {
                         <th className="text-left px-5 py-4 text-sm font-semibold text-gray-500 uppercase tracking-wide">Показатель</th>
                         {(["hand","machine","prestretch"] as const).map((m, i) => (
                           <th key={m} className={`text-right px-5 py-4 text-sm font-semibold uppercase tracking-wide ${i===0?"text-gray-500":i===1?"text-blue-600":"text-orange-600"}`}>
-                            {m==="hand"?"Ручная":m==="machine"?"Без пристрейча":"С пристрейчем"}
+                            {m==="hand"?"Ручная":m==="machine"?"Без престрейча":"С престрейчем"}
                           </th>
                         ))}
                       </tr>
                     </thead>
                     <tbody className="divide-y divide-gray-100">
                       {[
-                        { label: "Предварительное натяжение", vals: (["hand","machine","prestretch"] as const).map(m => `${calcResults[m].stretch}%`) },
+                        { label: "Предварительное растяжение", vals: (["hand","machine","prestretch"] as const).map(m => `${calcResults[m].stretch}%`) },
                         { label: "Расход на 1 паллет, г",     vals: (["hand","machine","prestretch"] as const).map(m => fmtCalc(calcResults[m].consumption, 1)) },
                         { label: "Стоимость на 1 паллет, руб", vals: (["hand","machine","prestretch"] as const).map(m => `${fmtCalc(calcResults[m].costPerPallet, 2)} ₽`) },
                         { label: "Расход в год, кг",           vals: (["hand","machine","prestretch"] as const).map(m => fmtCalc(calcResults[m].totalConsumptionYear, 1)) },
@@ -1600,8 +1600,8 @@ export default function Index() {
               {/* Экономия */}
               <div className="grid sm:grid-cols-2 gap-4">
                 {[
-                  { label: "Экономия: Без пристрейча vs Ручная", val: calcResults.hand.totalCostYear - calcResults.machine.totalCostYear },
-                  { label: "Экономия: С пристрейчем vs Ручная",  val: calcResults.hand.totalCostYear - calcResults.prestretch.totalCostYear },
+                  { label: "Экономия: Без престрейча vs Ручная", val: calcResults.hand.totalCostYear - calcResults.machine.totalCostYear },
+                  { label: "Экономия: С престрейчем vs Ручная",  val: calcResults.hand.totalCostYear - calcResults.prestretch.totalCostYear },
                 ].map(({ label, val }) => (
                   <div key={label} className="rounded-2xl p-6 border-2 bg-green-50 border-green-300">
                     <p className="text-sm font-semibold text-gray-400 uppercase tracking-widest mb-2">{label}</p>
@@ -1614,7 +1614,7 @@ export default function Index() {
               {/* Рекомендации моделей */}
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="bg-white border border-gray-200 rounded-2xl p-6">
-                  <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Машина без пристрейча</p>
+                  <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Машина без престрейча</p>
                   <ul className="space-y-2">
                     {[
                       { label: "TS3000MR-H",     anchor: "ts3000mr-h" },
@@ -1635,7 +1635,7 @@ export default function Index() {
                   </ul>
                 </div>
                 <div className="bg-white border border-gray-200 rounded-2xl p-6">
-                  <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Машина с пристрейчем</p>
+                  <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Машина с престрейчем</p>
                   <ul className="space-y-2">
                     {[
                       { label: "TS3000SPS-H",     anchor: "ts3000sps-h" },
