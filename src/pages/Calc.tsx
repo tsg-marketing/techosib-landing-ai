@@ -21,7 +21,6 @@ import Icon from "@/components/ui/icon";
 interface FormState {
   p_day: string;
   days: string;
-  pack_mode: "hand" | "semi" | "auto";
   film_price: string;
   film_hand: string;
   film_machine: string;
@@ -76,15 +75,14 @@ interface ScenarioRow {
 // DEFAULTS
 // ─────────────────────────────────────────────
 const DEFAULT_FORM: FormState = {
-  p_day: "",
-  days: "",
-  pack_mode: "hand",
-  film_price: "",
-  film_hand: "",
-  film_machine: "",
-  t_hand: "",
+  p_day: "10",
+  days: "22",
+  film_price: "300",
+  film_hand: "0.35",
+  film_machine: "0.2",
+  t_hand: "10",
   t_machine: "",
-  w_hour: "",
+  w_hour: "500",
   n_hand: "1",
   n_machine: "1",
   damage_rate_hand: "",
@@ -94,7 +92,7 @@ const DEFAULT_FORM: FormState = {
   kwh_per_pallet: "",
   maint_month: "0",
   spare_month: "0",
-  capex: "",
+  capex: "24",
   training: "0",
 };
 
@@ -116,12 +114,9 @@ function fmtDec(v: number, digits = 1): string {
   return new Intl.NumberFormat("ru-RU", { maximumFractionDigits: digits }).format(v);
 }
 
-function getMachineType(
-  p_day: number,
-  pack_mode: string
-): { label: string; reasons: string[] } {
+function getMachineType(p_day: number): { label: string; reasons: string[] } {
   if (p_day === 0) return { label: "—", reasons: [] };
-  if (pack_mode === "auto" || p_day >= 150)
+  if (p_day >= 150)
     return {
       label: "Автоматическая линия",
       reasons: [
@@ -258,7 +253,7 @@ function calcCore(
     payback_months,
     saving_year,
     roi_year,
-    machine_type: getMachineType(p_day, f.pack_mode),
+    machine_type: getMachineType(p_day),
     t_machine_estimated,
     damage_machine_estimated,
   };
@@ -271,7 +266,12 @@ export default function Calc() {
   const [form, setForm] = useState<FormState>(() => {
     try {
       const saved = localStorage.getItem(STORAGE_KEY);
-      if (saved) return { ...DEFAULT_FORM, ...JSON.parse(saved) };
+      if (saved) {
+        const parsed = JSON.parse(saved);
+         
+        const { pack_mode: _removed, ...rest } = parsed;
+        return { ...DEFAULT_FORM, ...rest };
+      }
     } catch (_e) {
       return DEFAULT_FORM;
     }
@@ -453,7 +453,6 @@ export default function Calc() {
                   <Input
                     type="number"
                     min={0}
-                    placeholder="80"
                     value={form.p_day}
                     onChange={set("p_day")}
                   />
@@ -462,7 +461,6 @@ export default function Calc() {
                   <Input
                     type="number"
                     min={0}
-                    placeholder="22"
                     value={form.days}
                     onChange={set("days")}
                   />
@@ -476,44 +474,12 @@ export default function Calc() {
             </FormSection>
 
             {/* Раздел B */}
-            <FormSection title="Б. Текущий способ упаковки">
-              <div className="flex gap-2 flex-wrap">
-                {(
-                  [
-                    { v: "hand", l: "Ручная" },
-                    { v: "semi", l: "Полуавтомат" },
-                    { v: "auto", l: "Автомат (линия)" },
-                  ] as const
-                ).map(({ v, l }) => (
-                  <button
-                    key={v}
-                    type="button"
-                    onClick={() => setForm((f) => ({ ...f, pack_mode: v }))}
-                    className={`px-4 py-2 rounded border text-sm font-medium transition-colors ${
-                      form.pack_mode === v
-                        ? "bg-orange-500 text-white border-orange-500"
-                        : "bg-white text-gray-700 border-gray-300 hover:border-orange-400"
-                    }`}
-                  >
-                    {l}
-                  </button>
-                ))}
-              </div>
-              {form.pack_mode !== "hand" && (
-                <p className="text-xs text-amber-600 mt-2 bg-amber-50 px-3 py-2 rounded border border-amber-200">
-                  Калькулятор считает сравнительно: текущий режим vs новая машина
-                </p>
-              )}
-            </FormSection>
-
-            {/* Раздел C */}
             <FormSection title="В. Расход плёнки">
               <div className="grid grid-cols-3 gap-3">
                 <Field label="Цена плёнки, ₽/кг" required>
                   <Input
                     type="number"
                     min={0}
-                    placeholder="150"
                     value={form.film_price}
                     onChange={set("film_price")}
                   />
@@ -522,7 +488,6 @@ export default function Calc() {
                   <Input
                     type="number"
                     min={0}
-                    placeholder="0.35"
                     value={form.film_hand}
                     onChange={set("film_hand")}
                   />
@@ -531,7 +496,6 @@ export default function Calc() {
                   <Input
                     type="number"
                     min={0}
-                    placeholder="0.20"
                     value={form.film_machine}
                     onChange={set("film_machine")}
                   />
@@ -554,7 +518,6 @@ export default function Calc() {
                   <Input
                     type="number"
                     min={0}
-                    placeholder="8"
                     value={form.t_hand}
                     onChange={set("t_hand")}
                   />
@@ -583,7 +546,6 @@ export default function Calc() {
                   <Input
                     type="number"
                     min={0}
-                    placeholder="350"
                     value={form.w_hour}
                     onChange={set("w_hour")}
                   />
@@ -592,7 +554,6 @@ export default function Calc() {
                   <Input
                     type="number"
                     min={1}
-                    placeholder="1"
                     value={form.n_hand}
                     onChange={set("n_hand")}
                   />
@@ -601,7 +562,6 @@ export default function Calc() {
                   <Input
                     type="number"
                     min={1}
-                    placeholder="1"
                     value={form.n_machine}
                     onChange={set("n_machine")}
                   />
@@ -711,7 +671,6 @@ export default function Calc() {
                   <Input
                     type="number"
                     min={0}
-                    placeholder="350000"
                     value={form.capex}
                     onChange={set("capex")}
                   />
