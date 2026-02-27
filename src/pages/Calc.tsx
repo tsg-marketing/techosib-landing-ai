@@ -109,7 +109,7 @@ export default function Calc() {
   const [leadName, setLeadName] = useState("");
   const [leadPhone, setLeadPhone] = useState("");
   const [leadEmail, setLeadEmail] = useState("");
-  const [leadComment, setLeadComment] = useState("");
+
   const [leadLoading, setLeadLoading] = useState(false);
   const [leadSent, setLeadSent] = useState(false);
   const [leadErrors, setLeadErrors] = useState<Record<string, string>>({});
@@ -148,7 +148,7 @@ export default function Calc() {
         name: leadName,
         phone: leadPhone,
         email: leadEmail,
-        comment: leadComment,
+        comment: "",
         source: "Калькулятор расхода плёнки",
         calc_params: form,
         calc_result: results,
@@ -161,27 +161,27 @@ export default function Calc() {
   }
 
   const saving_no_prestretch = results
-    ? results.machine.total_cost_year - results.hand.total_cost_year
+    ? results.hand.total_cost_year - results.machine.total_cost_year
     : null;
   const saving_prestretch = results
-    ? results.prestretch.total_cost_year - results.hand.total_cost_year
+    ? results.hand.total_cost_year - results.prestretch.total_cost_year
     : null;
 
   return (
     <div className="min-h-screen bg-gray-50">
       <main className="max-w-5xl mx-auto px-4 py-10">
         <div className="mb-8">
-          <h1 className="text-2xl font-bold text-gray-900">
+          <h1 className="text-3xl font-bold text-gray-900">
             Калькулятор расхода стрейч-плёнки
           </h1>
-          <p className="text-gray-500 text-sm mt-1">
+          <p className="text-gray-500 text-base mt-2">
             Сравните расход и затраты для трёх способов упаковки
           </p>
         </div>
 
         {/* FORM */}
         <div className="bg-white border border-gray-200 rounded-2xl p-6 mb-6">
-          <p className="text-xs font-bold text-gray-400 uppercase tracking-widest mb-4">
+          <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">
             Параметры паллеты и плёнки
           </p>
           <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 gap-4">
@@ -261,13 +261,13 @@ export default function Calc() {
                   <table className="w-full text-sm">
                     <thead>
                       <tr className="bg-gray-50 border-b border-gray-200">
-                        <th className="text-left px-5 py-4 text-xs font-semibold text-gray-500 uppercase tracking-wide w-1/4">
+                        <th className="text-left px-5 py-4 text-sm font-semibold text-gray-500 uppercase tracking-wide w-1/4">
                           Показатель
                         </th>
                         {MODES.map((mode) => (
                           <th
                             key={mode}
-                            className={`text-right px-5 py-4 text-xs font-semibold uppercase tracking-wide ${
+                            className={`text-right px-5 py-4 text-sm font-semibold uppercase tracking-wide ${
                               mode === "hand"
                                 ? "text-gray-500"
                                 : mode === "machine"
@@ -380,13 +380,6 @@ export default function Calc() {
                       className={leadErrors.email ? "border-red-400" : ""}
                     />
                   </Field>
-                  <Field label="Комментарий">
-                    <Input
-                      placeholder="Тип груза, высота паллет, условия склада..."
-                      value={leadComment}
-                      onChange={(e) => setLeadComment(e.target.value)}
-                    />
-                  </Field>
                   <Button
                     type="submit"
                     disabled={leadLoading}
@@ -425,9 +418,9 @@ function Field({
 }) {
   return (
     <div className="space-y-1">
-      <Label className="text-xs text-gray-600">{label}</Label>
+      <Label className="text-sm text-gray-600">{label}</Label>
       {children}
-      {error && <p className="text-xs text-red-500">{error}</p>}
+      {error && <p className="text-sm text-red-500">{error}</p>}
     </div>
   );
 }
@@ -445,14 +438,14 @@ function ResultRow({
 }) {
   return (
     <tr className={highlight ? "bg-orange-50 font-semibold" : "hover:bg-gray-50/50"}>
-      <td className={`px-5 py-3.5 text-gray-700 ${highlight ? "font-semibold" : ""}`}>
+      <td className={`px-5 py-4 text-base text-gray-700 ${highlight ? "font-semibold" : ""}`}>
         {label}
       </td>
       {values.map((v, i) => (
         <td
           key={i}
-          className={`px-5 py-3.5 text-right ${
-            highlight ? "text-orange-700 font-bold text-base" : "text-gray-700"
+          className={`px-5 py-4 text-right text-base ${
+            highlight ? "text-orange-700 font-bold text-lg" : "text-gray-700"
           }`}
         >
           {v}
