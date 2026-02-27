@@ -77,9 +77,9 @@ function calcCol(f: FormState, mode: PackMode): ColResult {
   const film_price = n(f.film_price, 300);
   const stretch = STRETCH[mode];
 
-  // Расход плёнки на один паллет, кг
+  // Расход плёнки на один паллет, г
   const consumption =
-    (((0.92 + width / 1000) * 2 * 500) / 10) *
+    (((length + width) * 2 * 500) / 10) *
     0.92 *
     (thickness / 10) *
     turns *
@@ -325,6 +325,61 @@ export default function Calc() {
                   value={saving_prestretch!}
                 />
               </div>
+
+              {/* Модели оборудования */}
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="bg-white border border-gray-200 rounded-2xl p-6">
+                  <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">
+                    Машина без пристрейча
+                  </p>
+                  <ul className="space-y-2">
+                    {[
+                      "TS3000MR-H",
+                      "TS3000MR-TP",
+                      "TS3000MR-MT",
+                      "TS3000MR-MT-TP",
+                    ].map((model) => (
+                      <li key={model}>
+                        <a
+                          href={`https://techstretcher.ru/${model.toLowerCase()}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-base font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                        >
+                          <Icon name="ExternalLink" size={14} className="shrink-0" />
+                          {model}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="bg-white border border-gray-200 rounded-2xl p-6">
+                  <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">
+                    Машина с пристрейчем
+                  </p>
+                  <ul className="space-y-2">
+                    {[
+                      "TS3000SPS-H",
+                      "TS3000SPS-TP",
+                      "TS3000SPS-MT",
+                      "TS3000SPS-MT-TP",
+                      "ROBO-MS",
+                    ].map((model) => (
+                      <li key={model}>
+                        <a
+                          href={`https://techstretcher.ru/${model.toLowerCase()}`}
+                          target="_blank"
+                          rel="noopener noreferrer"
+                          className="flex items-center gap-2 text-base font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                        >
+                          <Icon name="ExternalLink" size={14} className="shrink-0" />
+                          {model}
+                        </a>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+              </div>
             </div>
           )}
         </div>
@@ -464,26 +519,14 @@ function SavingCard({
   subtitle: string;
   value: number;
 }) {
-  const isNegative = value < 0;
   return (
-    <div
-      className={`rounded-2xl p-6 border-2 ${
-        isNegative
-          ? "bg-green-50 border-green-300"
-          : "bg-red-50 border-red-200"
-      }`}
-    >
+    <div className="rounded-2xl p-6 border-2 bg-green-50 border-green-300">
       <p className="text-xs font-semibold text-gray-400 uppercase tracking-widest mb-1">
         {label}
       </p>
       <p className="text-sm text-gray-500 mb-3">{subtitle}</p>
-      <p
-        className={`text-4xl font-black leading-none ${
-          isNegative ? "text-green-600" : "text-red-500"
-        }`}
-      >
-        {isNegative ? "" : "+"}
-        {new Intl.NumberFormat("ru-RU", { maximumFractionDigits: 0 }).format(value)} ₽
+      <p className="text-4xl font-black leading-none text-green-600">
+        {fmt(value)} ₽
       </p>
       <p className="text-xs text-gray-400 mt-2">в год</p>
     </div>
