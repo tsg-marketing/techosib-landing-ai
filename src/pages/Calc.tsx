@@ -87,7 +87,9 @@ function calcCol(f: FormState, mode: PackMode): ColResult {
   const stretch_coef = 100 / (100 + stretch);         // коэффициент растяжения
   // Объём плёнки (м³) × плотность (кг/м³≈920) × 1000 = г
   const volume_m3 = perim_m * film_width_m * thickness_m * turns * stretch_coef;
-  const consumption = volume_m3 * 920 * 1000;
+  const baseConsumption = volume_m3 * 920 * 1000;
+  const extraGrams = mode === "machine" ? 40 : mode === "prestretch" ? 10 : 0;
+  const consumption = baseConsumption + extraGrams;
 
   // Стоимость плёнки на 1 паллет, руб
   const cost_per_pallet = film_price * consumption * 0.001;
@@ -338,20 +340,18 @@ export default function Calc() {
                   </p>
                   <ul className="space-y-2">
                     {[
-                      "TS3000MR-H",
-                      "TS3000MR-TP",
-                      "TS3000MR-MT",
-                      "TS3000MR-MT-TP",
-                    ].map((model) => (
-                      <li key={model}>
+                      { label: "TS3000MR-H",     anchor: "ts3000mr-h" },
+                      { label: "TS3000MR-TP",    anchor: "ts3000mr-tp" },
+                      { label: "TS3000MR-MT",    anchor: "ts3000mr-h" },
+                      { label: "TS3000MR-MT-TP", anchor: "ts3000mr-mt-tp" },
+                    ].map(({ label, anchor }) => (
+                      <li key={label}>
                         <a
-                          href={`https://techstretcher.ru/${model.toLowerCase()}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          href={`/#${anchor}`}
                           className="flex items-center gap-2 text-base font-medium text-blue-600 hover:text-blue-800 hover:underline"
                         >
                           <Icon name="ExternalLink" size={14} className="shrink-0" />
-                          {model}
+                          {label}
                         </a>
                       </li>
                     ))}
@@ -363,21 +363,19 @@ export default function Calc() {
                   </p>
                   <ul className="space-y-2">
                     {[
-                      "TS3000SPS-H",
-                      "TS3000SPS-TP",
-                      "TS3000SPS-MT",
-                      "TS3000SPS-MT-TP",
-                      "ROBO-MS",
-                    ].map((model) => (
-                      <li key={model}>
+                      { label: "TS3000SPS-H",     anchor: "ts3000sps-h" },
+                      { label: "TS3000SPS-TP",    anchor: "ts3000sps-tp" },
+                      { label: "TS3000SPS-MT",    anchor: "ts3000sps-h" },
+                      { label: "TS3000SPS-MT-TP", anchor: "ts3000sps-mt-tp" },
+                      { label: "ROBO-MS",         anchor: "robo-ms" },
+                    ].map(({ label, anchor }) => (
+                      <li key={label}>
                         <a
-                          href={`https://techstretcher.ru/${model.toLowerCase()}`}
-                          target="_blank"
-                          rel="noopener noreferrer"
+                          href={`/#${anchor}`}
                           className="flex items-center gap-2 text-base font-medium text-blue-600 hover:text-blue-800 hover:underline"
                         >
                           <Icon name="ExternalLink" size={14} className="shrink-0" />
-                          {model}
+                          {label}
                         </a>
                       </li>
                     ))}
