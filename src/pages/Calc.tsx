@@ -36,7 +36,7 @@ const DEFAULT_FORM: FormState = {
   length: "1200",
   width: "800",
   turns: "16",
-  p_day: "10",
+  p_day: "50",
   days: "220",
   film_price: "300",
 };

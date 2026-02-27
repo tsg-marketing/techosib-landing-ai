@@ -937,7 +937,7 @@ export default function Index() {
   const [calcLength, setCalcLength] = useState("1200");
   const [calcWidth, setCalcWidth] = useState("800");
   const [calcTurns, setCalcTurns] = useState("16");
-  const [calcPDay, setCalcPDay] = useState("10");
+  const [calcPDay, setCalcPDay] = useState("50");
   const [calcDays, setCalcDays] = useState("220");
   const [calcPrice, setCalcPrice] = useState("300");
   const [calcResults, setCalcResults] = useState<null | { hand: CalcColResult; machine: CalcColResult; prestretch: CalcColResult }>(null);
