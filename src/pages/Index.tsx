@@ -893,6 +893,7 @@ export default function Index() {
     machineType: ""
   });
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
+  const [promoFormSent, setPromoFormSent] = useState(false);
 
   useEffect(() => {
     saveUtmToCookies();
@@ -1158,10 +1159,10 @@ export default function Index() {
               </Button>
               <Button 
                 size="lg" 
-                className="bg-primary/20 hover:bg-primary/30 text-gray-900 border border-primary/30 text-lg py-6"
-                onClick={() => setDemoFormOpen(true)}
+                className="bg-orange-500 hover:bg-orange-600 text-white text-lg py-6 font-bold shadow-lg animate-pulse"
+                onClick={() => scrollToSection('promo')}
               >
-                Посмотреть товар в демозале
+                🎁 Акция
               </Button>
               <Button 
                 size="lg" 
@@ -1737,6 +1738,118 @@ export default function Index() {
                 </p>
               </CardContent>
             </Card>
+          </div>
+        </div>
+      </section>
+
+      {/* Promo Section */}
+      <section id="promo" className="py-12 md:py-20 bg-gradient-to-br from-orange-500 to-yellow-400">
+        <div className="container mx-auto px-4">
+          <div className="max-w-5xl mx-auto">
+            <div className="bg-white rounded-3xl shadow-2xl overflow-hidden">
+              <div className="grid md:grid-cols-2">
+                {/* Image side */}
+                <div className="relative min-h-64 md:min-h-auto overflow-hidden">
+                  <img
+                    src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/303b188e-3724-494b-a978-f1b6d2bbc079.jpg"
+                    alt="Акция Техно-Сиб"
+                    className="w-full h-full object-cover"
+                  />
+                  <div className="absolute inset-0 bg-gradient-to-t from-orange-900/60 to-transparent flex items-end p-6">
+                    <div className="inline-block bg-white text-orange-600 font-black text-2xl px-5 py-2 rounded-full shadow-lg uppercase tracking-wide">
+                      🎁 Акция
+                    </div>
+                  </div>
+                </div>
+                {/* Content side */}
+                <div className="p-8 md:p-10 flex flex-col justify-between">
+                  <div>
+                    <h2 className="text-2xl md:text-3xl font-black text-gray-900 leading-tight mb-6">
+                      Акция от компании «Техно-Сиб»
+                    </h2>
+                    <div className="space-y-4 mb-6">
+                      <div className="flex items-start gap-3 bg-orange-50 rounded-xl p-4 border-l-4 border-orange-500">
+                        <Icon name="Package" size={24} className="text-orange-500 flex-shrink-0 mt-0.5" />
+                        <p className="text-gray-800 font-medium">При покупке паллетообмотчика Техносиб — <span className="font-bold text-orange-600">ролик машинной стрейч-плёнки в подарок</span></p>
+                      </div>
+                      <div className="flex items-start gap-3 bg-orange-50 rounded-xl p-4 border-l-4 border-orange-500">
+                        <Icon name="Wrench" size={24} className="text-orange-500 flex-shrink-0 mt-0.5" />
+                        <p className="text-gray-800 font-medium"><span className="font-bold text-orange-600">Бесплатное проведение пусконаладочных работ</span> на вашем предприятии в подарок*</p>
+                      </div>
+                    </div>
+                    <p className="text-gray-700 font-semibold text-lg">Подробная информация у менеджеров компании. Звоните, пишите!</p>
+                  </div>
+                  <div className="mt-6">
+                    {promoFormSent ? (
+                      <div className="text-center py-6 bg-green-50 rounded-2xl border-2 border-green-200">
+                        <Icon name="CheckCircle" size={40} className="text-green-500 mx-auto mb-2" />
+                        <p className="text-lg font-bold text-green-700">Заявка отправлена!</p>
+                        <p className="text-gray-500 text-sm mt-1">Менеджер свяжется с вами в ближайшее время</p>
+                      </div>
+                    ) : (
+                      <form
+                        onSubmit={async (e) => {
+                          e.preventDefault();
+                          const form = e.target as HTMLFormElement;
+                          const formData = new FormData(form);
+                          const name = formData.get('name') as string || '';
+                          const phone = formData.get('phone') as string || '';
+                          const pageUrl = window.location.href;
+                          const utmData = getUtmFromCookies();
+                          const requestData = {
+                            name, phone,
+                            comment: 'Заявка из блока Акция',
+                            productType: 'Паллетообмотчик',
+                            modelType: '',
+                            url: pageUrl,
+                            ...utmData
+                          };
+                          try {
+                            const response = await fetch('/api/b24-send-lead.php', {
+                              method: 'POST',
+                              headers: { 'Content-Type': 'application/json' },
+                              body: JSON.stringify(requestData)
+                            });
+                            const result = await response.json();
+                            if (result.success) {
+                              if (typeof window !== 'undefined' && (window as any).ym) {
+                                (window as any).ym(106348259, 'reachGoal', 'form_sent');
+                              }
+                              form.reset();
+                              setPromoFormSent(true);
+                            } else {
+                              alert("Произошла ошибка. Пожалуйста, позвоните нам.");
+                            }
+                          } catch {
+                            alert("Произошла ошибка. Пожалуйста, позвоните нам.");
+                          }
+                        }}
+                        className="space-y-3"
+                      >
+                        <div>
+                          <Label htmlFor="promo-name">Имя *</Label>
+                          <Input id="promo-name" name="name" type="text" placeholder="Ваше имя" required />
+                        </div>
+                        <div>
+                          <Label htmlFor="promo-phone">Телефон *</Label>
+                          <Input id="promo-phone" name="phone" type="tel" placeholder="+7 (___) ___-__-__" onInput={handlePhoneInput} required />
+                        </div>
+                        <div className="flex items-start gap-2">
+                          <Checkbox id="promo-consent" required />
+                          <Label htmlFor="promo-consent" className="text-xs text-muted-foreground cursor-pointer">
+                            Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
+                          </Label>
+                        </div>
+                        <Button type="submit" className="w-full bg-orange-500 hover:bg-orange-600 text-white font-bold text-base py-5">
+                          Узнать подробности акции
+                        </Button>
+                      </form>
+                    )}
+                    <p className="text-xs text-gray-400 italic mt-3">* Кроме командировочных расходов</p>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </section>
