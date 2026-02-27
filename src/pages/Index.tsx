@@ -1238,13 +1238,20 @@ export default function Index() {
                 <span>Сервис и гарантия по всей России</span>
               </li>
             </ul>
-            <div className="flex flex-col sm:flex-row gap-4 flex-wrap">
+            <div className="flex flex-col sm:flex-row gap-3 flex-wrap">
               <Button 
                 size="lg" 
                 className="bg-secondary hover:bg-secondary/90 text-white text-lg py-6"
                 onClick={() => setHeroFormOpen(true)}
               >
                 Получить предложение
+              </Button>
+              <Button
+                size="lg"
+                className="bg-teal-600 hover:bg-teal-700 text-white text-base py-8 px-5 font-bold shadow-xl leading-tight"
+                onClick={() => scrollToSection('film-calc')}
+              >
+                📊 Рассчитать экономию<br className="hidden sm:block" /> стреч-пленки
               </Button>
               <Button 
                 size="lg" 
@@ -1260,15 +1267,6 @@ export default function Index() {
                 onClick={() => scrollToSection('models')}
               >
                 Посмотреть модели
-              </Button>
-            </div>
-            <div className="mt-4">
-              <Button
-                size="lg"
-                className="bg-green-600 hover:bg-green-700 text-white text-base md:text-lg py-6 px-6 font-bold shadow-xl w-full sm:w-auto"
-                onClick={() => scrollToSection('film-calc')}
-              >
-                📊 Рассчитать экономию стреч-пленки с паллетообмотчиками Техно-Сиб
               </Button>
             </div>
           </div>
@@ -1611,6 +1609,53 @@ export default function Index() {
                     <p className="text-xs text-gray-400 mt-1">в год</p>
                   </div>
                 ))}
+              </div>
+
+              {/* Рекомендации моделей */}
+              <div className="grid sm:grid-cols-2 gap-4">
+                <div className="bg-white border border-gray-200 rounded-2xl p-6">
+                  <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Машина без пристрейча</p>
+                  <ul className="space-y-2">
+                    {[
+                      { label: "TS3000MR-H",     anchor: "ts3000mr-h" },
+                      { label: "TS3000MR-TP",    anchor: "ts3000mr-tp" },
+                      { label: "TS3000MR-MT",    anchor: "ts3000mr-mt" },
+                      { label: "TS3000MR-MT-TP", anchor: "ts3000mr-mt-tp" },
+                    ].map(({ label, anchor }) => (
+                      <li key={label}>
+                        <button
+                          onClick={() => scrollToSection(anchor)}
+                          className="flex items-center gap-2 text-base font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                        >
+                          <Icon name="ArrowRight" size={14} className="shrink-0" />
+                          {label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
+                <div className="bg-white border border-gray-200 rounded-2xl p-6">
+                  <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Машина с пристрейчем</p>
+                  <ul className="space-y-2">
+                    {[
+                      { label: "TS3000SPS-H",     anchor: "ts3000sps-h" },
+                      { label: "TS3000SPS-TP",    anchor: "ts3000sps-tp" },
+                      { label: "TS3000SPS-MT",    anchor: "ts3000sps-mt" },
+                      { label: "TS3000SPS-MT-TP", anchor: "ts3000sps-mt-tp" },
+                      { label: "ROBO-MS",         anchor: "robo-ms" },
+                    ].map(({ label, anchor }) => (
+                      <li key={label}>
+                        <button
+                          onClick={() => scrollToSection(anchor)}
+                          className="flex items-center gap-2 text-base font-medium text-blue-600 hover:text-blue-800 hover:underline"
+                        >
+                          <Icon name="ArrowRight" size={14} className="shrink-0" />
+                          {label}
+                        </button>
+                      </li>
+                    ))}
+                  </ul>
+                </div>
               </div>
             </div>
           )}
