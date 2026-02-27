@@ -78,12 +78,16 @@ function calcCol(f: FormState, mode: PackMode): ColResult {
   const stretch = STRETCH[mode];
 
   // Расход плёнки на один паллет, г
-  const consumption =
-    (((length + width) * 2 * 500) / 10) *
-    0.92 *
-    (thickness / 10) *
-    turns *
-    (1 / ((100 + stretch) / 100));
+  // Excel: =((B8+B9)*2)*B3/10*B2*B7/10*B10*(1/(100+B11)/100)
+  // Длина,Ширина в мм → /1000 для перевода в м; B3=500мм ширина плёнки → /1000
+  // Результат в кг → *1000 для г
+  const perim_m = (length + width) * 2 / 1000;       // периметр паллеты, м
+  const film_width_m = 500 / 1000;                    // ширина плёнки, м
+  const thickness_m = thickness / 1000000;            // толщина, м (мкм→м)
+  const stretch_coef = 100 / (100 + stretch);         // коэффициент растяжения
+  // Объём плёнки (м³) × плотность (кг/м³≈920) × 1000 = г
+  const volume_m3 = perim_m * film_width_m * thickness_m * turns * stretch_coef;
+  const consumption = volume_m3 * 920 * 1000;
 
   // Стоимость плёнки на 1 паллет, руб
   const cost_per_pallet = film_price * consumption * 0.001;
