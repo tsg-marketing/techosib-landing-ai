@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { Link } from "react-router-dom";
 import { saveUtmToCookies, getUtmFromCookies } from "@/utils/utm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
@@ -2470,6 +2471,7 @@ export default function Index() {
               <button onClick={() => scrollToSection('faq')} className="hover:text-white transition-colors">FAQ</button>
               <button onClick={() => scrollToSection('about')} className="hover:text-white transition-colors">О нас</button>
               <button onClick={() => scrollToSection('contacts')} className="hover:text-white transition-colors">Контакты</button>
+              <Link to="/calc" className="hover:text-white transition-colors">Калькулятор</Link>
             </div>
             <div className="text-sm text-gray-500 pt-4">
               2026 ТЕХНОСИБ. Все права защищены.
