@@ -1996,6 +1996,81 @@ export default function Index() {
         </div>
       </section>
 
+      {/* Delivery Section */}
+      <section id="delivery" className="py-16 md:py-24 bg-white">
+        <div className="container mx-auto px-4">
+          <div className="text-center mb-12">
+            <h2 className="text-3xl md:text-4xl font-bold text-gray-900 mb-4">Доставка товара</h2>
+            <p className="text-lg text-gray-500 max-w-2xl mx-auto">Доставка в пределах г. Новосибирск и г. Москва — <span className="font-semibold text-orange-500">бесплатно</span>. Выгрузка товара осуществляется силами Покупателя.</p>
+          </div>
+
+          {/* Hero image */}
+          <div className="rounded-3xl overflow-hidden mb-12 shadow-xl max-h-72 w-full">
+            <img
+              src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/63b7c53a-f679-468e-98c9-382312406aff.jpg"
+              alt="Доставка товара"
+              className="w-full h-72 object-cover object-center"
+            />
+          </div>
+
+          {/* Grid */}
+          <div className="grid md:grid-cols-2 gap-8">
+            {/* Самовывоз */}
+            <div className="bg-gray-50 rounded-3xl p-8 border border-gray-100">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-orange-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                  <Icon name="MapPin" size={24} className="text-orange-500" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">Самовывоз</h3>
+              </div>
+              <p className="text-gray-500 mb-4">Забрать оплаченный товар можно на складе по адресу:</p>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <Icon name="Building2" size={18} className="text-orange-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">г. Новосибирск, ул. Электрозаводская, 2, корпус 5</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Icon name="Building2" size={18} className="text-orange-400 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">г. Москва, ш. Энтузиастов, д. 56, стр. 32</span>
+                </li>
+              </ul>
+            </div>
+
+            {/* Доставка по России */}
+            <div className="bg-blue-50 rounded-3xl p-8 border border-blue-100">
+              <div className="flex items-center gap-4 mb-6">
+                <div className="w-12 h-12 bg-blue-100 rounded-2xl flex items-center justify-center flex-shrink-0">
+                  <Icon name="Truck" size={24} className="text-blue-500" />
+                </div>
+                <h3 className="text-xl font-bold text-gray-900">Доставка по России</h3>
+              </div>
+              <ul className="space-y-3">
+                <li className="flex items-start gap-3">
+                  <Icon name="Check" size={18} className="text-blue-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Доставка по России осуществляется через транспортные компании.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Icon name="Check" size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700"><span className="font-semibold text-green-600">Бесплатно</span> доставим товар до терминала любой ТК в пределах г. Новосибирск.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Icon name="Check" size={18} className="text-blue-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Перевозчики: <span className="font-medium">«Деловые линии»</span>, <span className="font-medium">«ПЭК»</span>, <span className="font-medium">«СДЭК»</span>.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Icon name="Clock" size={18} className="text-blue-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Сроки поставки зависят от места назначения и выбора перевозчика.</span>
+                </li>
+                <li className="flex items-start gap-3">
+                  <Icon name="CreditCard" size={18} className="text-blue-500 mt-0.5 flex-shrink-0" />
+                  <span className="text-gray-700">Оплата доставки — заказчиком при получении по тарифам перевозчика.</span>
+                </li>
+              </ul>
+            </div>
+          </div>
+        </div>
+      </section>
+
       {/* Promo Section */}
       <section id="promo" className="py-12 md:py-20 bg-gradient-to-br from-orange-500 to-yellow-400">
         <div className="container mx-auto px-4">
