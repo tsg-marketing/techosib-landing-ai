@@ -2004,15 +2004,6 @@ export default function Index() {
             <p className="text-lg text-gray-500 max-w-2xl mx-auto">Доставка в пределах г. Новосибирск и г. Москва — <span className="font-semibold text-orange-500">бесплатно</span>. Выгрузка товара осуществляется силами Покупателя.</p>
           </div>
 
-          {/* Hero image */}
-          <div className="rounded-3xl overflow-hidden mb-12 shadow-xl max-h-72 w-full">
-            <img
-              src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/63b7c53a-f679-468e-98c9-382312406aff.jpg"
-              alt="Доставка товара"
-              className="w-full h-72 object-cover object-center"
-            />
-          </div>
-
           {/* Grid */}
           <div className="grid md:grid-cols-2 gap-8">
             {/* Самовывоз */}
@@ -2051,7 +2042,7 @@ export default function Index() {
                 </li>
                 <li className="flex items-start gap-3">
                   <Icon name="Check" size={18} className="text-green-500 mt-0.5 flex-shrink-0" />
-                  <span className="text-gray-700"><span className="font-semibold text-green-600">Бесплатно</span> доставим товар до терминала любой ТК в пределах г. Новосибирск.</span>
+                  <span className="text-gray-700"><span className="font-semibold text-green-600">Бесплатно</span> доставим товар до терминала любой ТК в пределах г. Новосибирск и г. Москва.</span>
                 </li>
                 <li className="flex items-start gap-3">
                   <Icon name="Check" size={18} className="text-blue-500 mt-0.5 flex-shrink-0" />
