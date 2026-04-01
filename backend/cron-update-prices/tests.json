@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Cron update prices from XML to DB",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "success": true
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}

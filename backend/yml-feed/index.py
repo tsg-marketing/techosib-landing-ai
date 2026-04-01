@@ -1,4 +1,5 @@
 import json
+import os
 import urllib.request
 import xml.etree.ElementTree as ET
 from datetime import datetime
@@ -422,8 +423,29 @@ PRICE_FEED_URL = "https://t-sib.ru/bitrix/catalog_export/export_Vvf.xml"
 
 
 def fetch_prices():
-    """Получает актуальные цены из внешнего XML-фида"""
+    """Получает актуальные цены из БД (с фоллбэком на XML-фид)"""
     prices = {}
+    
+    # Пробуем из БД
+    db_url = os.environ.get('DATABASE_URL', '')
+    schema = os.environ.get('MAIN_DB_SCHEMA', 'public')
+    
+    if db_url:
+        try:
+            import psycopg2
+            conn = psycopg2.connect(db_url)
+            cur = conn.cursor()
+            cur.execute(f"SELECT offer_id, price_raw FROM {schema}.prices_cache WHERE price_raw > 0")
+            for row in cur.fetchall():
+                prices[row[0]] = row[1]
+            cur.close()
+            conn.close()
+            if prices:
+                return prices
+        except Exception:
+            pass
+    
+    # Фоллбэк: XML-фид
     try:
         with urllib.request.urlopen(PRICE_FEED_URL, timeout=30) as response:
             xml_data = response.read()

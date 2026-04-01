@@ -1,0 +1,14 @@
+{
+  "tests": [
+    {
+      "name": "Get prices from database cache",
+      "method": "GET",
+      "path": "/",
+      "expectedStatus": 200,
+      "expectedBody": {
+        "prices": "object"
+      },
+      "bodyMatcher": "partial"
+    }
+  ]
+}
