@@ -4,6 +4,14 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import Icon from "@/components/ui/icon";
+import {
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+} from "@/components/ui/dialog";
+import { getUtmFromCookies } from "@/utils/utm";
 
 // ─────────────────────────────────────────────
 // TYPES
@@ -11,21 +19,21 @@ import Icon from "@/components/ui/icon";
 type PackMode = "hand" | "machine" | "prestretch";
 
 interface FormState {
-  thickness: string;      // толщина плёнки, мкм
-  length: string;         // длина паллеты, мм
-  width: string;          // ширина паллеты, мм
-  turns: string;          // количество оборотов
-  p_day: string;          // паллет в сутки
-  days: string;           // рабочих дней в году
-  film_price: string;     // цена плёнки, руб/кг
+  thickness: string;
+  length: string;
+  width: string;
+  turns: string;
+  p_day: string;
+  days: string;
+  film_price: string;
 }
 
 interface ColResult {
-  stretch: number;                // % предварительного растяжения
-  consumption: number;            // расход, кг/паллет
-  cost_per_pallet: number;        // стоимость/паллет, руб
-  total_consumption_year: number; // суммарный расход, кг/год
-  total_cost_year: number;        // суммарные затраты, руб/год
+  stretch: number;
+  consumption: number;
+  cost_per_pallet: number;
+  total_consumption_year: number;
+  total_cost_year: number;
 }
 
 // ─────────────────────────────────────────────
@@ -55,6 +63,8 @@ const MODE_LABELS: Record<PackMode, string> = {
 
 const MODES: PackMode[] = ["hand", "machine", "prestretch"];
 
+const CALC_CONTACT_KEY = "calc_contact_submitted";
+
 // ─────────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────────
@@ -77,27 +87,17 @@ function calcCol(f: FormState, mode: PackMode): ColResult {
   const film_price = n(f.film_price, 300);
   const stretch = STRETCH[mode];
 
-  // Расход плёнки на один паллет, г
-  // Excel: =((B8+B9)*2)*B3/10*B2*B7/10*B10*(1/(100+B11)/100)
-  // Длина,Ширина в мм → /1000 для перевода в м; B3=500мм ширина плёнки → /1000
-  // Результат в кг → *1000 для г
-  const perim_m = (length + width) * 2 / 1000;       // периметр паллеты, м
-  const film_width_m = 500 / 1000;                    // ширина плёнки, м
-  const thickness_m = thickness / 1000000;            // толщина, м (мкм→м)
-  const stretch_coef = 100 / (100 + stretch);         // коэффициент растяжения
-  // Объём плёнки (м³) × плотность (кг/м³≈920) × 1000 = г
+  const perim_m = (length + width) * 2 / 1000;
+  const film_width_m = 500 / 1000;
+  const thickness_m = thickness / 1000000;
+  const stretch_coef = 100 / (100 + stretch);
   const volume_m3 = perim_m * film_width_m * thickness_m * turns * stretch_coef;
   const baseConsumption = volume_m3 * 920 * 1000;
   const extraGrams = mode === "machine" ? 40 : mode === "prestretch" ? 10 : 0;
   const consumption = baseConsumption + extraGrams;
 
-  // Стоимость плёнки на 1 паллет, руб
   const cost_per_pallet = film_price * consumption * 0.001;
-
-  // Суммарный расход пленки в год, кг
   const total_consumption_year = (consumption / 1000) * p_day * days;
-
-  // Суммарные затраты на плёнку в год, руб
   const total_cost_year = total_consumption_year * film_price;
 
   return { stretch, consumption, cost_per_pallet, total_consumption_year, total_cost_year };
@@ -111,11 +111,19 @@ export default function Calc() {
   const [results, setResults] = useState<Record<PackMode, ColResult> | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
-  // Lead form
+  const [contactSubmitted, setContactSubmitted] = useState(
+    () => localStorage.getItem(CALC_CONTACT_KEY) === "true"
+  );
+  const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
+  const [dialogPhone, setDialogPhone] = useState("");
+  const [dialogLoading, setDialogLoading] = useState(false);
+  const [dialogError, setDialogError] = useState("");
+
+  const [pendingResults, setPendingResults] = useState<Record<PackMode, ColResult> | null>(null);
+
   const [leadName, setLeadName] = useState("");
   const [leadPhone, setLeadPhone] = useState("");
   const [leadEmail, setLeadEmail] = useState("");
-
   const [leadLoading, setLeadLoading] = useState(false);
   const [leadSent, setLeadSent] = useState(false);
   const [leadErrors, setLeadErrors] = useState<Record<string, string>>({});
@@ -125,16 +133,72 @@ export default function Calc() {
       setForm((prev) => ({ ...prev, [key]: e.target.value }));
   }
 
+  function showResults(res: Record<PackMode, ColResult>) {
+    setResults(res);
+    setTimeout(() => {
+      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
+    }, 100);
+  }
+
   function handleCalc() {
     const res: Record<PackMode, ColResult> = {
       hand: calcCol(form, "hand"),
       machine: calcCol(form, "machine"),
       prestretch: calcCol(form, "prestretch"),
     };
-    setResults(res);
-    setTimeout(() => {
-      resultRef.current?.scrollIntoView({ behavior: "smooth", block: "start" });
-    }, 100);
+
+    if (contactSubmitted) {
+      showResults(res);
+    } else {
+      setPendingResults(res);
+      setPhoneDialogOpen(true);
+    }
+  }
+
+  function handlePhoneSubmit(e: React.FormEvent) {
+    e.preventDefault();
+    if (!dialogPhone.trim()) {
+      setDialogError("Укажите номер телефона");
+      return;
+    }
+    setDialogError("");
+    setDialogLoading(true);
+
+    const utmData = getUtmFromCookies();
+
+    fetch("/api/b24-send-lead.php", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        name: "",
+        phone: dialogPhone,
+        email: "",
+        comment: "",
+        source: "Калькулятор расхода плёнки",
+        productType: "Паллетообмотчик",
+        url: window.location.href,
+        calc_params: form,
+        calc_result: pendingResults,
+        ...utmData,
+      }),
+    })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.success && typeof window !== "undefined" && (window as any).ym) {
+          (window as any).ym(106348259, "reachGoal", "form_sent");
+        }
+      })
+      .catch(() => {})
+      .finally(() => {
+        setDialogLoading(false);
+        setContactSubmitted(true);
+        localStorage.setItem(CALC_CONTACT_KEY, "true");
+        setPhoneDialogOpen(false);
+        if (pendingResults) {
+          showResults(pendingResults);
+          setPendingResults(null);
+        }
+      });
   }
 
   function handleLead(e: React.FormEvent) {
@@ -146,6 +210,8 @@ export default function Calc() {
     setLeadErrors(errors);
     if (Object.keys(errors).length > 0) return;
 
+    const utmData = getUtmFromCookies();
+
     setLeadLoading(true);
     fetch("/api/b24-send-lead.php", {
       method: "POST",
@@ -155,11 +221,21 @@ export default function Calc() {
         phone: leadPhone,
         email: leadEmail,
         comment: "",
-        source: "Калькулятор расхода плёнки",
+        source: "Калькулятор расхода плёнки — КП",
+        productType: "Паллетообмотчик",
+        url: window.location.href,
         calc_params: form,
         calc_result: results,
+        ...utmData,
       }),
     })
+      .then((res) => res.json())
+      .then((result) => {
+        if (result.success && typeof window !== "undefined" && (window as any).ym) {
+          (window as any).ym(106348259, "reachGoal", "form_sent");
+        }
+      })
+      .catch(() => {})
       .finally(() => {
         setLeadLoading(false);
         setLeadSent(true);
@@ -257,11 +333,54 @@ export default function Calc() {
           </Button>
         </div>
 
+        {/* PHONE DIALOG */}
+        <Dialog open={phoneDialogOpen} onOpenChange={setPhoneDialogOpen}>
+          <DialogContent className="sm:max-w-md">
+            <DialogHeader>
+              <DialogTitle className="text-xl">
+                Посмотрите расчёт экономии
+              </DialogTitle>
+              <DialogDescription className="text-base mt-2">
+                Оставьте свой номер телефона и сразу же посмотрите расчёт экономии стрейч-плёнки
+              </DialogDescription>
+            </DialogHeader>
+            <form onSubmit={handlePhoneSubmit} className="space-y-4 mt-2">
+              <div className="space-y-1">
+                <Label className="text-sm text-gray-600">Телефон *</Label>
+                <Input
+                  placeholder="+7 (___) ___-__-__"
+                  value={dialogPhone}
+                  onChange={(e) => setDialogPhone(e.target.value)}
+                  className={dialogError ? "border-red-400" : ""}
+                  autoFocus
+                />
+                {dialogError && <p className="text-sm text-red-500">{dialogError}</p>}
+              </div>
+              <Button
+                type="submit"
+                disabled={dialogLoading}
+                className="w-full py-5 text-base font-bold bg-orange-500 hover:bg-orange-600 text-white"
+              >
+                {dialogLoading ? (
+                  <span className="flex items-center gap-2">
+                    <Icon name="Loader2" size={18} className="animate-spin" />
+                    Отправляем...
+                  </span>
+                ) : (
+                  "Показать расчёт"
+                )}
+              </Button>
+              <p className="text-xs text-gray-400 text-center">
+                Нажимая кнопку, вы соглашаетесь на обработку персональных данных
+              </p>
+            </form>
+          </DialogContent>
+        </Dialog>
+
         {/* RESULTS */}
         <div ref={resultRef}>
           {results && (
             <div className="space-y-6">
-              {/* Таблица сравнения */}
               <div className="bg-white border border-gray-200 rounded-2xl overflow-hidden">
                 <div className="overflow-x-auto">
                   <table className="w-full text-sm">
@@ -318,7 +437,6 @@ export default function Calc() {
                 </div>
               </div>
 
-              {/* Экономия */}
               <div className="grid sm:grid-cols-2 gap-4">
                 <SavingCard
                   label="Относительная экономия"
@@ -332,7 +450,6 @@ export default function Calc() {
                 />
               </div>
 
-              {/* Модели оборудования */}
               <div className="grid sm:grid-cols-2 gap-4">
                 <div className="bg-white border border-gray-200 rounded-2xl p-6">
                   <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">
