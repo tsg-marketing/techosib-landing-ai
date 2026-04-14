@@ -944,6 +944,13 @@ export default function Index() {
   const [calcLeadSent, setCalcLeadSent] = useState(false);
   const [calcLeadLoading, setCalcLeadLoading] = useState(false);
 
+  const [calcPhoneDialogOpen, setCalcPhoneDialogOpen] = useState(false);
+  const [calcDialogPhone, setCalcDialogPhone] = useState("");
+  const [calcDialogLoading, setCalcDialogLoading] = useState(false);
+  const [calcDialogError, setCalcDialogError] = useState("");
+  const [calcContactDone, setCalcContactDone] = useState(() => localStorage.getItem("calc_contact_submitted") === "true");
+  const [calcPendingResults, setCalcPendingResults] = useState<null | { hand: CalcColResult; machine: CalcColResult; prestretch: CalcColResult }>(null);
+
   useEffect(() => {
     saveUtmToCookies();
     
@@ -1007,11 +1014,57 @@ export default function Index() {
     const pDay = nCalc(calcPDay, 10);
     const days = nCalc(calcDays, 220);
     const price = nCalc(calcPrice, 300);
-    setCalcResults({
+    const res = {
       hand:       calcFilmCol(t, l, w, turns, pDay, days, price, 0,   0),
       machine:    calcFilmCol(t, l, w, turns, pDay, days, price, 50,  40),
       prestretch: calcFilmCol(t, l, w, turns, pDay, days, price, 250, 10),
-    });
+    };
+    if (calcContactDone) {
+      setCalcResults(res);
+    } else {
+      setCalcPendingResults(res);
+      setCalcPhoneDialogOpen(true);
+    }
+  };
+
+  const handleCalcPhoneSubmit = async (e: React.FormEvent) => {
+    e.preventDefault();
+    if (!calcDialogPhone.trim()) {
+      setCalcDialogError("Укажите номер телефона");
+      return;
+    }
+    setCalcDialogError("");
+    setCalcDialogLoading(true);
+    const utmData = getUtmFromCookies();
+    try {
+      const response = await fetch("/api/b24-send-lead.php", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({
+          name: "",
+          phone: calcDialogPhone,
+          email: "",
+          company: "",
+          comment: "Запрос из калькулятора расхода плёнки",
+          productType: "Паллетообмотчик",
+          url: window.location.href,
+          ...utmData,
+        }),
+      });
+      const result = await response.json();
+      if (result.success && typeof window !== "undefined" && (window as unknown as Record<string, unknown>).ym) {
+        // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
+        ((window as unknown as Record<string, unknown>).ym as Function)(106348259, "reachGoal", "form_sent");
+      }
+    } catch { /* ignore */ }
+    setCalcDialogLoading(false);
+    setCalcContactDone(true);
+    localStorage.setItem("calc_contact_submitted", "true");
+    setCalcPhoneDialogOpen(false);
+    if (calcPendingResults) {
+      setCalcResults(calcPendingResults);
+      setCalcPendingResults(null);
+    }
   };
 
   const handleCalcLead = async (e: React.FormEvent) => {
@@ -1560,6 +1613,49 @@ export default function Index() {
               Рассчитать
             </Button>
           </div>
+
+          {/* Диалог запроса телефона */}
+          <Dialog open={calcPhoneDialogOpen} onOpenChange={setCalcPhoneDialogOpen}>
+            <DialogContent className="sm:max-w-md">
+              <DialogHeader>
+                <DialogTitle className="text-xl">Посмотрите расчёт экономии</DialogTitle>
+                <DialogDescription className="text-base mt-2">
+                  Оставьте свой номер телефона и сразу же посмотрите расчёт экономии стрейч-плёнки
+                </DialogDescription>
+              </DialogHeader>
+              <form onSubmit={handleCalcPhoneSubmit} className="space-y-4 mt-2">
+                <div className="space-y-1">
+                  <Label className="text-sm text-gray-600">Телефон *</Label>
+                  <Input
+                    placeholder="+7 (___) ___-__-__"
+                    value={calcDialogPhone}
+                    onChange={(e) => setCalcDialogPhone(e.target.value)}
+                    onInput={handlePhoneInput}
+                    className={calcDialogError ? "border-red-400" : ""}
+                    autoFocus
+                  />
+                  {calcDialogError && <p className="text-sm text-red-500">{calcDialogError}</p>}
+                </div>
+                <Button
+                  type="submit"
+                  disabled={calcDialogLoading}
+                  className="w-full py-5 text-base font-bold bg-orange-500 hover:bg-orange-600 text-white"
+                >
+                  {calcDialogLoading ? (
+                    <span className="flex items-center gap-2">
+                      <Icon name="Loader2" size={18} className="animate-spin" />
+                      Отправляем...
+                    </span>
+                  ) : (
+                    "Показать расчёт"
+                  )}
+                </Button>
+                <p className="text-xs text-gray-400 text-center">
+                  Нажимая кнопку, вы соглашаетесь на обработку персональных данных
+                </p>
+              </form>
+            </DialogContent>
+          </Dialog>
 
           {/* Результаты */}
           {calcResults && (
