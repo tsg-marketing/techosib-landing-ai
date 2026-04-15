@@ -1,4 +1,5 @@
 import { useState, useEffect } from "react";
+import { toast } from "sonner";
 import { Link } from "react-router-dom";
 import { saveUtmToCookies, getUtmFromCookies } from "@/utils/utm";
 import { Button } from "@/components/ui/button";
@@ -1067,6 +1068,7 @@ export default function Index() {
     setCalcContactDone(true);
     localStorage.setItem("calc_contact_submitted", "true");
     setCalcPhoneDialogOpen(false);
+    toast.success("Благодарим за Вашу заявку. Менеджер свяжется с Вами в ближайшее время в часы работы.");
     if (calcPendingResults) {
       setCalcResults(calcPendingResults);
       setCalcPendingResults(null);
