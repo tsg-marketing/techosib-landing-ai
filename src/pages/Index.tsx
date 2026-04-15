@@ -945,7 +945,9 @@ export default function Index() {
   const [calcLeadLoading, setCalcLeadLoading] = useState(false);
 
   const [calcPhoneDialogOpen, setCalcPhoneDialogOpen] = useState(false);
+  const [calcDialogName, setCalcDialogName] = useState("");
   const [calcDialogPhone, setCalcDialogPhone] = useState("");
+  const [calcDialogConsent, setCalcDialogConsent] = useState(false);
   const [calcDialogLoading, setCalcDialogLoading] = useState(false);
   const [calcDialogError, setCalcDialogError] = useState("");
   const [calcContactDone, setCalcContactDone] = useState(() => localStorage.getItem("calc_contact_submitted") === "true");
@@ -1033,6 +1035,10 @@ export default function Index() {
       setCalcDialogError("Укажите номер телефона");
       return;
     }
+    if (!calcDialogConsent) {
+      setCalcDialogError("Необходимо дать согласие на обработку персональных данных");
+      return;
+    }
     setCalcDialogError("");
     setCalcDialogLoading(true);
     const utmData = getUtmFromCookies();
@@ -1041,7 +1047,7 @@ export default function Index() {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         body: JSON.stringify({
-          name: "",
+          name: calcDialogName,
           phone: calcDialogPhone,
           email: "",
           company: "",
@@ -1625,17 +1631,42 @@ export default function Index() {
               </DialogHeader>
               <form onSubmit={handleCalcPhoneSubmit} className="space-y-4 mt-2">
                 <div className="space-y-1">
+                  <Label className="text-sm text-gray-600">Имя</Label>
+                  <Input
+                    placeholder="Ваше имя"
+                    value={calcDialogName}
+                    onChange={(e) => setCalcDialogName(e.target.value)}
+                    autoFocus
+                  />
+                </div>
+                <div className="space-y-1">
                   <Label className="text-sm text-gray-600">Телефон *</Label>
                   <Input
                     placeholder="+7 (___) ___-__-__"
                     value={calcDialogPhone}
                     onChange={(e) => setCalcDialogPhone(e.target.value)}
                     onInput={handlePhoneInput}
-                    className={calcDialogError ? "border-red-400" : ""}
-                    autoFocus
                   />
-                  {calcDialogError && <p className="text-sm text-red-500">{calcDialogError}</p>}
                 </div>
+                <div className="flex items-start gap-2">
+                  <Checkbox
+                    id="calc-consent"
+                    checked={calcDialogConsent}
+                    onCheckedChange={(v) => setCalcDialogConsent(v === true)}
+                    className="mt-0.5"
+                  />
+                  <label htmlFor="calc-consent" className="text-xs text-gray-500 leading-relaxed cursor-pointer">
+                    Отправляя форму, я соглашаюсь с{" "}
+                    <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      политикой обработки персональных данных
+                    </a>{" "}
+                    и даю{" "}
+                    <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
+                      согласие на обработку персональных данных
+                    </a>.
+                  </label>
+                </div>
+                {calcDialogError && <p className="text-sm text-red-500">{calcDialogError}</p>}
                 <Button
                   type="submit"
                   disabled={calcDialogLoading}
@@ -1650,9 +1681,6 @@ export default function Index() {
                     "Показать расчёт"
                   )}
                 </Button>
-                <p className="text-xs text-gray-400 text-center">
-                  Нажимая кнопку, вы соглашаетесь на обработку персональных данных
-                </p>
               </form>
             </DialogContent>
           </Dialog>
