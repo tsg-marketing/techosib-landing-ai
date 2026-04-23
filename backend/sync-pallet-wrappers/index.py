@@ -1,10 +1,15 @@
 import json
+import hashlib
+import mimetypes
 import os
 import urllib.request
 import xml.etree.ElementTree as ET
+from concurrent.futures import ThreadPoolExecutor
 from datetime import datetime, timezone, timedelta
-from typing import Dict, Any, List
+from typing import Dict, Any, List, Optional
 
+import boto3
+from botocore.exceptions import ClientError
 import psycopg2
 from psycopg2.extras import Json
 
@@ -12,6 +17,8 @@ from psycopg2.extras import Json
 TARGET_CATEGORIES = {'332', '452', '333'}
 FEED_URL = 'https://t-sib.ru/bitrix/catalog_export/export_Vvf.xml'
 FEED_BASE_URL = 'https://t-sib.ru'
+S3_BUCKET = 'files'
+S3_PREFIX = 'pallet-wrappers/'
 
 
 def _normalize_url(u: str) -> str:
@@ -28,6 +35,85 @@ def _normalize_url(u: str) -> str:
     if s.startswith('/'):
         return FEED_BASE_URL + s
     return FEED_BASE_URL + '/' + s
+
+
+def _get_s3_client():
+    return boto3.client(
+        's3',
+        endpoint_url='https://bucket.poehali.dev',
+        aws_access_key_id=os.environ['AWS_ACCESS_KEY_ID'],
+        aws_secret_access_key=os.environ['AWS_SECRET_ACCESS_KEY'],
+    )
+
+
+def _cdn_url(key: str) -> str:
+    return f"https://cdn.poehali.dev/projects/{os.environ['AWS_ACCESS_KEY_ID']}/bucket/{key}"
+
+
+def _guess_content_type(url: str) -> str:
+    ct, _ = mimetypes.guess_type(url)
+    return ct or 'image/jpeg'
+
+
+def _s3_key_for(src_url: str) -> str:
+    ext = os.path.splitext(src_url.split('?')[0])[1].lower()
+    if ext not in ('.jpg', '.jpeg', '.png', '.webp', '.gif'):
+        ext = '.jpg'
+    h = hashlib.sha1(src_url.encode('utf-8')).hexdigest()[:16]
+    return f"{S3_PREFIX}{h}{ext}"
+
+
+def _s3_exists(s3, key: str) -> bool:
+    try:
+        s3.head_object(Bucket=S3_BUCKET, Key=key)
+        return True
+    except ClientError:
+        return False
+    except Exception:
+        return False
+
+
+def _mirror_image(s3, src_url: str, cache: Dict[str, Optional[str]]) -> Optional[str]:
+    '''Качает картинку с источника и заливает в S3. Возвращает CDN-URL или None.'''
+    if not src_url:
+        return None
+    if src_url in cache:
+        return cache[src_url]
+    if src_url.startswith('https://cdn.poehali.dev/'):
+        cache[src_url] = src_url
+        return src_url
+    try:
+        key = _s3_key_for(src_url)
+        cdn = _cdn_url(key)
+        if _s3_exists(s3, key):
+            cache[src_url] = cdn
+            return cdn
+
+        req = urllib.request.Request(
+            src_url,
+            headers={
+                'User-Agent': 'Mozilla/5.0 (compatible; poehali-bot/1.0)',
+                'Referer': FEED_BASE_URL + '/',
+            },
+        )
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            data = resp.read()
+        if not data:
+            cache[src_url] = None
+            return None
+
+        s3.put_object(
+            Bucket=S3_BUCKET,
+            Key=key,
+            Body=data,
+            ContentType=_guess_content_type(src_url),
+            CacheControl='public, max-age=31536000',
+        )
+        cache[src_url] = cdn
+        return cdn
+    except Exception:
+        cache[src_url] = None
+        return None
 
 
 def _extract_params(offer: ET.Element) -> Dict[str, Any]:
@@ -166,6 +252,51 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'isBase64Encoded': False,
             }
 
+        # Зеркалим все картинки в наш S3, чтобы обойти hotlink-защиту исходного сайта.
+        # Используем пул потоков для параллельной загрузки — исходные URL отдают быстро.
+        mirrored_images_count = 0
+        try:
+            s3 = _get_s3_client()
+            url_cache: Dict[str, Optional[str]] = {}
+
+            all_urls: List[str] = []
+            for it in items:
+                for u in it['images']:
+                    if u and u not in url_cache:
+                        all_urls.append(u)
+                        url_cache[u] = None  # резервируем
+                if it.get('picture') and it['picture'] not in url_cache:
+                    all_urls.append(it['picture'])
+                    url_cache[it['picture']] = None
+
+            # сбросим резерв, чтобы _mirror_image корректно отработал
+            for u in all_urls:
+                if u in url_cache:
+                    del url_cache[u]
+
+            def _job(u: str):
+                return (u, _mirror_image(s3, u, url_cache))
+
+            with ThreadPoolExecutor(max_workers=16) as ex:
+                for u, cdn in ex.map(_job, all_urls):
+                    if cdn:
+                        url_cache[u] = cdn
+                        mirrored_images_count += 1
+
+            for it in items:
+                new_images = []
+                for u in it['images']:
+                    mapped = url_cache.get(u)
+                    new_images.append(mapped if mapped else u)
+                it['images'] = new_images
+                if it.get('picture'):
+                    mapped = url_cache.get(it['picture'])
+                    if mapped:
+                        it['picture'] = mapped
+        except Exception:
+            # если S3 недоступен — используем исходные URL
+            pass
+
         conn = psycopg2.connect(db_url)
         cur = conn.cursor()
 
@@ -238,6 +369,7 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 'upserted': upserted,
                 'deleted': deleted,
                 'brands': brands_list,
+                'images_mirrored': mirrored_images_count,
                 'time_nsk': now_nsk.isoformat(),
             }, ensure_ascii=False),
             'isBase64Encoded': False,
