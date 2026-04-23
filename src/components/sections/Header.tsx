@@ -1,11 +1,17 @@
 import { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Textarea } from '@/components/ui/textarea';
 import { Label } from '@/components/ui/label';
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from '@/components/ui/dialog';
 import { Checkbox } from '@/components/ui/checkbox';
+import {
+  DropdownMenu,
+  DropdownMenuContent,
+  DropdownMenuItem,
+  DropdownMenuTrigger,
+} from '@/components/ui/dropdown-menu';
 import Icon from '@/components/ui/icon';
 import { useCart } from '@/hooks/useCart';
 
@@ -31,8 +37,29 @@ export default function Header({
   isSubmitting = false
 }: HeaderProps) {
   const navigate = useNavigate();
+  const location = useLocation();
   const { items } = useCart();
   const cartCount = items.length;
+
+  const brandLinks: { label: string; slug: string }[] = [
+    { label: 'Техносиб', slug: 'tehnosib' },
+    { label: 'Robopac', slug: 'robopac' },
+    { label: 'Hualian', slug: 'hualian' },
+  ];
+
+  const goToBrand = (slug: string) => {
+    const newHash = `#brand-${slug}`;
+    if (location.pathname !== '/') {
+      navigate(`/${newHash}`);
+      return;
+    }
+    if (window.location.hash === newHash) {
+      window.dispatchEvent(new HashChangeEvent('hashchange'));
+    } else {
+      window.location.hash = newHash;
+    }
+    setMobileMenuOpen(false);
+  };
 
   const handlePhoneInput = (e: React.FormEvent<HTMLInputElement>) => {
     const value = e.currentTarget.value;
@@ -59,7 +86,23 @@ export default function Header({
           </div>
           
           <nav className="hidden md:flex items-center gap-5">
-            <button onClick={() => scrollToSection('models')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Модели</button>
+            <DropdownMenu>
+              <DropdownMenuTrigger className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap flex items-center gap-1 outline-none">
+                Паллетообмотчики
+                <Icon name="ChevronDown" size={16} />
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="start" className="min-w-[180px]">
+                {brandLinks.map((b) => (
+                  <DropdownMenuItem
+                    key={b.slug}
+                    onClick={() => goToBrand(b.slug)}
+                    className="cursor-pointer text-base font-medium"
+                  >
+                    {b.label}
+                  </DropdownMenuItem>
+                ))}
+              </DropdownMenuContent>
+            </DropdownMenu>
             <button onClick={() => scrollToSection('advantages')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Преимущества</button>
             <button onClick={() => scrollToSection('service')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Сервис</button>
             <button onClick={() => scrollToSection('faq')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">FAQ</button>
@@ -139,7 +182,20 @@ export default function Header({
 
         {mobileMenuOpen && (
           <nav className="md:hidden mt-4 pb-4 space-y-3 animate-fade-in">
-            <button onClick={() => scrollToSection('models')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Модели</button>
+            <div>
+              <div className="py-2 text-base font-semibold text-primary">Паллетообмотчики</div>
+              <div className="pl-4 space-y-2">
+                {brandLinks.map((b) => (
+                  <button
+                    key={b.slug}
+                    onClick={() => goToBrand(b.slug)}
+                    className="block w-full text-left py-1.5 text-sm font-medium hover:text-primary transition-colors"
+                  >
+                    {b.label}
+                  </button>
+                ))}
+              </div>
+            </div>
             <button onClick={() => scrollToSection('advantages')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Преимущества</button>
             <button onClick={() => scrollToSection('service')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Сервис</button>
             <button onClick={() => scrollToSection('faq')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">FAQ</button>

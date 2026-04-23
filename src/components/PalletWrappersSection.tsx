@@ -232,16 +232,44 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
     if (!data || !data.items?.length) return;
     const applyHash = () => {
       const hash = window.location.hash || "";
-      const m = hash.match(/^#product-(.+)$/);
-      if (!m) return;
-      const wantedSlug = m[1].toLowerCase();
-      const found = data.items.find(
-        (it) => slugify(it.name) === wantedSlug
-      );
-      if (found) {
-        setSpecsItem(found);
-        setSpecsPhotoIndex(0);
-        setSpecsOpen(true);
+      const mProduct = hash.match(/^#product-(.+)$/);
+      if (mProduct) {
+        const wantedSlug = mProduct[1].toLowerCase();
+        const found = data.items.find(
+          (it) => slugify(it.name) === wantedSlug
+        );
+        if (found) {
+          setSpecsItem(found);
+          setSpecsPhotoIndex(0);
+          setSpecsOpen(true);
+        }
+        return;
+      }
+      const mBrand = hash.match(/^#brand-(.+)$/);
+      if (mBrand) {
+        const wanted = mBrand[1].toLowerCase();
+        const aliases: Record<string, string[]> = {
+          tehnosib: ["технос", "tehnosib", "technosib"],
+          robopac: ["robopac"],
+          hualian: ["hualian"],
+        };
+        const allBrands = data.brands || [];
+        const brandMatch = allBrands.find((b) => {
+          const lb = b.toLowerCase();
+          const direct = lb.includes(wanted);
+          const byAlias = (aliases[wanted] || []).some((a) => lb.includes(a));
+          return direct || byAlias;
+        });
+        if (brandMatch) {
+          setActiveBrand(brandMatch);
+          setTimeout(() => {
+            const el = document.getElementById("models");
+            if (el) {
+              const y = el.getBoundingClientRect().top + window.scrollY - 80;
+              window.scrollTo({ top: y, behavior: "smooth" });
+            }
+          }, 50);
+        }
       }
     };
     applyHash();
