@@ -5,6 +5,7 @@ import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle } f
 import { Tabs, TabsContent, TabsList, TabsTrigger } from "@/components/ui/tabs";
 import Icon from "@/components/ui/icon";
 import ImageCarousel from "@/components/ImageCarousel";
+import { useCart } from "@/hooks/useCart";
 
 const API_URL = "https://functions.poehali.dev/31c5d88e-1565-4747-b3b5-8009e4b337a1";
 
@@ -40,31 +41,75 @@ function brandRank(b: string): number {
   return idx === -1 ? BRAND_ORDER.length : idx;
 }
 
-const PARAM_KEYS_PRIORITY = [
-  "Бренд",
-  "Питание (В/Гц)",
-  "Установленная мощность (кВт)",
-  "Максимальная грузоподъемность",
-  "Максимальные размеры паллета (ДxШ)",
-  "Максимальная высота паллета с грузом (мм)",
-  "Диаметр поворотного стола (мм)",
-  "Скорость вращения поворотного стола (об/мин)",
-  "Ширина и толщина пленки (мм); (мкм)",
-  "Вес (кг)",
-];
+// Параметры, которые выводятся в карточке на лендинге.
+// Ключи массива — подстроки, которые ищем в названиях параметров (без учёта регистра).
+const CARD_PARAM_INCLUDES: Record<string, string[]> = {
+  ТЕХНОСИБ: [
+    "бренд",
+    "предварительное растяжение пленки",
+    "максимальные размеры паллета",
+    "максимальная высота паллета с грузом",
+    "грузоподъемность",
+  ],
+  Robopac: [
+    "бренд",
+    "диаметр поворотного стола",
+    "максимальный вес",
+    "высота",
+    "предварительное растяжение пленки",
+  ],
+  Hualian: [
+    "бренд",
+    "диаметр платформы",
+    "тип оборудования",
+    "предрастяжение",
+    "макс. высота груза",
+    "макс. вес паллеты",
+  ],
+};
 
-function orderedParams(params: Record<string, string>): [string, string][] {
-  const entries = Object.entries(params).filter(
+function normalizeKey(s: string): string {
+  return s.toLowerCase().replace(/ё/g, "е");
+}
+
+function brandKey(brand: string): keyof typeof CARD_PARAM_INCLUDES | null {
+  const b = (brand || "").toLowerCase();
+  if (b.includes("техносиб")) return "ТЕХНОСИБ";
+  if (b.includes("robopac")) return "Robopac";
+  if (b.includes("hualian")) return "Hualian";
+  return null;
+}
+
+function allParams(params: Record<string, string>): [string, string][] {
+  return Object.entries(params).filter(
     ([, v]) => v !== null && v !== undefined && String(v).trim() !== ""
   );
-  entries.sort(([a], [b]) => {
-    const ai = PARAM_KEYS_PRIORITY.indexOf(a);
-    const bi = PARAM_KEYS_PRIORITY.indexOf(b);
-    if (ai !== -1 && bi !== -1) return ai - bi;
-    if (ai !== -1) return -1;
-    if (bi !== -1) return 1;
-    return a.localeCompare(b, "ru");
-  });
+}
+
+function cardParams(
+  params: Record<string, string>,
+  brand: string
+): [string, string][] {
+  const key = brandKey(brand);
+  const includes = key ? CARD_PARAM_INCLUDES[key] : null;
+  const entries = allParams(params);
+  if (!includes) return entries;
+
+  const normIncludes = includes.map((s) => normalizeKey(s));
+  const result: [string, string][] = [];
+  for (const inc of normIncludes) {
+    for (const [k, v] of entries) {
+      if (normalizeKey(k).includes(inc) && !result.find(([rk]) => rk === k)) {
+        result.push([k, v]);
+      }
+    }
+  }
+  return result;
+}
+
+function orderedParams(params: Record<string, string>): [string, string][] {
+  const entries = allParams(params);
+  entries.sort(([a], [b]) => a.localeCompare(b, "ru"));
   return entries;
 }
 
@@ -96,6 +141,17 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
 
   const [videoOpen, setVideoOpen] = useState(false);
   const [videoSrc, setVideoSrc] = useState<string>("");
+
+  const { items, addItem, removeItem } = useCart();
+
+  const toggleCart = (item: FeedItem) => {
+    if (items.some((i) => i.id === item.offer_id)) {
+      removeItem(item.offer_id);
+    } else {
+      const price = item.price > 0 ? Math.round(item.price) : 0;
+      addItem({ id: item.offer_id, name: item.name, price });
+    }
+  };
 
   useEffect(() => {
     let cancelled = false;
@@ -209,7 +265,7 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
                       </CardHeader>
                       <CardContent className="flex-1 flex flex-col">
                         <ul className="space-y-2 mb-6 flex-1">
-                          {orderedParams(item.params).map(([key, value]) => (
+                          {cardParams(item.params, item.brand).map(([key, value]) => (
                             <li
                               key={key}
                               className="flex items-start gap-2 text-sm text-gray-700"
@@ -246,12 +302,34 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
                               Посмотреть видео
                             </Button>
                           )}
-                          <Button
-                            className="w-full bg-secondary hover:bg-secondary/80 text-white text-lg py-6 shadow-lg"
-                            onClick={() => onLeaveRequest?.(item.name)}
-                          >
-                            Оставить заявку
-                          </Button>
+                          <div className="flex gap-2">
+                            <Button
+                              className="flex-1 bg-secondary hover:bg-secondary/80 text-white text-lg py-6 shadow-lg"
+                              onClick={() => onLeaveRequest?.(item.name)}
+                            >
+                              Оставить заявку
+                            </Button>
+                            <Button
+                              variant={
+                                items.some((i) => i.id === item.offer_id)
+                                  ? "default"
+                                  : "outline"
+                              }
+                              className={`py-6 px-4 ${
+                                items.some((i) => i.id === item.offer_id)
+                                  ? "bg-green-500 hover:bg-green-600 text-white border-green-500"
+                                  : ""
+                              }`}
+                              onClick={() => toggleCart(item)}
+                              title={
+                                items.some((i) => i.id === item.offer_id)
+                                  ? "Убрать из корзины"
+                                  : "Добавить в корзину"
+                              }
+                            >
+                              <Icon name="ShoppingCart" size={20} />
+                            </Button>
+                          </div>
                         </div>
                       </CardContent>
                     </Card>

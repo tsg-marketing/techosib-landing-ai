@@ -59,11 +59,11 @@ export default function ImageCarousel({ images, alt, inStock }: ImageCarouselPro
   if (images.length === 1) {
     return (
       <>
-        <div className="relative w-full h-64 bg-gray-100 rounded-t-lg overflow-hidden cursor-pointer" onClick={() => openLightbox(0)}>
+        <div className="relative w-full h-64 bg-white rounded-t-lg overflow-hidden cursor-pointer" onClick={() => openLightbox(0)}>
           <img 
             src={images[0]} 
             alt={alt} 
-            className="w-full h-full object-cover hover:scale-105 transition-transform duration-300"
+            className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
             onError={() => setImageError(true)}
           />
         {imageError && (
@@ -118,11 +118,11 @@ export default function ImageCarousel({ images, alt, inStock }: ImageCarouselPro
 
   return (
     <>
-      <div className="relative w-full h-64 bg-gray-100 rounded-t-lg overflow-hidden group">
+      <div className="relative w-full h-64 bg-white rounded-t-lg overflow-hidden group">
         <img 
           src={images[currentIndex]} 
           alt={`${alt} - ${currentIndex + 1}`} 
-          className="w-full h-full object-cover transition-all duration-300 cursor-pointer hover:scale-105"
+          className="w-full h-full object-contain transition-all duration-300 cursor-pointer hover:scale-105"
           onError={() => setImageError(true)}
           onClick={() => openLightbox(currentIndex)}
         />
