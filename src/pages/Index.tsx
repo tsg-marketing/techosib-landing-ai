@@ -933,6 +933,7 @@ export default function Index() {
   });
   const [successDialogOpen, setSuccessDialogOpen] = useState(false);
   const [promoFormSent, setPromoFormSent] = useState(false);
+  const [isSubmitting, setIsSubmitting] = useState(false);
 
   // Калькулятор расхода плёнки
   const [calcThickness, setCalcThickness] = useState("23");
@@ -1114,6 +1115,8 @@ export default function Index() {
 
   const handleFormSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
+    if (isSubmitting) return;
+    setIsSubmitting(true);
     
     const form = e.target as HTMLFormElement;
     const formData = new FormData(form);
@@ -1194,6 +1197,8 @@ export default function Index() {
     } catch (error) {
       alert("Произошла ошибка при отправке. Пожалуйста, попробуйте позже или позвоните нам.");
       console.error('Form submission error:', error);
+    } finally {
+      setIsSubmitting(false);
     }
   };
 
@@ -1264,6 +1269,7 @@ export default function Index() {
         selectedModel={selectedModel}
         scrollToSection={scrollToSection}
         handleFormSubmit={handleFormSubmit}
+        isSubmitting={isSubmitting}
       />
 
       {/* Hero Section */}
@@ -1838,8 +1844,15 @@ export default function Index() {
                       <Button type="button" variant="outline" className="flex-1" onClick={resetQuiz}>
                         Назад
                       </Button>
-                      <Button type="submit" className="flex-1 bg-secondary hover:bg-secondary/90">
-                        Оставить заявку
+                      <Button type="submit" disabled={isSubmitting} className="flex-1 bg-secondary hover:bg-secondary/90">
+                        {isSubmitting ? (
+                          <>
+                            <Icon name="Loader2" size={18} className="mr-2 animate-spin" />
+                            Отправка...
+                          </>
+                        ) : (
+                          'Оставить заявку'
+                        )}
                       </Button>
                     </div>
                   </form>
@@ -2419,8 +2432,15 @@ export default function Index() {
                       Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
                     </Label>
                   </div>
-                  <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90 text-lg py-6">
-                    Отправить заявку
+                  <Button type="submit" disabled={isSubmitting} className="w-full bg-secondary hover:bg-secondary/90 text-lg py-6">
+                    {isSubmitting ? (
+                      <>
+                        <Icon name="Loader2" size={20} className="mr-2 animate-spin" />
+                        Отправка...
+                      </>
+                    ) : (
+                      'Отправить заявку'
+                    )}
                   </Button>
                 </form>
               </CardContent>
@@ -2474,8 +2494,15 @@ export default function Index() {
                 Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
               </Label>
             </div>
-            <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">
-              Отправить
+            <Button type="submit" disabled={isSubmitting} className="w-full bg-secondary hover:bg-secondary/90">
+              {isSubmitting ? (
+                <>
+                  <Icon name="Loader2" size={18} className="mr-2 animate-spin" />
+                  Отправка...
+                </>
+              ) : (
+                'Отправить'
+              )}
             </Button>
           </form>
         </DialogContent>
@@ -2508,8 +2535,15 @@ export default function Index() {
                 Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
               </Label>
             </div>
-            <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">
-              Отправить
+            <Button type="submit" disabled={isSubmitting} className="w-full bg-secondary hover:bg-secondary/90">
+              {isSubmitting ? (
+                <>
+                  <Icon name="Loader2" size={18} className="mr-2 animate-spin" />
+                  Отправка...
+                </>
+              ) : (
+                'Отправить'
+              )}
             </Button>
           </form>
         </DialogContent>

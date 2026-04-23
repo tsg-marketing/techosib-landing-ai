@@ -17,6 +17,7 @@ interface HeaderProps {
   selectedModel: string;
   scrollToSection: (id: string) => void;
   handleFormSubmit: (e: React.FormEvent) => void;
+  isSubmitting?: boolean;
 }
 
 export default function Header({
@@ -26,7 +27,8 @@ export default function Header({
   setDialogOpen,
   selectedModel,
   scrollToSection,
-  handleFormSubmit
+  handleFormSubmit,
+  isSubmitting = false
 }: HeaderProps) {
   const navigate = useNavigate();
   const { items } = useCart();
@@ -105,7 +107,16 @@ export default function Header({
                         Отправляя форму, я соглашаюсь с <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">политикой обработки персональных данных</a> и даю <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-primary hover:underline">согласие на обработку персональных данных</a>.
                       </Label>
                     </div>
-                    <Button type="submit" className="w-full bg-secondary hover:bg-secondary/90">Отправить заявку</Button>
+                    <Button type="submit" disabled={isSubmitting} className="w-full bg-secondary hover:bg-secondary/90">
+                      {isSubmitting ? (
+                        <>
+                          <Icon name="Loader2" size={18} className="mr-2 animate-spin" />
+                          Отправка...
+                        </>
+                      ) : (
+                        'Отправить заявку'
+                      )}
+                    </Button>
                   </form>
                 </DialogContent>
               </Dialog>
