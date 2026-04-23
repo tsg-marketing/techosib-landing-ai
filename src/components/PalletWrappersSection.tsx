@@ -31,7 +31,16 @@ interface FeedResponse {
   items_count: number;
 }
 
-const PRIMARY_PARAM_KEYS = [
+const BRAND_ORDER = ["ТЕХНОСИБ", "Robopac", "Hualian"];
+
+function brandRank(b: string): number {
+  const idx = BRAND_ORDER.findIndex(
+    (x) => x.toLowerCase() === (b || "").toLowerCase()
+  );
+  return idx === -1 ? BRAND_ORDER.length : idx;
+}
+
+const PARAM_KEYS_PRIORITY = [
   "Бренд",
   "Питание (В/Гц)",
   "Установленная мощность (кВт)",
@@ -43,6 +52,21 @@ const PRIMARY_PARAM_KEYS = [
   "Ширина и толщина пленки (мм); (мкм)",
   "Вес (кг)",
 ];
+
+function orderedParams(params: Record<string, string>): [string, string][] {
+  const entries = Object.entries(params).filter(
+    ([, v]) => v !== null && v !== undefined && String(v).trim() !== ""
+  );
+  entries.sort(([a], [b]) => {
+    const ai = PARAM_KEYS_PRIORITY.indexOf(a);
+    const bi = PARAM_KEYS_PRIORITY.indexOf(b);
+    if (ai !== -1 && bi !== -1) return ai - bi;
+    if (ai !== -1) return -1;
+    if (bi !== -1) return 1;
+    return a.localeCompare(b, "ru");
+  });
+  return entries;
+}
 
 function formatPrice(price: number): string {
   if (!price || price <= 0) return "по запросу";
@@ -81,8 +105,11 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
         const json: FeedResponse = await res.json();
         if (cancelled) return;
         setData(json);
-        if (json.brands && json.brands.length > 0) {
-          setActiveBrand(json.brands[0]);
+        const sortedBrands = [...(json.brands || [])].sort(
+          (a, b) => brandRank(a) - brandRank(b)
+        );
+        if (sortedBrands.length > 0) {
+          setActiveBrand(sortedBrands[0]);
         }
       } catch (e) {
         if (!cancelled) setError("Не удалось загрузить каталог");
@@ -103,10 +130,21 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
       if (!map[b]) map[b] = [];
       map[b].push(it);
     }
+    for (const key of Object.keys(map)) {
+      map[key].sort((a, b) => {
+        const ap = a.price > 0 ? a.price : Number.POSITIVE_INFINITY;
+        const bp = b.price > 0 ? b.price : Number.POSITIVE_INFINITY;
+        if (ap !== bp) return ap - bp;
+        return a.name.localeCompare(b.name, "ru");
+      });
+    }
     return map;
   }, [data]);
 
-  const brands = data?.brands ?? [];
+  const brands = useMemo(
+    () => [...(data?.brands ?? [])].sort((a, b) => brandRank(a) - brandRank(b)),
+    [data]
+  );
 
   const openSpecs = (item: FeedItem) => {
     setSpecsItem(item);
@@ -160,11 +198,7 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
                       key={item.offer_id}
                       className="hover:shadow-xl transition-shadow flex flex-col"
                     >
-                      <ImageCarousel
-                        images={item.images}
-                        alt={item.name}
-                        inStock={item.available}
-                      />
+                      <ImageCarousel images={item.images} alt={item.name} />
                       <CardHeader>
                         <CardTitle className="text-xl text-gray-900 leading-snug">
                           {item.name}
@@ -175,26 +209,22 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
                       </CardHeader>
                       <CardContent className="flex-1 flex flex-col">
                         <ul className="space-y-2 mb-6 flex-1">
-                          {PRIMARY_PARAM_KEYS.map((key) => {
-                            const value = item.params[key];
-                            if (!value) return null;
-                            return (
-                              <li
-                                key={key}
-                                className="flex items-start gap-2 text-sm text-gray-700"
-                              >
-                                <Icon
-                                  name="Check"
-                                  size={16}
-                                  className="text-primary mt-0.5 flex-shrink-0"
-                                />
-                                <span>
-                                  <span className="text-gray-500">{key}:</span>{" "}
-                                  <span className="font-medium">{value}</span>
-                                </span>
-                              </li>
-                            );
-                          })}
+                          {orderedParams(item.params).map(([key, value]) => (
+                            <li
+                              key={key}
+                              className="flex items-start gap-2 text-sm text-gray-700"
+                            >
+                              <Icon
+                                name="Check"
+                                size={16}
+                                className="text-primary mt-0.5 flex-shrink-0"
+                              />
+                              <span>
+                                <span className="text-gray-500">{key}:</span>{" "}
+                                <span className="font-medium">{value}</span>
+                              </span>
+                            </li>
+                          ))}
                         </ul>
                         <div className="space-y-2">
                           {item.description && (
@@ -259,7 +289,7 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-3">Параметры</h4>
                   <div className="grid grid-cols-1 md:grid-cols-2 gap-3">
-                    {Object.entries(specsItem.params).map(([k, v]) => (
+                    {orderedParams(specsItem.params).map(([k, v]) => (
                       <div key={k} className="bg-gray-50 p-3 rounded-lg">
                         <div className="text-xs text-gray-500 mb-1">{k}</div>
                         <div className="text-gray-800 font-medium">{v}</div>
