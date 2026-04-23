@@ -1279,7 +1279,7 @@ export default function Index() {
         <div className="container mx-auto px-4 relative z-10">
           <div className="max-w-2xl">
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight mb-4">
-              <span className="font-serif whitespace-nowrap">Паллетообмотчики</span>
+              <span className="font-serif whitespace-nowrap">Паллетообмотчики от</span>
             </h1>
             <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-12 md:h-16 lg:h-20 mb-6" />
             <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-semibold mb-4">
@@ -1554,52 +1554,7 @@ export default function Index() {
                 ))}
               </div>
 
-              {/* Рекомендации моделей */}
-              <div className="grid sm:grid-cols-2 gap-4">
-                <div className="bg-white border border-gray-200 rounded-2xl p-6">
-                  <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Машина без престрейча</p>
-                  <ul className="space-y-2">
-                    {[
-                      { label: "TS3000MR-H",     anchor: "ts3000mr-h" },
-                      { label: "TS3000MR-TP",    anchor: "ts3000mr-tp" },
-                      { label: "TS3000MR-MT",    anchor: "ts3000mr-mt" },
-                      { label: "TS3000MR-MT-TP", anchor: "ts3000mr-mt-tp" },
-                    ].map(({ label, anchor }) => (
-                      <li key={label}>
-                        <button
-                          onClick={() => scrollToSection(anchor)}
-                          className="flex items-center gap-2 text-base font-medium text-blue-600 hover:text-blue-800 hover:underline"
-                        >
-                          <Icon name="ArrowRight" size={14} className="shrink-0" />
-                          {label}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-                <div className="bg-white border border-gray-200 rounded-2xl p-6">
-                  <p className="text-sm font-bold text-gray-400 uppercase tracking-widest mb-4">Машина с престрейчем</p>
-                  <ul className="space-y-2">
-                    {[
-                      { label: "TS3000SPS-H",     anchor: "ts3000sps-h" },
-                      { label: "TS3000SPS-TP",    anchor: "ts3000sps-tp" },
-                      { label: "TS3000SPS-MT",    anchor: "ts3000sps-mt" },
-                      { label: "TS3000SPS-MT-TP", anchor: "ts3000sps-mt-tp" },
-                      { label: "ROBO-MS",         anchor: "robo-ms" },
-                    ].map(({ label, anchor }) => (
-                      <li key={label}>
-                        <button
-                          onClick={() => scrollToSection(anchor)}
-                          className="flex items-center gap-2 text-base font-medium text-blue-600 hover:text-blue-800 hover:underline"
-                        >
-                          <Icon name="ArrowRight" size={14} className="shrink-0" />
-                          {label}
-                        </button>
-                      </li>
-                    ))}
-                  </ul>
-                </div>
-              </div>
+
             </div>
           )}
 

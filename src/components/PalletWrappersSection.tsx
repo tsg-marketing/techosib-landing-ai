@@ -357,12 +357,6 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
           </DialogHeader>
           {specsItem && (
             <div className="py-4 space-y-6">
-              {specsItem.description && (
-                <div
-                  className="prose prose-sm max-w-none text-gray-700"
-                  dangerouslySetInnerHTML={{ __html: specsItem.description }}
-                />
-              )}
               {Object.keys(specsItem.params).length > 0 && (
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-3">Параметры</h4>
@@ -375,6 +369,12 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
                     ))}
                   </div>
                 </div>
+              )}
+              {specsItem.description && (
+                <div
+                  className="prose prose-sm max-w-none text-gray-700"
+                  dangerouslySetInnerHTML={{ __html: specsItem.description }}
+                />
               )}
               <div className="pt-2">
                 <Button
