@@ -11,6 +11,23 @@ from psycopg2.extras import Json
 
 TARGET_CATEGORIES = {'332', '452', '333'}
 FEED_URL = 'https://t-sib.ru/bitrix/catalog_export/export_Vvf.xml'
+FEED_BASE_URL = 'https://t-sib.ru'
+
+
+def _normalize_url(u: str) -> str:
+    '''Делает абсолютный URL из относительного (например /upload/... → https://t-sib.ru/upload/...).'''
+    if not u:
+        return ''
+    s = u.strip()
+    if not s:
+        return ''
+    if s.startswith('http://') or s.startswith('https://'):
+        return s
+    if s.startswith('//'):
+        return 'https:' + s
+    if s.startswith('/'):
+        return FEED_BASE_URL + s
+    return FEED_BASE_URL + '/' + s
 
 
 def _extract_params(offer: ET.Element) -> Dict[str, Any]:
@@ -26,7 +43,7 @@ def _extract_params(offer: ET.Element) -> Dict[str, Any]:
             continue
         if name == 'Картинки товара':
             if value:
-                images.append(value)
+                images.append(_normalize_url(value))
             continue
         if name == 'Видео (ссылка)':
             video_url = value
@@ -107,7 +124,8 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             brands_set.add(brand)
 
             name_text = name_elem.text.strip() if (name_elem is not None and name_elem.text) else ''
-            picture_text = picture_elem.text.strip() if (picture_elem is not None and picture_elem.text) else ''
+            picture_raw = picture_elem.text.strip() if (picture_elem is not None and picture_elem.text) else ''
+            picture_text = _normalize_url(picture_raw)
             if picture_text and picture_text not in images:
                 images.insert(0, picture_text)
 
