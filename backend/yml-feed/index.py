@@ -1,533 +1,106 @@
-import json
 import os
-import urllib.request
-import xml.etree.ElementTree as ET
-from datetime import datetime
+from datetime import datetime, timezone, timedelta
+from html import escape
+from typing import Any, Dict, List
+
+import psycopg2
+from psycopg2.extras import RealDictCursor
 
 
-MODELS = [
-    {
-        "id": "6323",
-        "slug": "ts3000mr-h",
-        "name": "Паллетообмотчик TS3000MR-H",
-        "description": """<h3>Паллетообмотчик TS3000MR-H — стационарный автоматический</h3>
-<p>Каретка MR — механическая регулировка натяжения плёнки на каретке (без предварительного растяжения плёнки).</p>
-<ul>
-<li>Размеры паллет 500×1200 мм и 1000×1200 мм</li>
-<li>Высота паллет до 2400 мм</li>
-<li>Вес паллет до 2000 кг</li>
-<li>Привод поворотного стола — цепной</li>
-<li>10 пользовательских программ в памяти</li>
-<li>Сенсорная панель управления</li>
-</ul>""",
-        "default_price": "300000",
-        "images": [
-            "https://cdn.poehali.dev/files/e4d94967-8ee7-44a6-9587-a22100c9c4cf.jpg",
-            "https://cdn.poehali.dev/files/TS-3000MR-H.jpg",
-            "https://cdn.poehali.dev/files/TS-3000MR-H-1.jpg"
-        ],
-        "params": {
-            "Бренд": "ТЕХНОСИБ",
-            "Тип": "Стационарный",
-            "Вес": "~550 кг",
-            "Установленная мощность": "1,15 кВт",
-            "Привод поворотного стола": "Цепной",
-            "Предрастяжение плёнки": "Нет",
-            "Привод каретки": "Цепной",
-            "Натяжение плёнки": "Механическая регулировка на каретке",
-            "Высота поворотного стола": "78-80 мм",
-            "Диаметр поворотного стола": "1650 мм",
-            "Макс. размер паллеты": "1000×1200 мм",
-            "Макс. высота паллеты": "2400 мм",
-            "Плавный старт/стоп": "Да",
-            "Макс. диаметр рулона плёнки": "250 мм",
-            "Диаметр втулки плёнки": "76 мм",
-            "Ширина/толщина плёнки": "500 мм; 15-35 мкм",
-            "Цикл покрытия сверху": "Да",
-            "Сигнал обрыва плёнки": "Да",
-            "Кол-во программ": "10",
-            "Определение высоты": "Да",
-            "Совместимость с погрузчиком": "Да, спереди и сзади",
-            "Панель управления": "Сенсорная, русский/английский",
-            "Питание": "220 В 1Ф 50/60 Гц",
-            "Габариты": "2535×1650×2760 мм",
-            "Макс. грузоподъёмность": "2000 кг"
-        }
-    },
-    {
-        "id": "6366",
-        "slug": "ts3000sps-h",
-        "name": "Паллетообмотчик TS3000SPS-H",
-        "description": """<h3>Паллетообмотчик TS3000SPS-H — стационарный с предрастяжением</h3>
-<p>Моторизированная каретка SPS — предварительное растяжение плёнки 250% (фиксированное), натяжение плёнки на паллете регулируется с панели управления.</p>
-<ul>
-<li>Размеры паллет 500×1200 мм и 1000×1200 мм</li>
-<li>Высота паллет до 2400 мм</li>
-<li>Вес паллет до 2000 кг</li>
-<li>Привод поворотного стола — цепной</li>
-<li>10 пользовательских программ в памяти</li>
-<li>Экономия плёнки до 50%</li>
-</ul>""",
-        "default_price": "350000",
-        "images": [
-            "https://cdn.poehali.dev/files/aa52d517-72aa-495a-90bd-febdf303b98a.jpg",
-            "https://cdn.poehali.dev/files/TS-3000SPS-H.jpg",
-            "https://cdn.poehali.dev/files/TS-3000SPS-H-2.jpg"
-        ],
-        "params": {
-            "Бренд": "ТЕХНОСИБ",
-            "Тип": "Стационарный",
-            "Вес": "~550 кг",
-            "Установленная мощность": "1,5 кВт",
-            "Привод поворотного стола": "Цепной",
-            "Предрастяжение плёнки": "Фиксированный 250%",
-            "Привод каретки": "Цепной",
-            "Натяжение плёнки": "Регулируемое с панели управления",
-            "Высота поворотного стола": "78-80 мм",
-            "Диаметр поворотного стола": "1650 мм",
-            "Макс. размер паллеты": "1000×1200 мм",
-            "Макс. высота паллеты": "2400 мм",
-            "Плавный старт/стоп": "Да",
-            "Макс. диаметр рулона плёнки": "250 мм",
-            "Диаметр втулки плёнки": "76 мм",
-            "Ширина/толщина плёнки": "500 мм; 15-35 мкм",
-            "Цикл покрытия сверху": "Да",
-            "Сигнал обрыва плёнки": "Да",
-            "Кол-во программ": "10",
-            "Определение высоты": "Да",
-            "Совместимость с погрузчиком": "Да, спереди и сзади",
-            "Панель управления": "Сенсорная, русский/английский",
-            "Питание": "220 В 1Ф 50/60 Гц",
-            "Габариты": "2535×1650×2760 мм",
-            "Макс. грузоподъёмность": "2000 кг"
-        }
-    },
-    {
-        "id": "6373",
-        "slug": "ts3000mr-tp",
-        "name": "Паллетообмотчик TS3000MR-TP",
-        "description": """<h3>Паллетообмотчик TS3000MR-TP — с прижимом</h3>
-<p>Электромеханический прижим для фиксации нестабильного груза и предотвращения его смещения в процессе обмотки. Механическая регулировка натяжения плёнки.</p>
-<ul>
-<li>Размеры паллет 500×1200 мм и 1000×1200 мм</li>
-<li>Высота паллет до 2400 мм</li>
-<li>Вес паллет до 2000 кг</li>
-<li>Привод поворотного стола — цепной</li>
-<li>10 пользовательских программ в памяти</li>
-</ul>""",
-        "default_price": "380000",
-        "images": [
-            "https://cdn.poehali.dev/files/TS3000MR-TP.jpg"
-        ],
-        "params": {
-            "Бренд": "ТЕХНОСИБ",
-            "Тип": "Стационарный",
-            "Вес": "~550 кг",
-            "Установленная мощность": "1,5 кВт",
-            "Привод поворотного стола": "Цепной",
-            "Предрастяжение плёнки": "Нет",
-            "Привод каретки": "Цепной",
-            "Натяжение плёнки": "Механическая регулировка на каретке",
-            "Высота поворотного стола": "78-80 мм",
-            "Диаметр поворотного стола": "1650 мм",
-            "Макс. размер паллеты": "1000×1200 мм",
-            "Макс. высота паллеты": "2400 мм",
-            "Плавный старт/стоп": "Да",
-            "Макс. диаметр рулона плёнки": "250 мм",
-            "Диаметр втулки плёнки": "76 мм",
-            "Ширина/толщина плёнки": "500 мм; 15-35 мкм",
-            "Цикл покрытия сверху": "Да",
-            "Сигнал обрыва плёнки": "Да",
-            "Кол-во программ": "10",
-            "Определение высоты": "Да",
-            "Совместимость с погрузчиком": "Да, спереди и сзади",
-            "Панель управления": "Сенсорная, русский/английский",
-            "Питание": "220 В 1Ф 50/60 Гц",
-            "Габариты": "2535×1650×3270 мм",
-            "Макс. грузоподъёмность": "2000 кг"
-        }
-    },
-    {
-        "id": "6324",
-        "slug": "ts3000sps-tp",
-        "name": "Паллетообмотчик TS3000SPS-TP",
-        "description": """<h3>Паллетообмотчик TS3000SPS-TP — с прижимом и предрастяжением</h3>
-<p>Электромеханический прижим для фиксации нестабильного груза и предотвращения его смещения в процессе обмотки. Предварительное растяжение плёнки — 250%.</p>
-<ul>
-<li>Размеры паллет 500×1200 мм и 1000×1200 мм</li>
-<li>Высота паллет до 2400 мм</li>
-<li>Вес паллет до 2000 кг</li>
-<li>Привод поворотного стола — цепной</li>
-<li>10 пользовательских программ в памяти</li>
-<li>Экономия плёнки до 50%</li>
-</ul>""",
-        "default_price": "430000",
-        "images": [
-            "https://cdn.poehali.dev/files/0e06ce21-2a15-4b56-914b-6caf237e8435.jpg",
-            "https://cdn.poehali.dev/files/TS-3000SPS-TP.jpg",
-            "https://cdn.poehali.dev/files/TS-3000SPS-TP-1.jpg"
-        ],
-        "params": {
-            "Бренд": "ТЕХНОСИБ",
-            "Тип": "Стационарный",
-            "Вес": "~550 кг",
-            "Установленная мощность": "1,89 кВт",
-            "Привод поворотного стола": "Цепной",
-            "Предрастяжение плёнки": "Фиксированный 250%",
-            "Привод каретки": "Цепной",
-            "Натяжение плёнки": "Регулируемое с панели управления",
-            "Высота поворотного стола": "78-80 мм",
-            "Диаметр поворотного стола": "1650 мм",
-            "Макс. размер паллеты": "1000×1200 мм",
-            "Макс. высота паллеты": "2400 мм",
-            "Плавный старт/стоп": "Да",
-            "Макс. диаметр рулона плёнки": "250 мм",
-            "Диаметр втулки плёнки": "76 мм",
-            "Ширина/толщина плёнки": "500 мм; 15-35 мкм",
-            "Цикл покрытия сверху": "Да",
-            "Сигнал обрыва плёнки": "Да",
-            "Кол-во программ": "10",
-            "Определение высоты": "Да",
-            "Совместимость с погрузчиком": "Да, спереди и сзади",
-            "Панель управления": "Сенсорная, русский/английский",
-            "Питание": "220 В 1Ф 50/60 Гц",
-            "Габариты": "2535×1650×3270 мм",
-            "Макс. грузоподъёмность": "2000 кг"
-        }
-    },
-    {
-        "id": "6368",
-        "slug": "ts3000mr-mt",
-        "name": "Паллетообмотчик TS3000MR-MT",
-        "description": """<h3>Паллетообмотчик TS3000MR-MT — с E-образным столом</h3>
-<p>Модель оснащена E-образным столом, который позволяет легко захватывать поддон с грузом без применения подъездной рамы. Механическая регулировка натяжения плёнки на каретке.</p>
-<ul>
-<li>Размеры паллет 800×1200 мм и 1000×1200 мм</li>
-<li>Высота паллет до 2400 мм</li>
-<li>Вес паллет до 800 кг</li>
-<li>10 пользовательских программ в памяти</li>
-<li>Цикл упаковки по заданной высоте</li>
-</ul>""",
-        "default_price": "420000",
-        "images": [
-            "https://cdn.poehali.dev/files/TS3000MR-MT.jpg"
-        ],
-        "params": {
-            "Бренд": "ТЕХНОСИБ",
-            "Тип": "Стационарный, E-образный стол",
-            "Вес": "~550 кг",
-            "Установленная мощность": "1,2 кВт",
-            "Привод поворотного стола": "Цепной",
-            "Предрастяжение плёнки": "Нет",
-            "Привод каретки": "Цепной",
-            "Натяжение плёнки": "Механическая регулировка на каретке",
-            "Высота поворотного стола": "78-80 мм",
-            "Диаметр поворотного стола": "1650 мм",
-            "Макс. размер паллеты": "1000×1200 мм",
-            "Макс. высота паллеты": "2400 мм",
-            "Плавный старт/стоп": "Да",
-            "Макс. диаметр рулона плёнки": "250 мм",
-            "Диаметр втулки плёнки": "76 мм",
-            "Ширина/толщина плёнки": "500 мм; 15-35 мкм",
-            "Цикл покрытия сверху": "Да",
-            "Сигнал обрыва плёнки": "Да",
-            "Кол-во программ": "10",
-            "Определение высоты": "Да",
-            "Совместимость с погрузчиком": "Да, сзади",
-            "Панель управления": "Сенсорная, русский/английский",
-            "Питание": "220 В 1Ф 50/60 Гц",
-            "Габариты": "2553×1708×2788 мм",
-            "Макс. грузоподъёмность": "800 кг"
-        }
-    },
-    {
-        "id": "6367",
-        "slug": "ts3000sps-mt",
-        "name": "Паллетообмотчик TS3000SPS-MT",
-        "description": """<h3>Паллетообмотчик TS3000SPS-MT — с E-образным столом и предрастяжением</h3>
-<p>Модель оснащена E-образным столом, который позволяет легко захватывать поддон с грузом без применения подъездной рамы. Предварительное растяжение плёнки на каретке — 250%.</p>
-<ul>
-<li>Размеры паллет 800×1200 мм и 1000×1200 мм</li>
-<li>Высота паллет до 2400 мм</li>
-<li>Вес паллет до 800 кг</li>
-<li>10 пользовательских программ в памяти</li>
-<li>Экономия плёнки до 50%</li>
-</ul>""",
-        "default_price": "470000",
-        "images": [
-            "https://cdn.poehali.dev/files/TS3000SPS-MT.jpg",
-            "https://cdn.poehali.dev/files/TS3000SPS-MT-1.jpg",
-            "https://cdn.poehali.dev/files/TS3000SPS-MT-2.jpg"
-        ],
-        "params": {
-            "Бренд": "ТЕХНОСИБ",
-            "Тип": "Стационарный, E-образный стол",
-            "Вес": "~550 кг",
-            "Установленная мощность": "1,5 кВт",
-            "Привод поворотного стола": "Цепной",
-            "Предрастяжение плёнки": "Фиксированный 250%",
-            "Привод каретки": "Цепной",
-            "Натяжение плёнки": "Регулируемое с панели управления",
-            "Высота поворотного стола": "78-80 мм",
-            "Диаметр поворотного стола": "1650 мм",
-            "Макс. размер паллеты": "1000×1200 мм",
-            "Макс. высота паллеты": "2400 мм",
-            "Плавный старт/стоп": "Да",
-            "Макс. диаметр рулона плёнки": "250 мм",
-            "Диаметр втулки плёнки": "76 мм",
-            "Ширина/толщина плёнки": "500 мм; 15-35 мкм",
-            "Цикл покрытия сверху": "Да",
-            "Сигнал обрыва плёнки": "Да",
-            "Кол-во программ": "10",
-            "Определение высоты": "Да",
-            "Совместимость с погрузчиком": "Да, сзади",
-            "Панель управления": "Сенсорная, русский/английский",
-            "Питание": "220 В 1Ф 50/60 Гц",
-            "Габариты": "2553×1708×2788 мм",
-            "Макс. грузоподъёмность": "800 кг"
-        }
-    },
-    {
-        "id": "6369",
-        "slug": "ts3000mr-mt-tp",
-        "name": "Паллетообмотчик TS3000MR-MT-TP",
-        "description": """<h3>Паллетообмотчик TS3000MR-MT-TP — E-образный стол + прижим</h3>
-<p>Модель оснащена E-образным столом, а также электромеханическим прижимом. Механическая регулировка натяжения плёнки на каретке.</p>
-<ul>
-<li>Размеры паллет 800×1200 мм и 1000×1200 мм</li>
-<li>Высота паллет до 2400 мм</li>
-<li>Вес паллет до 800 кг</li>
-<li>10 пользовательских программ в памяти</li>
-</ul>""",
-        "default_price": "500000",
-        "images": [
-            "https://cdn.poehali.dev/files/TS3000MR-MT-TP.png"
-        ],
-        "params": {
-            "Бренд": "ТЕХНОСИБ",
-            "Тип": "Стационарный, E-образный стол, прижим",
-            "Вес": "~550 кг",
-            "Установленная мощность": "1,5 кВт",
-            "Привод поворотного стола": "Цепной",
-            "Предрастяжение плёнки": "Нет",
-            "Привод каретки": "Цепной",
-            "Натяжение плёнки": "Механическая регулировка на каретке",
-            "Высота поворотного стола": "78-80 мм",
-            "Диаметр поворотного стола": "1650 мм",
-            "Макс. размер паллеты": "1000×1200 мм",
-            "Макс. высота паллеты": "2400 мм",
-            "Плавный старт/стоп": "Да",
-            "Макс. диаметр рулона плёнки": "250 мм",
-            "Диаметр втулки плёнки": "76 мм",
-            "Ширина/толщина плёнки": "500 мм; 15-35 мкм",
-            "Цикл покрытия сверху": "Да",
-            "Сигнал обрыва плёнки": "Да",
-            "Кол-во программ": "10",
-            "Определение высоты": "Да",
-            "Совместимость с погрузчиком": "Да, сзади",
-            "Панель управления": "Сенсорная, русский/английский",
-            "Питание": "220 В 1Ф 50/60 Гц",
-            "Габариты": "2535×1708×3270 мм",
-            "Макс. грузоподъёмность": "800 кг"
-        }
-    },
-    {
-        "id": "6370",
-        "slug": "ts3000sps-mt-tp",
-        "name": "Паллетообмотчик TS3000SPS-MT-TP",
-        "description": """<h3>Паллетообмотчик TS3000SPS-MT-TP — E-образный стол + прижим + предрастяжение</h3>
-<p>Модель оснащена E-образным столом, а также электромеханическим прижимом. Предварительное растяжение плёнки — 250%, идеальное решение для упаковки нестабильных грузов.</p>
-<ul>
-<li>Размеры паллет 800×1200 мм и 1000×1200 мм</li>
-<li>Высота паллет до 2400 мм</li>
-<li>Вес паллет до 800 кг</li>
-<li>10 пользовательских программ в памяти</li>
-<li>Экономия плёнки до 50%</li>
-</ul>""",
-        "default_price": "550000",
-        "images": [
-            "https://cdn.poehali.dev/files/ts3000sps-mt-tp.jpg"
-        ],
-        "params": {
-            "Бренд": "ТЕХНОСИБ",
-            "Тип": "Стационарный, E-образный стол, прижим",
-            "Вес": "~550 кг",
-            "Установленная мощность": "2,1 кВт",
-            "Привод поворотного стола": "Цепной",
-            "Предрастяжение плёнки": "Фиксированный 250%",
-            "Привод каретки": "Цепной",
-            "Натяжение плёнки": "Регулируемое с панели управления",
-            "Высота поворотного стола": "78-80 мм",
-            "Диаметр поворотного стола": "1650 мм",
-            "Макс. размер паллеты": "1000×1200 мм",
-            "Макс. высота паллеты": "2400 мм",
-            "Плавный старт/стоп": "Да",
-            "Макс. диаметр рулона плёнки": "250 мм",
-            "Диаметр втулки плёнки": "76 мм",
-            "Ширина/толщина плёнки": "500 мм; 15-35 мкм",
-            "Цикл покрытия сверху": "Да",
-            "Сигнал обрыва плёнки": "Да",
-            "Кол-во программ": "10",
-            "Определение высоты": "Да",
-            "Совместимость с погрузчиком": "Да, сзади",
-            "Панель управления": "Сенсорная, русский/английский",
-            "Питание": "220 В 1Ф 50/60 Гц",
-            "Габариты": "2535×1708×3270 мм",
-            "Макс. грузоподъёмность": "800 кг"
-        }
-    },
-    {
-        "id": "5322",
-        "slug": "robo-ms",
-        "name": "Мобильный паллетообмотчик ROBO-MS",
-        "description": """<h3>Мобильный паллетообмотчик ROBO-MS</h3>
-<p>Мобильный паллетообмотчик для упаковки грузов в любом месте склада или производства. Работает от аккумулятора до 8 часов.</p>
-<ul>
-<li>Без ограничения по размерам паллет</li>
-<li>Без ограничения по весу паллет</li>
-<li>Высота паллет до 2400 мм</li>
-<li>Предварительное растяжение плёнки — 250%</li>
-<li>Два свинцово-кислотных АКБ 12V 110AH</li>
-<li>Время работы от аккумулятора до 8 ч</li>
-</ul>""",
-        "default_price": "0",
-        "images": [
-            "https://cdn.poehali.dev/files/e3226e84-80c0-42ef-99fd-197f75e03d74.jpg",
-            "https://cdn.poehali.dev/files/6I8A7423 (2).jpg",
-            "https://cdn.poehali.dev/files/6I8A7424 (2).jpg"
-        ],
-        "params": {
-            "Бренд": "ТЕХНОСИБ",
-            "Тип": "Мобильный",
-            "Вес": "500 кг (нетто), 520 кг (брутто)",
-            "Установленная мощность": "950 Вт",
-            "Предрастяжение плёнки": "Фиксированный 250%",
-            "Привод каретки": "Двигатель подъема каретки 300 Вт",
-            "Натяжение плёнки": "Регулируемое",
-            "Макс. размер паллеты": "Без ограничений",
-            "Макс. высота паллеты": "2400 мм (стандарт); 2800/3100/3200 мм (опция)",
-            "Скорость каретки": "До 90 м/мин",
-            "Макс. диаметр рулона плёнки": "До 250 мм",
-            "Диаметр втулки плёнки": "75 мм",
-            "Ширина плёнки": "500 мм",
-            "Панель управления": "Панель управления",
-            "Питание": "220 В, АКБ 12V 110Ah (2 шт)",
-            "Мин. размер паллеты": "600×600×500 мм",
-            "Макс. грузоподъёмность": "Без ограничений"
-        }
-    }
-]
-
-SITE_URL = "https://pallet.t-sib.ru"
-PRICE_FEED_URL = "https://t-sib.ru/bitrix/catalog_export/export_Vvf.xml"
+SHOP_NAME = 'ТЕХНОСИБ'
+SHOP_COMPANY = 'ТЕХНОСИБ'
+SHOP_URL = 'https://t-sib.ru'
+CURRENCY = 'RUR'
+# Бренды, которые попадают в фид
+ALLOWED_BRANDS = ('ТЕХНОСИБ', 'Robopac')
 
 
-def fetch_prices():
-    """Получает актуальные цены из БД (с фоллбэком на XML-фид)"""
-    prices = {}
-    
-    # Пробуем из БД
-    db_url = os.environ.get('DATABASE_URL', '')
-    schema = os.environ.get('MAIN_DB_SCHEMA', 'public')
-    
-    if db_url:
-        try:
-            import psycopg2
-            conn = psycopg2.connect(db_url)
-            cur = conn.cursor()
-            cur.execute(f"SELECT offer_id, price_raw FROM {schema}.prices_cache WHERE price_raw > 0")
-            for row in cur.fetchall():
-                prices[row[0]] = row[1]
-            cur.close()
-            conn.close()
-            if prices:
-                return prices
-        except Exception:
-            pass
-    
-    # Фоллбэк: XML-фид
-    try:
-        with urllib.request.urlopen(PRICE_FEED_URL, timeout=30) as response:
-            xml_data = response.read()
-        root = ET.fromstring(xml_data)
-        for offer in root.findall('.//offer'):
-            offer_id = offer.get('id')
-            price_elem = offer.find('price')
-            if price_elem is not None and price_elem.text:
-                try:
-                    prices[offer_id] = int(float(price_elem.text.strip()))
-                except ValueError:
-                    pass
-    except Exception:
-        pass
-    return prices
+def _xml_escape(s: str) -> str:
+    if s is None:
+        return ''
+    return escape(str(s), quote=True)
 
 
-def escape_xml(text):
-    """Экранирует спецсимволы для XML"""
-    return (text
-            .replace("&", "&amp;")
-            .replace("<", "&lt;")
-            .replace(">", "&gt;")
-            .replace('"', "&quot;")
-            .replace("'", "&apos;"))
+def _build_yml(items: List[Dict[str, Any]]) -> str:
+    nsk_tz = timezone(timedelta(hours=7))
+    now_str = datetime.now(nsk_tz).strftime('%Y-%m-%d %H:%M')
 
+    parts: List[str] = []
+    parts.append('<?xml version="1.0" encoding="UTF-8"?>')
+    parts.append(f'<yml_catalog date="{now_str}">')
+    parts.append('<shop>')
+    parts.append(f'<name>{_xml_escape(SHOP_NAME)}</name>')
+    parts.append(f'<company>{_xml_escape(SHOP_COMPANY)}</company>')
+    parts.append(f'<url>{_xml_escape(SHOP_URL)}</url>')
+    parts.append('<currencies>')
+    parts.append(f'<currency id="{CURRENCY}" rate="1"/>')
+    parts.append('</currencies>')
 
-def build_yml():
-    """Генерирует YML-каталог"""
-    prices = fetch_prices()
-    now = datetime.utcnow().strftime("%Y-%m-%d %H:%M")
+    # Категории
+    brand_to_cat: Dict[str, str] = {}
+    parts.append('<categories>')
+    for idx, brand in enumerate(ALLOWED_BRANDS, start=1):
+        brand_to_cat[brand] = str(idx)
+        parts.append(f'<category id="{idx}">{_xml_escape(brand)}</category>')
+    parts.append('</categories>')
 
-    lines = [
-        '<?xml version="1.0" encoding="UTF-8"?>',
-        f'<yml_catalog date="{now}">',
-        '<shop>',
-        '<name>Паллетообмотчики Техносиб</name>',
-        '<company>ООО "Техно-Сиб Групп"</company>',
-        f'<url>{SITE_URL}/</url>',
-        '<currencies>',
-        '<currency id="RUR" rate="1"/>',
-        '</currencies>',
-        '<categories>',
-        '<category id="1">Паллетообмотчики</category>',
-        '</categories>',
-        '<offers>'
-    ]
-
-    for model in MODELS:
-        offer_id = model["id"]
-        price = prices.get(offer_id, int(model["default_price"]) if model["default_price"] != "0" else 0)
-        if price == 0:
+    parts.append('<offers>')
+    for it in items:
+        brand = (it.get('brand') or '').strip()
+        cat_id = brand_to_cat.get(brand)
+        if not cat_id:
             continue
 
-        lines.append(f'<offer id="{offer_id}" available="true">')
-        lines.append(f'<name>{escape_xml(model["name"])}</name>')
-        lines.append(f'<url>{SITE_URL}/#{model["slug"]}</url>')
-        lines.append(f'<price>{price}</price>')
-        lines.append('<currencyId>RUR</currencyId>')
-        lines.append('<categoryId>1</categoryId>')
+        offer_id = _xml_escape(it.get('offer_id') or '')
+        available = 'true' if it.get('available') else 'false'
+        url = _xml_escape(it.get('url') or SHOP_URL)
+        price = it.get('price') or 0
+        name = _xml_escape(it.get('name') or '')
+        description = it.get('description') or ''
+        images = it.get('images') or []
+        picture = it.get('picture') or (images[0] if images else '')
+        params = it.get('params') or {}
 
-        for img in model["images"]:
-            lines.append(f'<picture>{escape_xml(img.replace(" ", "%20"))}</picture>')
+        try:
+            price_int = int(round(float(price)))
+        except Exception:
+            price_int = 0
 
-        lines.append(f'<description><![CDATA[{model["description"]}]]></description>')
+        parts.append(f'<offer id="{offer_id}" available="{available}">')
+        parts.append(f'<url>{url}</url>')
+        parts.append(f'<price>{price_int}</price>')
+        parts.append(f'<currencyId>{CURRENCY}</currencyId>')
+        parts.append(f'<categoryId>{cat_id}</categoryId>')
+        if picture:
+            parts.append(f'<picture>{_xml_escape(picture)}</picture>')
+        parts.append(f'<name>{name}</name>')
+        parts.append(f'<vendor>{_xml_escape(brand)}</vendor>')
+        if description:
+            parts.append(f'<description><![CDATA[{description}]]></description>')
+        for img in images:
+            if img and img != picture:
+                parts.append(f'<picture>{_xml_escape(img)}</picture>')
+        if isinstance(params, dict):
+            for k, v in params.items():
+                if not k or v is None or str(v).strip() == '':
+                    continue
+                parts.append(f'<param name="{_xml_escape(k)}">{_xml_escape(v)}</param>')
+        parts.append('</offer>')
+    parts.append('</offers>')
+    parts.append('</shop>')
+    parts.append('</yml_catalog>')
 
-        for param_name, param_value in model["params"].items():
-            lines.append(f'<param name="{escape_xml(param_name)}">{escape_xml(param_value)}</param>')
-
-        lines.append('</offer>')
-
-    lines.append('</offers>')
-    lines.append('</shop>')
-    lines.append('</yml_catalog>')
-
-    return '\n'.join(lines)
+    return '\n'.join(parts)
 
 
-def handler(event, context):
-    """Генерирует YML-фид каталога паллетообмотчиков с актуальными ценами"""
+def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
+    '''
+    Возвращает YML (XML) фид товаров для брендов ТЕХНОСИБ и Robopac.
+    Данные берутся из таблицы pallet_wrappers, которая обновляется из исходного XML-фида
+    функцией sync-pallet-wrappers. Таким образом фид автоматически актуализируется
+    вместе с обновлением данных на сайте.
+    '''
     method = event.get('httpMethod', 'GET')
-
     if method == 'OPTIONS':
         return {
             'statusCode': 200,
@@ -535,21 +108,68 @@ def handler(event, context):
                 'Access-Control-Allow-Origin': '*',
                 'Access-Control-Allow-Methods': 'GET, OPTIONS',
                 'Access-Control-Allow-Headers': 'Content-Type',
-                'Access-Control-Max-Age': '86400'
+                'Access-Control-Max-Age': '86400',
             },
-            'body': '',
-            'isBase64Encoded': False
+            'body': ''
         }
 
-    xml_content = build_yml()
+    db_url = os.environ.get('DATABASE_URL', '')
+    if not db_url:
+        return {
+            'statusCode': 500,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': '{"error":"DATABASE_URL not configured"}',
+            'isBase64Encoded': False,
+        }
 
-    return {
-        'statusCode': 200,
-        'headers': {
-            'Content-Type': 'application/xml; charset=utf-8',
-            'Access-Control-Allow-Origin': '*',
-            'Cache-Control': 'public, max-age=86400'
-        },
-        'body': xml_content,
-        'isBase64Encoded': False
-    }
+    try:
+        conn = psycopg2.connect(db_url)
+        cur = conn.cursor(cursor_factory=RealDictCursor)
+        placeholders = ','.join([f"'{b}'" for b in ALLOWED_BRANDS])
+        cur.execute(
+            f"""
+            SELECT offer_id, brand, name, url, price, available,
+                   picture, description, images, params
+            FROM pallet_wrappers
+            WHERE brand IN ({placeholders})
+            ORDER BY brand ASC, name ASC
+            """
+        )
+        rows = cur.fetchall()
+        cur.close()
+        conn.close()
+
+        items = []
+        for r in rows:
+            items.append({
+                'offer_id': r['offer_id'],
+                'brand': r['brand'],
+                'name': r['name'],
+                'url': r['url'],
+                'price': float(r['price']) if r['price'] is not None else 0,
+                'available': r['available'],
+                'picture': r['picture'],
+                'description': r['description'],
+                'images': r['images'] or [],
+                'params': r['params'] or {},
+            })
+
+        xml = _build_yml(items)
+
+        return {
+            'statusCode': 200,
+            'headers': {
+                'Content-Type': 'application/xml; charset=utf-8',
+                'Access-Control-Allow-Origin': '*',
+                'Cache-Control': 'public, max-age=300',
+            },
+            'body': xml,
+            'isBase64Encoded': False,
+        }
+    except Exception as e:
+        return {
+            'statusCode': 500,
+            'headers': {'Content-Type': 'application/json', 'Access-Control-Allow-Origin': '*'},
+            'body': f'{{"error": "{str(e)}"}}',
+            'isBase64Encoded': False,
+        }

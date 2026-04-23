@@ -110,7 +110,6 @@ export default function Cart() {
   const navItems = [
     { label: "Модели", anchor: "models" },
     { label: "Преимущества", anchor: "advantages" },
-    { label: "Характеристики", anchor: "specs" },
     { label: "Сервис", anchor: "service" },
     { label: "FAQ", anchor: "faq" },
     { label: "О нас", anchor: "about" },

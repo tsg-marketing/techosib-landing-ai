@@ -59,7 +59,6 @@ export default function Header({
           <nav className="hidden md:flex items-center gap-5">
             <button onClick={() => scrollToSection('models')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Модели</button>
             <button onClick={() => scrollToSection('advantages')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Преимущества</button>
-            <button onClick={() => scrollToSection('specs')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Характеристики</button>
             <button onClick={() => scrollToSection('service')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">Сервис</button>
             <button onClick={() => scrollToSection('faq')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">FAQ</button>
             <button onClick={() => scrollToSection('about')} className="text-base font-semibold hover:text-primary transition-colors whitespace-nowrap">О нас</button>
@@ -131,7 +130,6 @@ export default function Header({
           <nav className="md:hidden mt-4 pb-4 space-y-3 animate-fade-in">
             <button onClick={() => scrollToSection('models')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Модели</button>
             <button onClick={() => scrollToSection('advantages')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Преимущества</button>
-            <button onClick={() => scrollToSection('specs')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Характеристики</button>
             <button onClick={() => scrollToSection('service')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">Сервис</button>
             <button onClick={() => scrollToSection('faq')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">FAQ</button>
             <button onClick={() => scrollToSection('about')} className="block w-full text-left py-2 text-base font-semibold hover:text-primary transition-colors">О нас</button>
