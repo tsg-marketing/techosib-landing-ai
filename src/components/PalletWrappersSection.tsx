@@ -118,6 +118,25 @@ function formatPrice(price: number): string {
   return new Intl.NumberFormat("ru-RU").format(Math.round(price)) + " руб";
 }
 
+const TRANSLIT_MAP: Record<string, string> = {
+  а: "a", б: "b", в: "v", г: "g", д: "d", е: "e", ё: "e",
+  ж: "zh", з: "z", и: "i", й: "y", к: "k", л: "l", м: "m",
+  н: "n", о: "o", п: "p", р: "r", с: "s", т: "t", у: "u",
+  ф: "f", х: "h", ц: "ts", ч: "ch", ш: "sh", щ: "sch", ъ: "",
+  ы: "y", ь: "", э: "e", ю: "yu", я: "ya",
+};
+
+function slugify(name: string): string {
+  if (!name) return "";
+  const out: string[] = [];
+  for (const ch of name.toLowerCase().trim()) {
+    if (TRANSLIT_MAP[ch] !== undefined) out.push(TRANSLIT_MAP[ch]);
+    else if (/[a-z0-9]/.test(ch)) out.push(ch);
+    else out.push("-");
+  }
+  return out.join("").replace(/-+/g, "-").replace(/^-|-$/g, "");
+}
+
 function toEmbedUrl(videoUrl: string): string {
   if (!videoUrl) return "";
   if (videoUrl.includes("/play/embed/")) return videoUrl;
@@ -138,6 +157,7 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
 
   const [specsOpen, setSpecsOpen] = useState(false);
   const [specsItem, setSpecsItem] = useState<FeedItem | null>(null);
+  const [specsPhotoIndex, setSpecsPhotoIndex] = useState(0);
 
   const [videoOpen, setVideoOpen] = useState(false);
   const [videoSrc, setVideoSrc] = useState<string>("");
@@ -204,8 +224,30 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
 
   const openSpecs = (item: FeedItem) => {
     setSpecsItem(item);
+    setSpecsPhotoIndex(0);
     setSpecsOpen(true);
   };
+
+  useEffect(() => {
+    if (!data || !data.items?.length) return;
+    const applyHash = () => {
+      const hash = window.location.hash || "";
+      const m = hash.match(/^#product-(.+)$/);
+      if (!m) return;
+      const wantedSlug = m[1].toLowerCase();
+      const found = data.items.find(
+        (it) => slugify(it.name) === wantedSlug
+      );
+      if (found) {
+        setSpecsItem(found);
+        setSpecsPhotoIndex(0);
+        setSpecsOpen(true);
+      }
+    };
+    applyHash();
+    window.addEventListener("hashchange", applyHash);
+    return () => window.removeEventListener("hashchange", applyHash);
+  }, [data]);
 
   const openVideo = (url: string) => {
     setVideoSrc(toEmbedUrl(url));
@@ -347,7 +389,19 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
         )}
       </div>
 
-      <Dialog open={specsOpen} onOpenChange={setSpecsOpen}>
+      <Dialog
+        open={specsOpen}
+        onOpenChange={(open) => {
+          setSpecsOpen(open);
+          if (!open && window.location.hash.startsWith("#product-")) {
+            history.replaceState(
+              null,
+              "",
+              window.location.pathname + window.location.search
+            );
+          }
+        }}
+      >
         <DialogContent className="max-w-3xl max-h-[85vh] overflow-y-auto">
           <DialogHeader>
             <DialogTitle className="text-2xl font-bold">
@@ -357,6 +411,81 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
           </DialogHeader>
           {specsItem && (
             <div className="py-4 space-y-6">
+              {specsItem.images && specsItem.images.length > 0 && (
+                <div className="relative w-full h-72 md:h-96 bg-gray-50 rounded-lg overflow-hidden group">
+                  <img
+                    src={specsItem.images[specsPhotoIndex]}
+                    alt={`${specsItem.name} - ${specsPhotoIndex + 1}`}
+                    className="w-full h-full object-contain"
+                  />
+                  {specsItem.images.length > 1 && (
+                    <>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() =>
+                          setSpecsPhotoIndex((prev) =>
+                            prev === 0 ? specsItem.images.length - 1 : prev - 1
+                          )
+                        }
+                        className="absolute left-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md"
+                      >
+                        <Icon name="ChevronLeft" size={24} />
+                      </Button>
+                      <Button
+                        variant="ghost"
+                        size="icon"
+                        onClick={() =>
+                          setSpecsPhotoIndex((prev) =>
+                            prev === specsItem.images.length - 1 ? 0 : prev + 1
+                          )
+                        }
+                        className="absolute right-2 top-1/2 -translate-y-1/2 bg-white/80 hover:bg-white shadow-md"
+                      >
+                        <Icon name="ChevronRight" size={24} />
+                      </Button>
+                      <div className="absolute bottom-2 left-1/2 -translate-x-1/2 flex gap-1.5">
+                        {specsItem.images.map((_, idx) => (
+                          <button
+                            key={idx}
+                            onClick={() => setSpecsPhotoIndex(idx)}
+                            className={`h-2 rounded-full transition-all ${
+                              idx === specsPhotoIndex
+                                ? "bg-primary w-6"
+                                : "bg-gray-300 hover:bg-gray-400 w-2"
+                            }`}
+                            aria-label={`Фото ${idx + 1}`}
+                          />
+                        ))}
+                      </div>
+                      <div className="absolute top-2 right-2 bg-black/50 text-white text-xs px-2 py-1 rounded">
+                        {specsPhotoIndex + 1} / {specsItem.images.length}
+                      </div>
+                    </>
+                  )}
+                </div>
+              )}
+              {specsItem.images && specsItem.images.length > 1 && (
+                <div className="flex gap-2 overflow-x-auto pb-2">
+                  {specsItem.images.map((src, idx) => (
+                    <button
+                      key={idx}
+                      onClick={() => setSpecsPhotoIndex(idx)}
+                      className={`flex-shrink-0 w-16 h-16 rounded-md overflow-hidden border-2 transition-all ${
+                        idx === specsPhotoIndex
+                          ? "border-primary"
+                          : "border-transparent hover:border-gray-300"
+                      }`}
+                    >
+                      <img
+                        src={src}
+                        alt={`миниатюра ${idx + 1}`}
+                        className="w-full h-full object-cover"
+                      />
+                    </button>
+                  ))}
+                </div>
+              )}
               {Object.keys(specsItem.params).length > 0 && (
                 <div>
                   <h4 className="font-semibold text-gray-900 mb-3">Параметры</h4>

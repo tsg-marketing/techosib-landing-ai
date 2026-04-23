@@ -1,4 +1,5 @@
 import os
+import re
 from datetime import datetime, timezone, timedelta
 from html import escape
 from typing import Any, Dict, List
@@ -9,10 +10,44 @@ from psycopg2.extras import RealDictCursor
 
 SHOP_NAME = 'ТЕХНОСИБ'
 SHOP_COMPANY = 'ТЕХНОСИБ'
-SHOP_URL = 'https://t-sib.ru'
+SHOP_URL = 'https://pallet.t-sib.ru/'
 CURRENCY = 'RUR'
 # Бренды, которые попадают в фид
 ALLOWED_BRANDS = ('ТЕХНОСИБ', 'Robopac')
+
+
+_TRANSLIT_MAP = {
+    'а': 'a', 'б': 'b', 'в': 'v', 'г': 'g', 'д': 'd', 'е': 'e', 'ё': 'e',
+    'ж': 'zh', 'з': 'z', 'и': 'i', 'й': 'y', 'к': 'k', 'л': 'l', 'м': 'm',
+    'н': 'n', 'о': 'o', 'п': 'p', 'р': 'r', 'с': 's', 'т': 't', 'у': 'u',
+    'ф': 'f', 'х': 'h', 'ц': 'ts', 'ч': 'ch', 'ш': 'sh', 'щ': 'sch', 'ъ': '',
+    'ы': 'y', 'ь': '', 'э': 'e', 'ю': 'yu', 'я': 'ya',
+}
+
+
+def _slugify(name: str) -> str:
+    if not name:
+        return ''
+    s = name.lower().strip()
+    out = []
+    for ch in s:
+        if ch in _TRANSLIT_MAP:
+            out.append(_TRANSLIT_MAP[ch])
+        elif ch.isalnum():
+            out.append(ch)
+        else:
+            out.append('-')
+    slug = ''.join(out)
+    slug = re.sub(r'-+', '-', slug).strip('-')
+    return slug
+
+
+def _product_anchor_url(name: str) -> str:
+    slug = _slugify(name)
+    base = SHOP_URL if SHOP_URL.endswith('/') else SHOP_URL + '/'
+    if not slug:
+        return base
+    return f'{base}#product-{slug}'
 
 
 def _xml_escape(s: str) -> str:
@@ -53,7 +88,7 @@ def _build_yml(items: List[Dict[str, Any]]) -> str:
 
         offer_id = _xml_escape(it.get('offer_id') or '')
         available = 'true' if it.get('available') else 'false'
-        url = _xml_escape(it.get('url') or SHOP_URL)
+        url = _xml_escape(_product_anchor_url(it.get('name') or ''))
         price = it.get('price') or 0
         name = _xml_escape(it.get('name') or '')
         description = it.get('description') or ''
