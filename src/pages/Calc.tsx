@@ -166,9 +166,11 @@ export default function Calc() {
 
     const utmData = getUtmFromCookies();
 
-    fetch("/api/b24-send-lead.php", {
+    fetch("https://t-sib.ru/api/b24-send-lead.php", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
+      mode: "no-cors",
+      keepalive: true,
       body: JSON.stringify({
         name: "",
         phone: dialogPhone,
@@ -182,9 +184,8 @@ export default function Calc() {
         ...utmData,
       }),
     })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.success && typeof window !== "undefined" && (window as any).ym) {
+      .then(() => {
+        if (typeof window !== "undefined" && (window as any).ym) {
           (window as any).ym(106348259, "reachGoal", "form_sent");
         }
       })
@@ -213,9 +214,11 @@ export default function Calc() {
     const utmData = getUtmFromCookies();
 
     setLeadLoading(true);
-    fetch("/api/b24-send-lead.php", {
+    fetch("https://t-sib.ru/api/b24-send-lead.php", {
       method: "POST",
-      headers: { "Content-Type": "application/json" },
+      headers: { "Content-Type": "text/plain;charset=UTF-8" },
+      mode: "no-cors",
+      keepalive: true,
       body: JSON.stringify({
         name: leadName,
         phone: leadPhone,
@@ -229,9 +232,8 @@ export default function Calc() {
         ...utmData,
       }),
     })
-      .then((res) => res.json())
-      .then((result) => {
-        if (result.success && typeof window !== "undefined" && (window as any).ym) {
+      .then(() => {
+        if (typeof window !== "undefined" && (window as any).ym) {
           (window as any).ym(106348259, "reachGoal", "form_sent");
         }
       })

@@ -1046,9 +1046,11 @@ export default function Index() {
     setCalcDialogLoading(true);
     const utmData = getUtmFromCookies();
     try {
-      const response = await fetch("/api/b24-send-lead.php", {
+      await fetch("https://t-sib.ru/api/b24-send-lead.php", {
         method: "POST",
-        headers: { "Content-Type": "application/json" },
+        headers: { "Content-Type": "text/plain;charset=UTF-8" },
+        mode: "no-cors",
+        keepalive: true,
         body: JSON.stringify({
           name: calcDialogName,
           phone: calcDialogPhone,
@@ -1060,8 +1062,7 @@ export default function Index() {
           ...utmData,
         }),
       });
-      const result = await response.json();
-      if (result.success && typeof window !== "undefined" && (window as unknown as Record<string, unknown>).ym) {
+      if (typeof window !== "undefined" && (window as unknown as Record<string, unknown>).ym) {
         // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
         ((window as unknown as Record<string, unknown>).ym as Function)(106348259, "reachGoal", "form_sent");
       }
@@ -1083,9 +1084,11 @@ export default function Index() {
     const fd = new FormData(form);
     setCalcLeadLoading(true);
     try {
-      await fetch('/api/b24-send-lead.php', {
+      await fetch('https://t-sib.ru/api/b24-send-lead.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+        mode: 'no-cors',
+        keepalive: true,
         body: JSON.stringify({
           name: fd.get('name') || '',
           phone: fd.get('phone') || '',
@@ -1167,15 +1170,27 @@ export default function Index() {
     };
     
     try {
-      const response = await fetch('/api/b24-send-lead.php', {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json'
-        },
-        body: JSON.stringify(requestData)
-      });
+      const controller = new AbortController();
+      const timeoutId = setTimeout(() => controller.abort(), 8000);
       
-      const result = await response.json();
+      let ok = false;
+      try {
+        const response = await fetch('https://t-sib.ru/api/b24-send-lead.php', {
+          method: 'POST',
+          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
+          body: JSON.stringify(requestData),
+          signal: controller.signal,
+          mode: 'no-cors',
+          keepalive: true,
+        });
+        ok = true;
+        void response;
+      } catch (err) {
+        ok = false;
+        console.error('Lead send error:', err);
+      }
+      clearTimeout(timeoutId);
+      const result = { success: ok };
       
       if (result.success) {
         // Yandex Metrika goal
