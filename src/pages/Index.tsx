@@ -16,6 +16,7 @@ import Icon from "@/components/ui/icon";
 import ImageCarousel from "@/components/ImageCarousel";
 import Header from "@/components/sections/Header";
 import MachineCollage from "@/components/MachineCollage";
+import PalletWrappersSection from "@/components/PalletWrappersSection";
 import { usePrices } from "@/hooks/usePrices";
 import { useCart } from "@/hooks/useCart";
 import { useNavigate } from "react-router-dom";
@@ -1403,86 +1404,7 @@ export default function Index() {
         </div>
       </section>
 
-      {/* Models Section */}
-      <section id="models" className="py-8 md:py-12 bg-white">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-4">
-            Модели паллетообмотчиков
-          </h2>
-          <p className="text-center text-muted-foreground mb-12 max-w-2xl mx-auto">
-            Выберите оптимальную модель для вашего бизнеса. Все модели производятся на современном оборудовании с контролем качества на каждом этапе.
-          </p>
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
-            {models.map((model) => (
-              <Card key={model.id} id={model.id} className="hover:shadow-xl transition-shadow flex flex-col scroll-mt-20">
-                <ImageCarousel images={model.videoUrl ? model.images.slice(1) : model.images} alt={model.name} inStock={model.inStock} />
-                <CardHeader>
-                  <CardTitle className="text-2xl text-gray-900">{model.name}</CardTitle>
-                  <CardDescription className="text-3xl font-bold text-secondary">
-                    {getPrice(model.name)} руб
-                  </CardDescription>
-                </CardHeader>
-                <CardContent className="flex-1 flex flex-col">
-                  <p className="text-base text-gray-700 mb-4">{model.description}</p>
-                  <ul className="space-y-2 mb-6 flex-1">
-                    {model.features.map((feature, idx) => (
-                      <li key={idx} className="flex items-start gap-2 text-base text-gray-700">
-                        <Icon name="Check" size={18} className="text-primary mt-0.5 flex-shrink-0" />
-                        <span>{feature}</span>
-                      </li>
-                    ))}
-                  </ul>
-                  <div className="space-y-2">
-                    {model.detailedSpecs && (
-                      <Button 
-                        variant="outline"
-                        className="w-full text-base py-5" 
-                        onClick={() => openSpecsDialog(model)}
-                      >
-                        <Icon name="FileText" size={18} className="mr-2" />
-                        Детальные характеристики
-                      </Button>
-                    )}
-                    {model.videoUrl && (
-                      <Button 
-                        className="w-full text-base py-5 bg-red-500/80 hover:bg-red-600 text-white" 
-                        onClick={() => openVideoDialog(model.videoUrl!)}
-                      >
-                        <Icon name="Play" size={18} className="mr-2" />
-                        Посмотреть видео
-                      </Button>
-                    )}
-                    <div className="flex gap-2">
-                      <Button 
-                        className="flex-1 bg-secondary hover:bg-secondary/80 text-white text-lg py-6 shadow-lg" 
-                        onClick={() => openModelDialog(model.name)}
-                      >
-                        Оставить заявку
-                      </Button>
-                      <Button
-                        variant={items.some(i => i.id === model.id) ? "default" : "outline"}
-                        className={`py-6 px-4 ${items.some(i => i.id === model.id) ? "bg-green-500 hover:bg-green-600 text-white border-green-500" : ""}`}
-                        onClick={() => {
-                          if (items.some(i => i.id === model.id)) {
-                            removeItem(model.id);
-                          } else {
-                            const priceStr = getPrice(model.name);
-                            const priceNum = parseInt(priceStr.replace(/\D/g, ""), 10) || 0;
-                            addItem({ id: model.id, name: model.name, price: priceNum });
-                          }
-                        }}
-                        title={items.some(i => i.id === model.id) ? "Убрать из корзины" : "Добавить в корзину"}
-                      >
-                        <Icon name={items.some(i => i.id === model.id) ? "ShoppingCart" : "ShoppingCart"} size={20} />
-                      </Button>
-                    </div>
-                  </div>
-                </CardContent>
-              </Card>
-            ))}
-          </div>
-        </div>
-      </section>
+      <PalletWrappersSection onLeaveRequest={openModelDialog} />
 
       {/* Specs Comparison Table */}
       <section id="specs" className="py-8 md:py-12 bg-gray-50">

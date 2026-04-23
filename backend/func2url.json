@@ -1,4 +1,6 @@
 {
+  "sync-pallet-wrappers": "https://functions.poehali.dev/35308bdd-2adb-48b7-9adb-37315674b087",
+  "get-pallet-wrappers": "https://functions.poehali.dev/31c5d88e-1565-4747-b3b5-8009e4b337a1",
   "cron-update-prices": "https://functions.poehali.dev/fde9bac0-4581-42ac-8891-44dddb587882",
   "get-prices": "https://functions.poehali.dev/c6510ea1-7161-4524-92dd-3e968ea97533",
   "yml-feed-instock": "https://functions.poehali.dev/18233504-5d9e-48da-9998-99452c245f58",
