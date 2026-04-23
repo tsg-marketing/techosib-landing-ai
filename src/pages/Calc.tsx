@@ -166,10 +166,9 @@ export default function Calc() {
 
     const utmData = getUtmFromCookies();
 
-    fetch("https://t-sib.ru/api/b24-send-lead.php", {
+    fetch("/api/b24-send-lead.php", {
       method: "POST",
-      headers: { "Content-Type": "text/plain;charset=UTF-8" },
-      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
       keepalive: true,
       body: JSON.stringify({
         name: "",
@@ -214,10 +213,9 @@ export default function Calc() {
     const utmData = getUtmFromCookies();
 
     setLeadLoading(true);
-    fetch("https://t-sib.ru/api/b24-send-lead.php", {
+    fetch("/api/b24-send-lead.php", {
       method: "POST",
-      headers: { "Content-Type": "text/plain;charset=UTF-8" },
-      mode: "no-cors",
+      headers: { "Content-Type": "application/json" },
       keepalive: true,
       body: JSON.stringify({
         name: leadName,

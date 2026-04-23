@@ -37,17 +37,21 @@ export default function Cart() {
 
   const submitToApi = async (payload: Record<string, string>) => {
     const controller = new AbortController();
-    const timeoutId = setTimeout(() => controller.abort(), 8000);
+    const timeoutId = setTimeout(() => controller.abort(), 10000);
     try {
-      await fetch("https://t-sib.ru/api/b24-send-lead.php", {
+      const response = await fetch("/api/b24-send-lead.php", {
         method: "POST",
-        headers: { "Content-Type": "text/plain;charset=UTF-8" },
-        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
         keepalive: true,
         signal: controller.signal,
         body: JSON.stringify(payload),
       });
-      return { success: true };
+      try {
+        const json = (await response.json()) as { success?: boolean };
+        return { success: json.success ?? response.ok };
+      } catch {
+        return { success: response.ok };
+      }
     } catch (err) {
       console.error("Lead send error:", err);
       return { success: false };

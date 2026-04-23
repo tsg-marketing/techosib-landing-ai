@@ -1046,10 +1046,9 @@ export default function Index() {
     setCalcDialogLoading(true);
     const utmData = getUtmFromCookies();
     try {
-      await fetch("https://t-sib.ru/api/b24-send-lead.php", {
+      await fetch("/api/b24-send-lead.php", {
         method: "POST",
-        headers: { "Content-Type": "text/plain;charset=UTF-8" },
-        mode: "no-cors",
+        headers: { "Content-Type": "application/json" },
         keepalive: true,
         body: JSON.stringify({
           name: calcDialogName,
@@ -1084,10 +1083,9 @@ export default function Index() {
     const fd = new FormData(form);
     setCalcLeadLoading(true);
     try {
-      await fetch('https://t-sib.ru/api/b24-send-lead.php', {
+      await fetch('/api/b24-send-lead.php', {
         method: 'POST',
-        headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-        mode: 'no-cors',
+        headers: { 'Content-Type': 'application/json' },
         keepalive: true,
         body: JSON.stringify({
           name: fd.get('name') || '',
@@ -1171,26 +1169,23 @@ export default function Index() {
     
     try {
       const controller = new AbortController();
-      const timeoutId = setTimeout(() => controller.abort(), 8000);
+      const timeoutId = setTimeout(() => controller.abort(), 10000);
       
-      let ok = false;
-      try {
-        const response = await fetch('https://t-sib.ru/api/b24-send-lead.php', {
-          method: 'POST',
-          headers: { 'Content-Type': 'text/plain;charset=UTF-8' },
-          body: JSON.stringify(requestData),
-          signal: controller.signal,
-          mode: 'no-cors',
-          keepalive: true,
-        });
-        ok = true;
-        void response;
-      } catch (err) {
-        ok = false;
-        console.error('Lead send error:', err);
-      }
+      const response = await fetch('/api/b24-send-lead.php', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(requestData),
+        signal: controller.signal,
+        keepalive: true,
+      });
       clearTimeout(timeoutId);
-      const result = { success: ok };
+      
+      let result: { success?: boolean } = {};
+      try {
+        result = await response.json();
+      } catch {
+        result = { success: response.ok };
+      }
       
       if (result.success) {
         // Yandex Metrika goal
