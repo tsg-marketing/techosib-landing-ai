@@ -1,4 +1,5 @@
 {
+  "get-feed-videos": "https://functions.poehali.dev/0fac79ff-ae27-43bf-b950-bcd053eea56f",
   "sync-pallet-wrappers": "https://functions.poehali.dev/35308bdd-2adb-48b7-9adb-37315674b087",
   "get-pallet-wrappers": "https://functions.poehali.dev/31c5d88e-1565-4747-b3b5-8009e4b337a1",
   "cron-update-prices": "https://functions.poehali.dev/fde9bac0-4581-42ac-8891-44dddb587882",
