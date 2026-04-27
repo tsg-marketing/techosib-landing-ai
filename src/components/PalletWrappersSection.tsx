@@ -137,6 +137,12 @@ function slugify(name: string): string {
   return out.join("").replace(/-+/g, "-").replace(/^-|-$/g, "");
 }
 
+// Ручные перекрытия ссылок на видео по offer_id (когда ссылка из фида устарела/удалена).
+const VIDEO_OVERRIDES: Record<string, string> = {
+  // TS3000SPS-MT
+  "6367": "https://rutube.ru/video/1719d1be79b9c3b3485cf08c7faf2ef3/",
+};
+
 function toEmbedUrl(videoUrl: string): string {
   if (!videoUrl) return "";
   if (videoUrl.includes("/play/embed/")) return videoUrl;
@@ -366,7 +372,7 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
                           {item.video_url && (
                             <Button
                               className="w-full text-base py-5 bg-red-500/80 hover:bg-red-600 text-white"
-                              onClick={() => openVideo(item.video_url)}
+                              onClick={() => openVideo(VIDEO_OVERRIDES[item.offer_id] || item.video_url)}
                             >
                               <Icon name="Play" size={18} className="mr-2" />
                               Посмотреть видео
