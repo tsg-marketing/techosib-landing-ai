@@ -947,15 +947,6 @@ export default function Index() {
   const [calcLeadSent, setCalcLeadSent] = useState(false);
   const [calcLeadLoading, setCalcLeadLoading] = useState(false);
 
-  const [calcPhoneDialogOpen, setCalcPhoneDialogOpen] = useState(false);
-  const [calcDialogName, setCalcDialogName] = useState("");
-  const [calcDialogPhone, setCalcDialogPhone] = useState("");
-  const [calcDialogConsent, setCalcDialogConsent] = useState(false);
-  const [calcDialogLoading, setCalcDialogLoading] = useState(false);
-  const [calcDialogError, setCalcDialogError] = useState("");
-  const [calcContactDone, setCalcContactDone] = useState(() => localStorage.getItem("calc_contact_submitted") === "true");
-  const [calcPendingResults, setCalcPendingResults] = useState<null | { hand: CalcColResult; machine: CalcColResult; prestretch: CalcColResult }>(null);
-
   useEffect(() => {
     saveUtmToCookies();
     
@@ -1024,57 +1015,7 @@ export default function Index() {
       machine:    calcFilmCol(t, l, w, turns, pDay, days, price, 50,  40),
       prestretch: calcFilmCol(t, l, w, turns, pDay, days, price, 250, 10),
     };
-    if (calcContactDone) {
-      setCalcResults(res);
-    } else {
-      setCalcPendingResults(res);
-      setCalcPhoneDialogOpen(true);
-    }
-  };
-
-  const handleCalcPhoneSubmit = async (e: React.FormEvent) => {
-    e.preventDefault();
-    if (!calcDialogPhone.trim()) {
-      setCalcDialogError("Укажите номер телефона");
-      return;
-    }
-    if (!calcDialogConsent) {
-      setCalcDialogError("Необходимо дать согласие на обработку персональных данных");
-      return;
-    }
-    setCalcDialogError("");
-    setCalcDialogLoading(true);
-    const utmData = getUtmFromCookies();
-    try {
-      await fetch("/api/b24-send-lead.php", {
-        method: "POST",
-        headers: { "Content-Type": "application/json" },
-        keepalive: true,
-        body: JSON.stringify({
-          name: calcDialogName,
-          phone: calcDialogPhone,
-          email: "",
-          company: "",
-          comment: "Запрос из калькулятора расхода плёнки",
-          productType: "Паллетообмотчик",
-          url: window.location.href,
-          ...utmData,
-        }),
-      });
-      if (typeof window !== "undefined" && (window as unknown as Record<string, unknown>).ym) {
-        // eslint-disable-next-line @typescript-eslint/no-unsafe-function-type
-        ((window as unknown as Record<string, unknown>).ym as Function)(106348259, "reachGoal", "form_sent");
-      }
-    } catch { /* ignore */ }
-    setCalcDialogLoading(false);
-    setCalcContactDone(true);
-    localStorage.setItem("calc_contact_submitted", "true");
-    setCalcPhoneDialogOpen(false);
-    toast.success("Благодарим за Вашу заявку. Менеджер свяжется с Вами в ближайшее время в часы работы.");
-    if (calcPendingResults) {
-      setCalcResults(calcPendingResults);
-      setCalcPendingResults(null);
-    }
+    setCalcResults(res);
   };
 
   const handleCalcLead = async (e: React.FormEvent) => {
@@ -1454,71 +1395,6 @@ export default function Index() {
               Рассчитать
             </Button>
           </div>
-
-          {/* Диалог запроса телефона */}
-          <Dialog open={calcPhoneDialogOpen} onOpenChange={setCalcPhoneDialogOpen}>
-            <DialogContent className="sm:max-w-md">
-              <DialogHeader>
-                <DialogTitle className="text-xl">Посмотрите расчёт экономии</DialogTitle>
-                <DialogDescription className="text-base mt-2">
-                  Оставьте свой номер телефона и сразу же посмотрите расчёт экономии стрейч-плёнки
-                </DialogDescription>
-              </DialogHeader>
-              <form onSubmit={handleCalcPhoneSubmit} className="space-y-4 mt-2">
-                <div className="space-y-1">
-                  <Label className="text-sm text-gray-600">Имя</Label>
-                  <Input
-                    placeholder="Ваше имя"
-                    value={calcDialogName}
-                    onChange={(e) => setCalcDialogName(e.target.value)}
-                    autoFocus
-                  />
-                </div>
-                <div className="space-y-1">
-                  <Label className="text-sm text-gray-600">Телефон *</Label>
-                  <Input
-                    placeholder="+7 (___) ___-__-__"
-                    value={calcDialogPhone}
-                    onChange={(e) => setCalcDialogPhone(e.target.value)}
-                    onInput={handlePhoneInput}
-                  />
-                </div>
-                <div className="flex items-start gap-2">
-                  <Checkbox
-                    id="calc-consent"
-                    checked={calcDialogConsent}
-                    onCheckedChange={(v) => setCalcDialogConsent(v === true)}
-                    className="mt-0.5"
-                  />
-                  <label htmlFor="calc-consent" className="text-xs text-gray-500 leading-relaxed cursor-pointer">
-                    Отправляя форму, я соглашаюсь с{" "}
-                    <a href="https://t-sib.ru/assets/politika_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                      политикой обработки персональных данных
-                    </a>{" "}
-                    и даю{" "}
-                    <a href="https://t-sib.ru/assets/soglasie_t-sib16.05.25.pdf" target="_blank" rel="noopener noreferrer" className="text-blue-600 hover:underline">
-                      согласие на обработку персональных данных
-                    </a>.
-                  </label>
-                </div>
-                {calcDialogError && <p className="text-sm text-red-500">{calcDialogError}</p>}
-                <Button
-                  type="submit"
-                  disabled={calcDialogLoading}
-                  className="w-full py-5 text-base font-bold bg-orange-500 hover:bg-orange-600 text-white"
-                >
-                  {calcDialogLoading ? (
-                    <span className="flex items-center gap-2">
-                      <Icon name="Loader2" size={18} className="animate-spin" />
-                      Отправляем...
-                    </span>
-                  ) : (
-                    "Показать расчёт"
-                  )}
-                </Button>
-              </form>
-            </DialogContent>
-          </Dialog>
 
           {/* Результаты */}
           {calcResults && (

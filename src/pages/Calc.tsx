@@ -2,15 +2,7 @@ import { useState, useRef } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import { Label } from "@/components/ui/label";
 import Icon from "@/components/ui/icon";
-import {
-  Dialog,
-  DialogContent,
-  DialogHeader,
-  DialogTitle,
-  DialogDescription,
-} from "@/components/ui/dialog";
 import { getUtmFromCookies } from "@/utils/utm";
 
 // ─────────────────────────────────────────────
@@ -63,8 +55,6 @@ const MODE_LABELS: Record<PackMode, string> = {
 
 const MODES: PackMode[] = ["hand", "machine", "prestretch"];
 
-const CALC_CONTACT_KEY = "calc_contact_submitted";
-
 // ─────────────────────────────────────────────
 // HELPERS
 // ─────────────────────────────────────────────
@@ -111,16 +101,6 @@ export default function Calc() {
   const [results, setResults] = useState<Record<PackMode, ColResult> | null>(null);
   const resultRef = useRef<HTMLDivElement>(null);
 
-  const [contactSubmitted, setContactSubmitted] = useState(
-    () => localStorage.getItem(CALC_CONTACT_KEY) === "true"
-  );
-  const [phoneDialogOpen, setPhoneDialogOpen] = useState(false);
-  const [dialogPhone, setDialogPhone] = useState("");
-  const [dialogLoading, setDialogLoading] = useState(false);
-  const [dialogError, setDialogError] = useState("");
-
-  const [pendingResults, setPendingResults] = useState<Record<PackMode, ColResult> | null>(null);
-
   const [leadName, setLeadName] = useState("");
   const [leadPhone, setLeadPhone] = useState("");
   const [leadEmail, setLeadEmail] = useState("");
@@ -147,52 +127,6 @@ export default function Calc() {
       prestretch: calcCol(form, "prestretch"),
     };
     showResults(res);
-  }
-
-  function handlePhoneSubmit(e: React.FormEvent) {
-    e.preventDefault();
-    if (!dialogPhone.trim()) {
-      setDialogError("Укажите номер телефона");
-      return;
-    }
-    setDialogError("");
-    setDialogLoading(true);
-
-    const utmData = getUtmFromCookies();
-
-    fetch("/api/b24-send-lead.php", {
-      method: "POST",
-      headers: { "Content-Type": "application/json" },
-      keepalive: true,
-      body: JSON.stringify({
-        name: "",
-        phone: dialogPhone,
-        email: "",
-        comment: "",
-        source: "Калькулятор расхода плёнки",
-        productType: "Паллетообмотчик",
-        url: window.location.href,
-        calc_params: form,
-        calc_result: pendingResults,
-        ...utmData,
-      }),
-    })
-      .then(() => {
-        if (typeof window !== "undefined" && (window as any).ym) {
-          (window as any).ym(106348259, "reachGoal", "form_sent");
-        }
-      })
-      .catch(() => {})
-      .finally(() => {
-        setDialogLoading(false);
-        setContactSubmitted(true);
-        localStorage.setItem(CALC_CONTACT_KEY, "true");
-        setPhoneDialogOpen(false);
-        if (pendingResults) {
-          showResults(pendingResults);
-          setPendingResults(null);
-        }
-      });
   }
 
   function handleLead(e: React.FormEvent) {
@@ -326,50 +260,6 @@ export default function Calc() {
             Рассчитать
           </Button>
         </div>
-
-        {/* PHONE DIALOG */}
-        <Dialog open={phoneDialogOpen} onOpenChange={setPhoneDialogOpen}>
-          <DialogContent className="sm:max-w-md">
-            <DialogHeader>
-              <DialogTitle className="text-xl">
-                Посмотрите расчёт экономии
-              </DialogTitle>
-              <DialogDescription className="text-base mt-2">
-                Оставьте свой номер телефона и сразу же посмотрите расчёт экономии стрейч-плёнки
-              </DialogDescription>
-            </DialogHeader>
-            <form onSubmit={handlePhoneSubmit} className="space-y-4 mt-2">
-              <div className="space-y-1">
-                <Label className="text-sm text-gray-600">Телефон *</Label>
-                <Input
-                  placeholder="+7 (___) ___-__-__"
-                  value={dialogPhone}
-                  onChange={(e) => setDialogPhone(e.target.value)}
-                  className={dialogError ? "border-red-400" : ""}
-                  autoFocus
-                />
-                {dialogError && <p className="text-sm text-red-500">{dialogError}</p>}
-              </div>
-              <Button
-                type="submit"
-                disabled={dialogLoading}
-                className="w-full py-5 text-base font-bold bg-orange-500 hover:bg-orange-600 text-white"
-              >
-                {dialogLoading ? (
-                  <span className="flex items-center gap-2">
-                    <Icon name="Loader2" size={18} className="animate-spin" />
-                    Отправляем...
-                  </span>
-                ) : (
-                  "Показать расчёт"
-                )}
-              </Button>
-              <p className="text-xs text-gray-400 text-center">
-                Нажимая кнопку, вы соглашаетесь на обработку персональных данных
-              </p>
-            </form>
-          </DialogContent>
-        </Dialog>
 
         {/* RESULTS */}
         <div ref={resultRef}>
