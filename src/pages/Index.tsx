@@ -83,7 +83,7 @@ const models: Model[] = [
     inStock: true,
     price: "300 000",
     description: "Каретка MR – механическая регулировка натяжения плёнки на каретке (без предварительного растяжения плёнки).",
-    videoUrl: "https://rutube.ru/play/embed/eb30f02006e0dbebf93aac82d16f4960/",
+    videoUrl: "https://rutube.ru/play/embed/3d5b579103f00442bcbcf94e1a75a079/",
     features: [
       "Размеры паллет 800×1200 мм и 1000×1200 мм",
       "Высота паллет до 2400 мм",
@@ -156,7 +156,7 @@ const models: Model[] = [
     inStock: true,
     price: "350 000",
     description: "Моторизированная каретка SPS – предварительное растяжение плёнки – 250% (фиксированное), натяжение плёнки на паллете регулируется с панели управления.",
-    videoUrl: "https://rutube.ru/play/embed/763ecdc749a8eb50c431b99f924a9d6c/",
+    videoUrl: "https://rutube.ru/play/embed/36ca1c58ba9d91e41a902101aefb239a/",
     features: [
       "Размеры паллет 800×1200 мм и 1000×1200 мм",
       "Высота паллет до 2400 мм",
@@ -279,7 +279,7 @@ const models: Model[] = [
     inStock: true,
     price: "430 000",
     description: "Электромеханический прижим для фиксации нестабильного груза и предотвращения его смещения в процессе обмотки. Предварительное растяжение плёнки – 250%.",
-    videoUrl: "https://rutube.ru/play/embed/62b6fce391c26bf6a21384876cd47ac1/",
+    videoUrl: "https://rutube.ru/play/embed/99fd63779b6594febf9ef7f5d40b0dd4/",
     features: [
       "Размеры паллет 800×1200 мм и 1000×1200 мм",
       "Высота паллет до 2400 мм",
@@ -409,7 +409,7 @@ const models: Model[] = [
     inStock: true,
     price: "470 000",
     description: "Модель оснащена E-образным столом, который позволяет легко захватывать поддон с грузом без применения подъездной рамы. Предварительное растяжение плёнки на каретке — 250%.",
-    videoUrl: "https://rutube.ru/play/embed/1719d1be79b9c3b3485cf08c7faf2ef3/",
+    videoUrl: "https://rutube.ru/play/embed/70daaca34940ea89ab0bc4578ad55d41/",
     features: [
       "Размеры паллет 800×1200 мм и 1000×1200 мм",
       "Высота паллет до 2400 мм",
