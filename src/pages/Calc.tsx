@@ -146,13 +146,7 @@ export default function Calc() {
       machine: calcCol(form, "machine"),
       prestretch: calcCol(form, "prestretch"),
     };
-
-    if (contactSubmitted) {
-      showResults(res);
-    } else {
-      setPendingResults(res);
-      setPhoneDialogOpen(true);
-    }
+    showResults(res);
   }
 
   function handlePhoneSubmit(e: React.FormEvent) {
