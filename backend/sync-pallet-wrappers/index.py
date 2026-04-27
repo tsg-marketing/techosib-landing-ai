@@ -14,7 +14,7 @@ import psycopg2
 from psycopg2.extras import Json
 
 
-TARGET_CATEGORIES = {'332', '452', '333'}
+TARGET_CATEGORIES = {'332', '452', '333', '334'}
 FEED_URL = 'https://t-sib.ru/bitrix/catalog_export/export_Vvf.xml'
 FEED_BASE_URL = 'https://t-sib.ru'
 S3_BUCKET = 'files'

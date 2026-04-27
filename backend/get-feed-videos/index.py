@@ -5,7 +5,7 @@ from typing import Dict, Any
 
 
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
-    '''Возвращает Бренд и ссылку на видео из XML-фида для нужных моделей паллетообмотчиков.'''
+    '''Возвращает все товары из фида с брендом Robopac или ТЕХНОСИБ — id, бренд, категория, видео.'''
     if event.get('httpMethod') == 'OPTIONS':
         return {
             'statusCode': 200,
@@ -20,27 +20,18 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
         }
 
     feed_url = 'https://t-sib.ru/bitrix/catalog_export/export_Vvf.xml'
-    model_mapping = {
-        '6323': 'TS3000MR-H',
-        '6366': 'TS3000SPS-H',
-        '6373': 'TS3000MR-TP',
-        '6324': 'TS3000SPS-TP',
-        '6368': 'TS3000MR-MT',
-        '6367': 'TS3000SPS-MT',
-        '6369': 'TS3000MR-MT-TP',
-        '6370': 'TS3000SPS-MT-TP',
-        '5322': 'ROBO-MS',
-    }
 
-    result = {}
     with urllib.request.urlopen(feed_url, timeout=30) as response:
         xml_data = response.read()
     root = ET.fromstring(xml_data)
 
+    categories = {}
+    for c in root.findall('.//category'):
+        cid = c.get('id') or ''
+        categories[cid] = (c.text or '').strip()
+
+    items = []
     for offer in root.findall('.//offer'):
-        offer_id = offer.get('id')
-        if offer_id not in model_mapping:
-            continue
         brand = None
         video = None
         for p in offer.findall('param'):
@@ -49,7 +40,23 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
                 brand = (p.text or '').strip()
             elif pname == 'Видео (ссылка)':
                 video = (p.text or '').strip()
-        result[model_mapping[offer_id]] = {'brand': brand, 'video': video, 'offer_id': offer_id}
+        if not brand:
+            continue
+        if brand.lower() not in ('robopac', 'техносиб'):
+            continue
+        cat_elem = offer.find('categoryId')
+        cat_id = cat_elem.text.strip() if (cat_elem is not None and cat_elem.text) else ''
+        name_elem = offer.find('name')
+        name_text = name_elem.text.strip() if (name_elem is not None and name_elem.text) else ''
+        items.append({
+            'offer_id': offer.get('id'),
+            'brand': brand,
+            'category_id': cat_id,
+            'category_name': categories.get(cat_id, ''),
+            'name': name_text,
+            'video': video,
+            'available': offer.get('available', 'true'),
+        })
 
     return {
         'statusCode': 200,
@@ -57,6 +64,6 @@ def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
             'Access-Control-Allow-Origin': '*',
             'Content-Type': 'application/json; charset=utf-8'
         },
-        'body': json.dumps(result, ensure_ascii=False),
+        'body': json.dumps(items, ensure_ascii=False),
         'isBase64Encoded': False
     }
