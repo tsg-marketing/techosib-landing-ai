@@ -1296,7 +1296,7 @@ export default function Index() {
       <section id="advantages" className="py-8 md:py-12 bg-white">
         <div className="container mx-auto px-4">
           <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Преимущества оборудования ТЕХНОСИБ
+            Преимущества наших паллетообмотчиков
           </h2>
           <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
             {advantages.map((advantage, idx) => (
@@ -1310,53 +1310,6 @@ export default function Index() {
                 </CardContent>
               </Card>
             ))}
-          </div>
-        </div>
-      </section>
-
-      {/* For Whom Section */}
-      <section className="py-8 md:py-12 bg-gray-50">
-        <div className="container mx-auto px-4">
-          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
-            Для кого предназначены наши паллетообмотчики
-          </h2>
-          <div className="grid md:grid-cols-2 gap-8">
-            <div className="flex gap-4 items-start">
-              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Icon name="Factory" size={32} className="text-primary" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Для производственных предприятий</h3>
-                <p className="text-gray-700">Максимальная надежность — оборудование справляется с 3-сменной работой без остановок. Не допускает перерасхода пленки и брака упаковки.</p>
-              </div>
-            </div>
-            <div className="flex gap-4 items-start">
-              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Icon name="Truck" size={32} className="text-primary" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Для логистики и транспортных компаний</h3>
-                <p className="text-gray-700">Надежность упаковки на всем пути — защита от влаги и осыпания, предельно простое обучение персонала.</p>
-              </div>
-            </div>
-            <div className="flex gap-4 items-start">
-              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Icon name="Building2" size={32} className="text-primary" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Для дистрибьюторов стройматериалов</h3>
-                <p className="text-gray-700">Автоматизация: одна машина заменяет нескольких упаковщиков, подходит для работы с 40+ паллет/смена без контроля.</p>
-              </div>
-            </div>
-            <div className="flex gap-4 items-start">
-              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
-                <Icon name="Warehouse" size={32} className="text-primary" />
-              </div>
-              <div>
-                <h3 className="text-xl font-semibold mb-2">Для складов розничных сетей</h3>
-                <p className="text-gray-700">Минимум простоев, быстрый сервис и доступность запчастей. Подходит для складов с высокой текучкой персонала и большими объемами.</p>
-              </div>
-            </div>
           </div>
         </div>
       </section>
@@ -1528,6 +1481,53 @@ export default function Index() {
                 </CardContent>
               </Card>
             ))}
+          </div>
+        </div>
+      </section>
+
+      {/* For Whom Section */}
+      <section className="py-8 md:py-12 bg-gray-50">
+        <div className="container mx-auto px-4">
+          <h2 className="text-3xl md:text-4xl font-bold text-center mb-12">
+            Для кого предназначены наши паллетообмотчики
+          </h2>
+          <div className="grid md:grid-cols-2 gap-8">
+            <div className="flex gap-4 items-start">
+              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Icon name="Factory" size={32} className="text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Для производственных предприятий</h3>
+                <p className="text-gray-700">Максимальная надежность — оборудование справляется с 3-сменной работой без остановок. Не допускает перерасхода пленки и брака упаковки.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Icon name="Truck" size={32} className="text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Для логистики и транспортных компаний</h3>
+                <p className="text-gray-700">Надежность упаковки на всем пути — защита от влаги и осыпания, предельно простое обучение персонала.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Icon name="Building2" size={32} className="text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Для дистрибьюторов стройматериалов</h3>
+                <p className="text-gray-700">Автоматизация: одна машина заменяет нескольких упаковщиков, подходит для работы с 40+ паллет/смена без контроля.</p>
+              </div>
+            </div>
+            <div className="flex gap-4 items-start">
+              <div className="w-16 h-16 bg-primary/10 rounded-lg flex items-center justify-center flex-shrink-0">
+                <Icon name="Warehouse" size={32} className="text-primary" />
+              </div>
+              <div>
+                <h3 className="text-xl font-semibold mb-2">Для складов розничных сетей</h3>
+                <p className="text-gray-700">Минимум простоев, быстрый сервис и доступность запчастей. Подходит для складов с высокой текучкой персонала и большими объемами.</p>
+              </div>
+            </div>
           </div>
         </div>
       </section>
