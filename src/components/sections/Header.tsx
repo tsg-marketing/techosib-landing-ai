@@ -96,9 +96,10 @@ export default function Header({
                   <DropdownMenuItem
                     key={b.slug}
                     onClick={() => goToBrand(b.slug)}
-                    className="cursor-pointer text-base font-medium"
+                    className="cursor-pointer text-base font-medium notranslate"
+                    translate="no"
                   >
-                    {b.label}
+                    <span className="notranslate" translate="no">{b.label}</span>
                   </DropdownMenuItem>
                 ))}
               </DropdownMenuContent>
@@ -189,9 +190,10 @@ export default function Header({
                   <button
                     key={b.slug}
                     onClick={() => goToBrand(b.slug)}
-                    className="block w-full text-left py-1.5 text-sm font-medium hover:text-primary transition-colors"
+                    className="block w-full text-left py-1.5 text-sm font-medium hover:text-primary transition-colors notranslate"
+                    translate="no"
                   >
-                    {b.label}
+                    <span className="notranslate" translate="no">{b.label}</span>
                   </button>
                 ))}
               </div>
