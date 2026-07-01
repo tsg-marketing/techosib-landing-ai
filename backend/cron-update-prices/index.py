@@ -8,10 +8,10 @@ from datetime import datetime, timezone, timedelta
 def handler(event: Dict[str, Any], context: Any) -> Dict[str, Any]:
     '''
     CRON-функция: обновляет цены из XML-фида и записывает в БД.
-    Запускается по расписанию: каждый день в 5:00 по Новосибирску (UTC+7) = 22:00 UTC предыдущего дня.
+    Запускается по расписанию: каждый день в 12:30 по Новосибирску (UTC+7) = 05:30 UTC.
     
-    Cron expression: 0 22 * * *
-    (22:00 UTC = 05:00 Новосибирск)
+    Cron expression: 30 5 * * *
+    (05:30 UTC = 12:30 Новосибирск)
     '''
     feed_url = 'https://t-sib.ru/bitrix/catalog_export/export_Vvf.xml'
     
