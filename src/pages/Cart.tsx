@@ -8,6 +8,7 @@ import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Icon from "@/components/ui/icon";
 import { saveUtmToCookies, getUtmFromCookies } from "@/utils/utm";
+import LegalFooter from "@/components/sections/LegalFooter";
 
 type YM = (id: number, goal: string, target: string) => void;
 
@@ -299,6 +300,7 @@ export default function Cart() {
           </>
         )}
       </div>
+      <LegalFooter />
     </div>
   );
 }

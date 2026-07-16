@@ -2610,7 +2610,12 @@ export default function Index() {
               <button onClick={() => scrollToSection('contacts')} className="hover:text-white transition-colors">Контакты</button>
               <Link to="/calc" className="hover:text-white transition-colors">Калькулятор</Link>
             </div>
-            <div className="text-sm text-gray-500 pt-4">
+            <div className="max-w-3xl mx-auto pt-4 text-xs leading-relaxed text-gray-500 border-t border-gray-800 space-y-1">
+              <p>Общество с ограниченной ответственностью «Техно-Сиб Групп»</p>
+              <p>Юридический адрес: 630005, г. Новосибирск, ул. Крылова, д. 36, этаж 8, офис 81</p>
+              <p>ИНН 5406804844 · ОГРН 1205400012146 · КПП 540601001</p>
+            </div>
+            <div className="text-sm text-gray-500 pt-2">
               2026 ТЕХНОСИБ. Все права защищены.
             </div>
           </div>

@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Icon from "@/components/ui/icon";
 import { getUtmFromCookies } from "@/utils/utm";
+import LegalFooter from "@/components/sections/LegalFooter";
 
 // ─────────────────────────────────────────────
 // TYPES
@@ -458,6 +459,7 @@ export default function Calc() {
           </div>
         </div>
       </main>
+      <LegalFooter />
     </div>
   );
 }
