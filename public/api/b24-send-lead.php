@@ -8,7 +8,7 @@
  *   name, phone, email, company, comment,
  *   productType, modelType, source, url,
  *   utm_source, utm_medium, utm_campaign, utm_content, utm_term,
- *   calc_params, calc_result
+ *   calc_params, calc_result, yaClientId
  */
 
 header('Access-Control-Allow-Origin: *');
@@ -49,6 +49,7 @@ $productType = trim((string)($data['productType'] ?? ''));
 $modelType   = trim((string)($data['modelType']   ?? ''));
 $source      = trim((string)($data['source']      ?? ''));
 $pageUrl     = trim((string)($data['url']         ?? ''));
+$yaClientId  = trim((string)($data['yaClientId']  ?? ''));
 
 $utm = [
     'utm_source'   => (string)($data['utm_source']   ?? ''),
@@ -72,6 +73,7 @@ if ($modelType   !== '') $commentParts[] = "Модель: $modelType";
 if ($source      !== '') $commentParts[] = "Источник: $source";
 if ($comment     !== '') $commentParts[] = "Комментарий: $comment";
 if ($pageUrl     !== '') $commentParts[] = "Страница: $pageUrl";
+if ($yaClientId  !== '') $commentParts[] = "ClientID: $yaClientId";
 foreach ($utm as $k => $v) {
     if ($v !== '') $commentParts[] = "$k: $v";
 }

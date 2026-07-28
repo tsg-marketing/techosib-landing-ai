@@ -1,7 +1,7 @@
 import { useState, useEffect } from "react";
 import { toast } from "sonner";
 import { Link } from "react-router-dom";
-import { saveUtmToCookies, getUtmFromCookies } from "@/utils/utm";
+import { saveUtmToCookies, getUtmFromCookies, getYaClientId } from "@/utils/utm";
 import { Button } from "@/components/ui/button";
 import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -1023,6 +1023,7 @@ export default function Index() {
     const form = e.target as HTMLFormElement;
     const fd = new FormData(form);
     setCalcLeadLoading(true);
+    const yaClientId = await getYaClientId();
     try {
       await fetch('/api/b24-send-lead.php', {
         method: 'POST',
@@ -1033,9 +1034,10 @@ export default function Index() {
           phone: fd.get('phone') || '',
           email: '',
           company: '',
-          comment: 'Запрос из калькулятора расхода плёнки',
+          comment: 'Запрос из калькулятора расхода плёнки' + (yaClientId ? `\nClientID: ${yaClientId}` : ''),
           productType: 'Паллетообмотчик',
           url: window.location.href,
+          yaClientId,
         }),
       });
     } finally {
@@ -1095,6 +1097,10 @@ export default function Index() {
     
     const pageUrl = window.location.href;
     const utmData = getUtmFromCookies();
+    const yaClientId = await getYaClientId();
+    if (yaClientId) {
+      comment = `${comment ? comment + '<br>' : ''}ClientID: ${yaClientId}`;
+    }
     
     const requestData = {
       name,
@@ -1105,6 +1111,7 @@ export default function Index() {
       productType: 'Паллетообмотчик',
       modelType: modelForRequest || '',
       url: pageUrl,
+      yaClientId,
       ...utmData
     };
     
@@ -1909,12 +1916,14 @@ export default function Index() {
                           const phone = formData.get('phone') as string || '';
                           const pageUrl = window.location.href;
                           const utmData = getUtmFromCookies();
+                          const yaClientId = await getYaClientId();
                           const requestData = {
                             name, phone,
-                            comment: 'Заявка из блока Акция',
+                            comment: 'Заявка из блока Акция' + (yaClientId ? `\nClientID: ${yaClientId}` : ''),
                             productType: 'Паллетообмотчик',
                             modelType: '',
                             url: pageUrl,
+                            yaClientId,
                             ...utmData
                           };
                           try {

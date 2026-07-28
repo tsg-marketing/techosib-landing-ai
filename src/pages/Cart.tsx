@@ -7,7 +7,7 @@ import { Label } from "@/components/ui/label";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Dialog, DialogContent, DialogDescription, DialogHeader, DialogTitle, DialogTrigger } from "@/components/ui/dialog";
 import Icon from "@/components/ui/icon";
-import { saveUtmToCookies, getUtmFromCookies } from "@/utils/utm";
+import { saveUtmToCookies, getUtmFromCookies, getYaClientId } from "@/utils/utm";
 import LegalFooter from "@/components/sections/LegalFooter";
 
 type YM = (id: number, goal: string, target: string) => void;
@@ -39,13 +39,21 @@ export default function Cart() {
   const submitToApi = async (payload: Record<string, string>) => {
     const controller = new AbortController();
     const timeoutId = setTimeout(() => controller.abort(), 10000);
+    const yaClientId = await getYaClientId();
+    const finalPayload: Record<string, string> = {
+      ...payload,
+      yaClientId,
+      comment: yaClientId
+        ? `${payload.comment ? payload.comment + "\n" : ""}ClientID: ${yaClientId}`
+        : (payload.comment || ""),
+    };
     try {
       const response = await fetch("/api/b24-send-lead.php", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
         keepalive: true,
         signal: controller.signal,
-        body: JSON.stringify(payload),
+        body: JSON.stringify(finalPayload),
       });
       try {
         const json = (await response.json()) as { success?: boolean };

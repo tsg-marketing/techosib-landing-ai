@@ -20,6 +20,30 @@ export const saveUtmToCookies = () => {
   });
 };
 
+export const getYaClientId = (): Promise<string> => {
+  return new Promise((resolve) => {
+    const ym = (window as unknown as { ym?: (...args: unknown[]) => void }).ym;
+    const fromCookie = (): string => {
+      const m = document.cookie.match(/(?:^|;\s*)_ym_uid=([^;]+)/);
+      return m ? decodeURIComponent(m[1]) : '';
+    };
+    if (typeof ym !== 'function') return resolve(fromCookie());
+    let done = false;
+    const finish = (v: string) => {
+      if (!done) {
+        done = true;
+        resolve(v || fromCookie());
+      }
+    };
+    try {
+      ym(106348259, 'getClientID', (id: unknown) => finish(String(id)));
+    } catch {
+      finish('');
+    }
+    setTimeout(() => finish(''), 600);
+  });
+};
+
 export const getUtmFromCookies = (): Record<string, string> => {
   const cookies = document.cookie.split('; ');
   const utmData: Record<string, string> = {};

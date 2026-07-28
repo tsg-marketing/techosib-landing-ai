@@ -3,7 +3,7 @@ import { useState, useRef } from "react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import Icon from "@/components/ui/icon";
-import { getUtmFromCookies } from "@/utils/utm";
+import { getUtmFromCookies, getYaClientId } from "@/utils/utm";
 import LegalFooter from "@/components/sections/LegalFooter";
 
 // ─────────────────────────────────────────────
@@ -130,7 +130,7 @@ export default function Calc() {
     showResults(res);
   }
 
-  function handleLead(e: React.FormEvent) {
+  async function handleLead(e: React.FormEvent) {
     e.preventDefault();
     const errors: Record<string, string> = {};
     if (!leadName.trim()) errors.name = "Обязательное поле";
@@ -140,6 +140,7 @@ export default function Calc() {
     if (Object.keys(errors).length > 0) return;
 
     const utmData = getUtmFromCookies();
+    const yaClientId = await getYaClientId();
 
     setLeadLoading(true);
     fetch("/api/b24-send-lead.php", {
@@ -150,12 +151,13 @@ export default function Calc() {
         name: leadName,
         phone: leadPhone,
         email: leadEmail,
-        comment: "",
+        comment: yaClientId ? `ClientID: ${yaClientId}` : "",
         source: "Калькулятор расхода плёнки — КП",
         productType: "Паллетообмотчик",
         url: window.location.href,
         calc_params: form,
         calc_result: results,
+        yaClientId,
         ...utmData,
       }),
     })
