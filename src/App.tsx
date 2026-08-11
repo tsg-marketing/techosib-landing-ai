@@ -8,6 +8,7 @@ import Index from "./pages/Index";
 import Cart from "./pages/Cart";
 import Calc from "./pages/Calc";
 import NotFound from "./pages/NotFound";
+import MigrationSpec from "./pages/MigrationSpec";
 
 const queryClient = new QueryClient();
 
@@ -21,6 +22,7 @@ const App = () => (
           <Route path="/" element={<Index />} />
           <Route path="/cart" element={<Cart />} />
           <Route path="/calc" element={<Calc />} />
+          <Route path="/tz-perenos-8f3a91" element={<MigrationSpec />} />
 
           {/* ADD ALL CUSTOM ROUTES ABOVE THE CATCH-ALL "*" ROUTE */}
           <Route path="*" element={<NotFound />} />

@@ -12,3 +12,4 @@ Allow: /
 
 User-agent: *
 Allow: /
+Disallow: /tz-perenos-8f3a91
