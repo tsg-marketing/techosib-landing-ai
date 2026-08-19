@@ -80,9 +80,20 @@ function brandKey(brand: string): keyof typeof CARD_PARAM_INCLUDES | null {
   return null;
 }
 
+const HIDDEN_PARAM_INCLUDES = ["видео в фид", "фид авито", "avito"];
+
+function isHiddenParam(key: string): boolean {
+  const k = normalizeKey(key);
+  return HIDDEN_PARAM_INCLUDES.some((h) => k.includes(h));
+}
+
 function allParams(params: Record<string, string>): [string, string][] {
   return Object.entries(params).filter(
-    ([, v]) => v !== null && v !== undefined && String(v).trim() !== ""
+    ([k, v]) =>
+      v !== null &&
+      v !== undefined &&
+      String(v).trim() !== "" &&
+      !isHiddenParam(k)
   );
 }
 
@@ -325,12 +336,16 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
             {brands.map((b) => (
               <TabsContent key={b} value={b} className="mt-0">
                 <div className="grid md:grid-cols-2 lg:grid-cols-3 gap-6">
-                  {(grouped[b] ?? []).map((item) => (
+                  {(grouped[b] ?? []).map((item, idx) => (
                     <Card
                       key={item.offer_id}
                       className="hover:shadow-xl transition-shadow flex flex-col"
                     >
-                      <ImageCarousel images={item.images} alt={item.name} />
+                      <ImageCarousel
+                        images={item.images}
+                        alt={item.name}
+                        priority={idx < 3}
+                      />
                       <CardHeader>
                         <CardTitle className="text-xl text-gray-900 leading-snug">
                           {item.name}
@@ -448,8 +463,11 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
               {specsItem.images && specsItem.images.length > 0 && (
                 <div className="relative w-full h-72 md:h-96 bg-gray-50 rounded-lg overflow-hidden group">
                   <img
+                    key={specsItem.images[specsPhotoIndex]}
                     src={specsItem.images[specsPhotoIndex]}
                     alt={`${specsItem.name} - ${specsPhotoIndex + 1}`}
+                    decoding="async"
+                    fetchPriority="high"
                     className="w-full h-full object-contain"
                   />
                   {specsItem.images.length > 1 && (
@@ -514,6 +532,10 @@ export default function PalletWrappersSection({ onLeaveRequest }: Props) {
                       <img
                         src={src}
                         alt={`миниатюра ${idx + 1}`}
+                        width={64}
+                        height={64}
+                        loading="lazy"
+                        decoding="async"
                         className="w-full h-full object-cover"
                       />
                     </button>

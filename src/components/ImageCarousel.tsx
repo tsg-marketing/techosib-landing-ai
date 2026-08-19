@@ -7,13 +7,32 @@ interface ImageCarouselProps {
   images: string[];
   alt: string;
   inStock?: boolean;
+  priority?: boolean;
 }
 
-export default function ImageCarousel({ images, alt, inStock }: ImageCarouselProps) {
+const preloaded = new Set<string>();
+
+function preload(src?: string) {
+  if (!src || preloaded.has(src)) return;
+  preloaded.add(src);
+  const img = new Image();
+  img.decoding = 'async';
+  img.src = src;
+}
+
+export default function ImageCarousel({ images, alt, inStock, priority }: ImageCarouselProps) {
   const [currentIndex, setCurrentIndex] = useState(0);
   const [imageError, setImageError] = useState(false);
   const [lightboxOpen, setLightboxOpen] = useState(false);
   const [lightboxIndex, setLightboxIndex] = useState(0);
+
+  useEffect(() => {
+    if (images.length < 2) return;
+    const next = images[(currentIndex + 1) % images.length];
+    const prev = images[(currentIndex - 1 + images.length) % images.length];
+    preload(next);
+    preload(prev);
+  }, [currentIndex, images]);
 
   if (images.length === 0) {
     return (
@@ -29,6 +48,7 @@ export default function ImageCarousel({ images, alt, inStock }: ImageCarouselPro
   const openLightbox = (index: number) => {
     setLightboxIndex(index);
     setLightboxOpen(true);
+    images.forEach(preload);
   };
 
   useEffect(() => {
@@ -63,6 +83,11 @@ export default function ImageCarousel({ images, alt, inStock }: ImageCarouselPro
           <img 
             src={images[0]} 
             alt={alt} 
+            width={640}
+            height={480}
+            loading={priority ? 'eager' : 'lazy'}
+            decoding="async"
+            fetchPriority={priority ? 'high' : 'auto'}
             className="w-full h-full object-contain hover:scale-105 transition-transform duration-300"
             onError={() => setImageError(true)}
           />
@@ -120,8 +145,14 @@ export default function ImageCarousel({ images, alt, inStock }: ImageCarouselPro
     <>
       <div className="relative w-full h-64 bg-white rounded-t-lg overflow-hidden group">
         <img 
+          key={images[currentIndex]}
           src={images[currentIndex]} 
           alt={`${alt} - ${currentIndex + 1}`} 
+          width={640}
+          height={480}
+          loading={priority && currentIndex === 0 ? 'eager' : 'lazy'}
+          decoding="async"
+          fetchPriority={priority && currentIndex === 0 ? 'high' : 'auto'}
           className="w-full h-full object-contain transition-all duration-300 cursor-pointer hover:scale-105"
           onError={() => setImageError(true)}
           onClick={() => openLightbox(currentIndex)}

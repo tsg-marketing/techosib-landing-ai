@@ -649,7 +649,7 @@ const models: Model[] = [
     images: [
       "https://cdn.poehali.dev/files/e3226e84-80c0-42ef-99fd-197f75e03d74.jpg",
       "https://cdn.poehali.dev/files/6I8A7423 (2).jpg",
-      "https://cdn.poehali.dev/files/6I8A7424 (2).jpg",
+      "/img/hero-robo-ms.webp",
       "https://cdn.poehali.dev/files/6I8A7399.jpg",
       "https://cdn.poehali.dev/files/6I8A7397.jpg",
       "https://cdn.poehali.dev/files/6I8A7398.jpg",
@@ -1245,7 +1245,7 @@ export default function Index() {
             <h1 className="text-3xl sm:text-4xl md:text-5xl lg:text-6xl xl:text-7xl font-bold text-gray-900 leading-tight mb-4">
               <span className="font-serif whitespace-nowrap">Паллетообмотчики от</span>
             </h1>
-            <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-12 md:h-16 lg:h-20 mb-6" />
+            <img src="/img/logo-technosib.webp" alt="ТЕХНОСИБ" className="h-12 md:h-16 lg:h-20 mb-6" />
             <p className="text-xl md:text-2xl lg:text-3xl text-gray-700 font-semibold mb-4">
               Надежное оборудование по доступной цене
             </p>
@@ -1452,6 +1452,8 @@ export default function Index() {
                   <img 
                     src={model.images[0]} 
                     alt={model.name}
+                    loading="lazy"
+                    decoding="async"
                     className="w-full h-full object-cover opacity-70"
                   />
                   <div className="absolute inset-0 flex items-center justify-center bg-black/30 hover:bg-black/50 transition-colors">
@@ -2061,6 +2063,8 @@ export default function Index() {
                     <img 
                       src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/dbabe46e-cef5-42dc-a065-41c5ff2eb0e1.jpg" 
                       alt="Директор / собственник" 
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-auto rounded-lg shadow-lg object-cover"
                     />
                   </div>
@@ -2083,6 +2087,8 @@ export default function Index() {
                     <img 
                       src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/094b5c15-abbd-4459-8bbb-d1d22966f57b.jpg" 
                       alt="Главный инженер / механик" 
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-auto rounded-lg shadow-lg object-cover"
                     />
                   </div>
@@ -2105,6 +2111,8 @@ export default function Index() {
                     <img 
                       src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/c4d1e287-10d0-4863-972e-1ed27626a9c8.jpg" 
                       alt="Руководитель склада / логист" 
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-auto rounded-lg shadow-lg object-cover"
                     />
                   </div>
@@ -2127,6 +2135,8 @@ export default function Index() {
                     <img 
                       src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/595de9b2-a634-492f-beed-bec899ffea60.jpg" 
                       alt="Снабжение / закупки" 
+                      loading="lazy"
+                      decoding="async"
                       className="w-full h-auto rounded-lg shadow-lg object-cover"
                     />
                   </div>
@@ -2608,7 +2618,7 @@ export default function Index() {
       <footer className="bg-gray-900 text-white py-8">
         <div className="container mx-auto px-4">
           <div className="text-center space-y-4">
-            <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-16 mx-auto" />
+            <img src="/img/logo-technosib.webp" alt="ТЕХНОСИБ" loading="lazy" decoding="async" className="h-16 mx-auto" />
             <p className="text-gray-400">Надежное упаковочное оборудование для вашего бизнеса</p>
             <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm text-gray-400">
               <button onClick={() => scrollToSection('models')} className="hover:text-white transition-colors">Модели</button>

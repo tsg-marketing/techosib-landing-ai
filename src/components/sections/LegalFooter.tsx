@@ -5,7 +5,7 @@ export default function LegalFooter() {
     <footer className="bg-gray-900 text-white py-8 mt-12">
       <div className="container mx-auto px-4">
         <div className="text-center space-y-4">
-          <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-16 mx-auto" />
+          <img src="/img/logo-technosib.webp" alt="ТЕХНОСИБ" loading="lazy" decoding="async" className="h-16 mx-auto" />
           <p className="text-gray-400">Надежное упаковочное оборудование для вашего бизнеса</p>
           <div className="flex flex-wrap justify-center gap-4 md:gap-8 text-sm text-gray-400">
             <Link to="/" className="hover:text-white transition-colors">Главная</Link>

@@ -2,8 +2,12 @@ export default function MachineCollage() {
   return (
     <div className="relative w-full h-full flex items-center justify-center p-8">
       <img 
-        src="https://cdn.poehali.dev/files/6I8A7424 (2).jpg" 
-        alt="Паллетообмотчик ROBO-MS" 
+        src="/img/hero-robo-ms.webp" 
+        alt="Паллетообмотчик ROBO-MS"
+        width={900}
+        height={700}
+        fetchPriority="high"
+        decoding="async"
         className="max-w-full max-h-full object-contain"
         style={{ maxHeight: '350px', marginTop: '40px' }}
       />

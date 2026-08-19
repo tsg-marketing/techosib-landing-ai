@@ -167,7 +167,7 @@ export default function Cart() {
         <div className="container mx-auto px-4 py-4">
           <div className="flex items-center justify-between">
             <button onClick={() => navigate("/")} className="flex items-center gap-3">
-              <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-8" />
+              <img src="/img/logo-technosib.webp" alt="ТЕХНОСИБ" className="h-8" />
             </button>
 
             <nav className="hidden md:flex items-center gap-8">

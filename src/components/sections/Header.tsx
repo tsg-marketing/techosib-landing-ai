@@ -82,7 +82,7 @@ export default function Header({
       <div className="container mx-auto px-4 py-4">
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-3">
-            <img src="https://cdn.poehali.dev/files/ЛОГО_ТСг.jpg" alt="ТЕХНОСИБ" className="h-8" />
+            <img src="/img/logo-technosib.webp" alt="ТЕХНОСИБ" className="h-8" />
           </div>
           
           <nav className="hidden md:flex items-center gap-5">
