@@ -1234,7 +1234,7 @@ export default function Index() {
       <section 
         className="relative pt-24 pb-8 min-h-[600px] md:min-h-[700px] flex items-center bg-contain bg-right bg-no-repeat"
         style={{ 
-          backgroundImage: 'url(https://cdn.poehali.dev/files/Паллетник_ТС.jpg)',
+          backgroundImage: 'url(/img/hero-bg.webp)',
           backgroundSize: 'auto 70%',
           backgroundPosition: 'right center'
         }}
@@ -2061,7 +2061,7 @@ export default function Index() {
                 <div className="grid md:grid-cols-[300px_1fr] gap-6">
                   <div className="hidden md:block">
                     <img 
-                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/dbabe46e-cef5-42dc-a065-41c5ff2eb0e1.jpg" 
+                      src="/img/role-director.webp" 
                       alt="Директор / собственник" 
                       loading="lazy"
                       decoding="async"
@@ -2085,7 +2085,7 @@ export default function Index() {
                 <div className="grid md:grid-cols-[300px_1fr] gap-6">
                   <div className="hidden md:block">
                     <img 
-                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/094b5c15-abbd-4459-8bbb-d1d22966f57b.jpg" 
+                      src="/img/role-engineer.webp" 
                       alt="Главный инженер / механик" 
                       loading="lazy"
                       decoding="async"
@@ -2109,7 +2109,7 @@ export default function Index() {
                 <div className="grid md:grid-cols-[300px_1fr] gap-6">
                   <div className="hidden md:block">
                     <img 
-                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/c4d1e287-10d0-4863-972e-1ed27626a9c8.jpg" 
+                      src="/img/role-warehouse.webp" 
                       alt="Руководитель склада / логист" 
                       loading="lazy"
                       decoding="async"
@@ -2133,7 +2133,7 @@ export default function Index() {
                 <div className="grid md:grid-cols-[300px_1fr] gap-6">
                   <div className="hidden md:block">
                     <img 
-                      src="https://cdn.poehali.dev/projects/4377d61f-75fc-4f5b-a290-c51338899998/files/595de9b2-a634-492f-beed-bec899ffea60.jpg" 
+                      src="/img/role-procurement.webp" 
                       alt="Снабжение / закупки" 
                       loading="lazy"
                       decoding="async"
