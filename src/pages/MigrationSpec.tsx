@@ -24,7 +24,7 @@ export default function MigrationSpec() {
     const url = URL.createObjectURL(blob);
     const link = document.createElement('a');
     link.href = url;
-    link.download = 'TZ-perenos-lendinga-technosib.txt';
+    link.download = 'TZ-perenos-pallet-na-pack-t-sib-ru.txt';
     document.body.appendChild(link);
     link.click();
     document.body.removeChild(link);
@@ -47,10 +47,11 @@ export default function MigrationSpec() {
         <div className="max-w-5xl mx-auto px-4 py-4 flex flex-wrap items-center justify-between gap-3">
           <div>
             <h1 className="text-lg font-bold text-gray-900">
-              ТЗ: перенос лендинга на новый URL
+              ТЗ: перенос лендинга на pack.t-sib.ru/pallet
             </h1>
             <p className="text-xs text-gray-500">
-              Служебная страница. Не индексируется и не показана в меню сайта.
+              Версия 2.0 · этап 1 из 6 · служебная страница, не индексируется
+              и не показана в меню сайта
             </p>
           </div>
           <div className="flex gap-2">
