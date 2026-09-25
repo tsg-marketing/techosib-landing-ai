@@ -179,8 +179,8 @@ export default function Cart() {
             </nav>
 
             <div className="hidden md:flex items-center gap-4">
-              <a href="tel:88005057238" className="text-lg font-semibold text-blue-900 hover:text-secondary transition-colors" onClick={() => trackGoal("click_phone")}>
-                8-800-505-72-38
+              <a href="tel:88005004054" className="text-lg font-semibold text-blue-900 hover:text-secondary transition-colors" onClick={() => trackGoal("click_phone")}>
+                8-800-500-4-054
               </a>
               <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogTrigger asChild>
@@ -226,8 +226,8 @@ export default function Cart() {
                   {item.label}
                 </button>
               ))}
-              <a href="tel:88005057238" className="block py-2 text-lg font-semibold text-blue-900" onClick={() => trackGoal("click_phone")}>
-                8-800-505-72-38
+              <a href="tel:88005004054" className="block py-2 text-lg font-semibold text-blue-900" onClick={() => trackGoal("click_phone")}>
+                8-800-500-4-054
               </a>
               <Dialog open={dialogOpen} onOpenChange={setDialogOpen}>
                 <DialogTrigger asChild>

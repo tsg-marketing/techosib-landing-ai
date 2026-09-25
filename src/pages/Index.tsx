@@ -2278,12 +2278,12 @@ export default function Index() {
                 <CardContent className="p-6 space-y-3">
                   <Icon name="Phone" size={32} className="mx-auto" />
                   <h3 className="text-xl font-semibold">Позвоните нам</h3>
-                  <a href="tel:88005057238" className="text-2xl font-bold block hover:text-secondary transition-colors" onClick={() => {
+                  <a href="tel:88005004054" className="text-2xl font-bold block hover:text-secondary transition-colors" onClick={() => {
                     if (typeof window !== 'undefined' && (window as any).ym) {
                       (window as any).ym(106348259, 'reachGoal', 'click_phone');
                     }
                   }}>
-                    8-800-505-72-38
+                    8-800-500-4-054
                   </a>
                   <p className="text-sm text-white/80">Пн-Пт: 9:00 - 18:00</p>
                 </CardContent>
